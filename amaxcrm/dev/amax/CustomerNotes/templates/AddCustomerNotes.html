@@ -1,0 +1,126 @@
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    [type="radio"] + label:before, [type="radio"] + label:after {
+        left: 0;
+        right: -25px;
+    }
+
+    input[type="radio"] + label {
+        margin-right: 40px;
+    }
+
+    .table tbody tr .green {
+        display: none;
+    }
+
+    .table tbody tr:last-child .green {
+        display: block;
+    }
+
+    .table tbody tr .red {
+        display: block;
+    }
+
+    .card-panel {
+        min-height: 450px !important;
+    }
+    /*#EmailTable a {
+        display:none
+    }*/
+</style>
+
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col s12  card-panel">
+                <div>
+                    <div>
+                        <div>
+                            <h1>
+                                <i class="mdi-content-select-all green-text"></i>
+                                <span class="red-text"> {{RES.SCREEN_RECEIPTCHOOSE.APP_LBL_TITLE}}</span>
+                                <!--<span class="white" id="id-text2" >Screen</span>-->
+                                <label class="block clearfix">
+
+                                </label>
+                            </h1>
+                        </div>
+
+                        <h4 class="blue-text" id="id-company-text"></h4>
+                    </div>
+                    <div class="position-relative">
+                        <div class="visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+
+                                    <div class="space-6"></div>
+                                    <hr />
+                                    <form action="#">
+                                        <!--<fieldset>-->
+                                        <div class="row">
+                                            <div class="col offset-m2 offset-l2 s6 l4 m4" style="max-height: 300px;height:250px;">
+                                                <h5>{{RES.SCREEN_RECEIPTCHOOSE.APP_LBL_RECEIPTMODE}}</h5>
+                                                <div *ngFor="#obj of _RecieptModes">
+
+                                                    <input type="radio" id="recmode_{{obj.Value}}" name="recmode" value="{{obj.Value}}" (click)="GetReceipts(obj.Value)" style="float:left;width:60px" />
+                                                    <label htmlFor="recmode_{{obj.Value}}">{{obj.Text}}</label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col s6 l4 m6" style="max-height: 300px;height:250px; ">
+                                                <h5>{{RES.SCREEN_RECEIPTCHOOSE.APP_LBL_RECEIPTNAME}}</h5>
+                                                <div *ngFor="#obj of _Reciepts">
+                                                    <input type="radio" id="reciept_{{obj.RecieptTypeId}}" name="ReceiptTypeId"  value="{{obj.RecieptTypeId}}" 
+                                                           (click)="SelectReceipt(obj.RecieptTypeId)"  style="float:left;width:60px" />
+                                                    <label htmlFor="reciept_{{obj.RecieptTypeId}}">{{obj.RecieptName}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Addresses-->
+                                        <div class="row">
+                                            <div class="col offset-l2 offset-m2 s12 l4 m4" style="text-align:center">
+                                                <button type="button" class="btn waves-effect waves-light green accent-4" style="float:right" (click)="NextPage()">
+                                                    <i class="ace-icon fa"></i>
+                                                    <span class="bigger-110">{{RES.SCREEN_RECEIPTCHOOSE.APP_LBL_NEXT}}</span>
+                                                </button>
+                                            </div>
+                                            <div class="offset-m2 offset-l2"></div>
+                                        </div>
+
+                                        <!--</fieldset>-->
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </div>
+                    <!-- /.position-relative -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.main-content -->
+</div>
+
+<style type="text/css">
+    input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color: red;
+    }
+
+    input.ng-valid.ng-touched, select.ng-valid.ng-touched {
+        background-color: none;
+        border-color: none;
+    }
+</style>
+
+<!-- /.main-container -->

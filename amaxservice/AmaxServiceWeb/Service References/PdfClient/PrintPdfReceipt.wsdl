@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="PrintPdf">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HtmlNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="orgname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="con" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PrintPdfResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PrintPdfResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFileExists">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orgname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ofilename" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IsFileExistsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IsFileExistsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PrintPdfSoapIn">
+    <wsdl:part name="parameters" element="tns:PrintPdf" />
+  </wsdl:message>
+  <wsdl:message name="PrintPdfSoapOut">
+    <wsdl:part name="parameters" element="tns:PrintPdfResponse" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsSoapIn">
+    <wsdl:part name="parameters" element="tns:IsFileExists" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsSoapOut">
+    <wsdl:part name="parameters" element="tns:IsFileExistsResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="PrintPdfHttpGetIn">
+    <wsdl:part name="HtmlNo" type="s:string" />
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="orgname" type="s:string" />
+    <wsdl:part name="con" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintPdfHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsHttpGetIn">
+    <wsdl:part name="orgname" type="s:string" />
+    <wsdl:part name="ofilename" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn" />
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintPdfHttpPostIn">
+    <wsdl:part name="HtmlNo" type="s:string" />
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="orgname" type="s:string" />
+    <wsdl:part name="con" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="PrintPdfHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsHttpPostIn">
+    <wsdl:part name="orgname" type="s:string" />
+    <wsdl:part name="ofilename" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="IsFileExistsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn" />
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="PrintPdfReceiptSoap">
+    <wsdl:operation name="PrintPdf">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">PrintPdf</wsdl:documentation>
+      <wsdl:input message="tns:PrintPdfSoapIn" />
+      <wsdl:output message="tns:PrintPdfSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <wsdl:input message="tns:IsFileExistsSoapIn" />
+      <wsdl:output message="tns:IsFileExistsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PrintPdfReceiptHttpGet">
+    <wsdl:operation name="PrintPdf">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">PrintPdf</wsdl:documentation>
+      <wsdl:input message="tns:PrintPdfHttpGetIn" />
+      <wsdl:output message="tns:PrintPdfHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <wsdl:input message="tns:IsFileExistsHttpGetIn" />
+      <wsdl:output message="tns:IsFileExistsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="PrintPdfReceiptHttpPost">
+    <wsdl:operation name="PrintPdf">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">PrintPdf</wsdl:documentation>
+      <wsdl:input message="tns:PrintPdfHttpPostIn" />
+      <wsdl:output message="tns:PrintPdfHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <wsdl:input message="tns:IsFileExistsHttpPostIn" />
+      <wsdl:output message="tns:IsFileExistsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PrintPdfReceiptSoap" type="tns:PrintPdfReceiptSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PrintPdf">
+      <soap:operation soapAction="http://tempuri.org/PrintPdf" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <soap:operation soapAction="http://tempuri.org/IsFileExists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintPdfReceiptSoap12" type="tns:PrintPdfReceiptSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="PrintPdf">
+      <soap12:operation soapAction="http://tempuri.org/PrintPdf" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <soap12:operation soapAction="http://tempuri.org/IsFileExists" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintPdfReceiptHttpGet" type="tns:PrintPdfReceiptHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="PrintPdf">
+      <http:operation location="/PrintPdf" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <http:operation location="/IsFileExists" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PrintPdfReceiptHttpPost" type="tns:PrintPdfReceiptHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="PrintPdf">
+      <http:operation location="/PrintPdf" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IsFileExists">
+      <http:operation location="/IsFileExists" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PrintPdfReceipt">
+    <wsdl:port name="PrintPdfReceiptSoap" binding="tns:PrintPdfReceiptSoap">
+      <soap:address location="https://secure.amax.co.il/PrintPdfReceipt.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintPdfReceiptSoap12" binding="tns:PrintPdfReceiptSoap12">
+      <soap12:address location="https://secure.amax.co.il/PrintPdfReceipt.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintPdfReceiptHttpGet" binding="tns:PrintPdfReceiptHttpGet">
+      <http:address location="https://secure.amax.co.il/PrintPdfReceipt.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PrintPdfReceiptHttpPost" binding="tns:PrintPdfReceiptHttpPost">
+      <http:address location="https://secure.amax.co.il/PrintPdfReceipt.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

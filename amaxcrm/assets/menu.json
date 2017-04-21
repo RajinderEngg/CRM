@@ -1,0 +1,80 @@
+{
+  "menu": [
+    {
+      "label": "Dashboard",
+      "routerUrl": "Dashboard",
+      "faicon": "fa-tachometer",
+      "subMenus": []
+    },
+    {
+      "label": "Customers",
+      "routerUrl": "Customers",
+      "faicon": "fa-users",
+      "subMenus": [
+        {
+          "label": "General Groups",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "Customer Card",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "New Card",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "New customers",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "Last modified",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "SMS",
+          "routerUrl": "Sms",
+          "subMenus": []
+        },
+        {
+          "label": "Customer Card",
+          "routerUrl": "",
+          "subMenus": []
+        },
+        {
+          "label": "Customer Card",
+          "routerUrl": "",
+          "subMenus": []
+        }
+      ]
+    },
+    {
+      "label": "System Table",
+      "routerUrl": "Forms",
+      "faicon": "fa-users",
+      "subMenus": [
+        {
+          "label": "Accounts",
+          "routerUrl": "Forms",
+          "parameters":{
+            "frm": "Accounts"
+          },
+          "subMenus": []
+        },
+        {
+          "label": "Account Types",
+          "routerUrl": "Forms",
+          "parameters":{
+            "frm":"AccountType"
+          },
+          "subMenus": []
+        }
+      ]
+    }
+  ]
+}

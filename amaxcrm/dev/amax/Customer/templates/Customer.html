@@ -1,0 +1,780 @@
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    [type="checkbox"] + label:before, [type="checkbox"] + label:after {
+        left: 0;
+        right: -25px;
+    }
+
+    input[type="checkbox"] + label {
+        margin-right: 40px;
+    }
+
+    [type="text"] + label:before, [type="text"] + label:after {
+        left: 0;
+        right: -25px;
+        
+    }
+
+    input[type="text"] + label {
+        margin-right: 40px;
+    }
+
+    .table tbody tr .green-text {
+        display: none;
+    }
+
+    .table tbody tr:last-child .green-text {
+        display: block;
+    }
+
+    .table tbody tr .red-text {
+        display: block;
+    }
+
+    input {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    select {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    .LeftText {
+        text-align: left !important;
+    }
+
+    .modal-content {
+        /*margin-left: 20px !important;
+        margin-right: 20px !important;*/
+        /*width: 500px !important;*/
+    }
+
+    .modal-dialog {
+        width: 650px !important;
+    }
+
+    /*button {
+        float: left !important;
+    }*/
+    /*.card-panel {
+        width:500px!important;
+    }*/
+    /*#EmailTable a {
+        display:none
+    }*/
+</style>
+<!-- Start Page Loading -->
+<!--<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>-->
+<!-- End Page Loading -->
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col s12 card-panel">
+                <div>
+                    <div>
+                        <h1>
+                            <i class="mdi-content-select-all green-text"></i>
+                            <span class="red-text">{{RES.CUSTOMER_MASTER.APP_LBL_CUST}}</span>  <!--{{RES.CUSTOMER_MASTER.CUST_LABAL}}Customer-->
+                            <span class="blue-text" id="id-text2" ng-show="modelInput.CustomerId!='-1'">{{CustIdText}}</span>
+
+                        </h1>
+
+                        <div class="row" ng-show="modelInput.FileAs!=undefined && modelInput.FileAs!=''" >
+                            <div class="col s12 m12 l6">
+                                <span class="block">
+                                    <h4 id="FileAsSpn">{{modelInput.FileAs}}</h4>
+                                </span>
+                                <div id="FileAstxt">
+                                    <!--<label class="block clearfix">
+                {{RES.CUSTOMER_MASTER.APP_TXT_FILEAS}}
+                <span class="block input-icon input-icon-right">-->
+                                    <label for="FileAs" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_FILEAS}}</label>
+                                    <input type="text" id="FileAs" class="form-control" [(ngModel)]="modelInput.FileAs" (focus)="bindFileAs()" (change)="SetEmailName()" maxlength="406" tabindex="0" />
+                                    
+                                    <!--</span>
+            </label>-->
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+
+                                    <button type="button" class="btn waves-effect waves-light green accent-4" id="FileAsSaveBtn" (click)="HideShowFileAstxt()" title="{{FILEAS_BTN_TEXT}}"><i class="{{cssFileAsBtn}}"></i></button> 
+                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" id="FileAsCancelBtn" (click)="CancelFileAstxt()" title="{{RES.CUSTOMER_MASTER.APP_BTN_CANCELFILEAS}}"><i class="mdi-navigation-close"></i></button>
+                                
+                            </div>
+                            <!--<h4 class="blue" id="id-company-text"></h4>-->
+                        </div>
+                        
+                    </div>
+                    <div class="position-relative">
+                        <div class="visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--<div class="col-sm-7">-->
+                                    <div class="row">
+                                      
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12 l6 m8">
+                                            
+                                            <!--</div>-->
+                                            <label class="block clearfix">
+                                                {{RES.CUSTOMER_MASTER.APP_LBL_SEARCHCUST}}
+                                                <span class="block">
+                                                    <input [(ngModel)]="asyncSelectedCar"
+                                                           [autocompleteMinLength]="3"
+                                                           [autocomplete]="getAsyncData(getCurrentContext())"
+                                                           (autocompleteLoading)="changeAutocompleteLoading($event)"
+                                                           (autocompleteNoResults)="changeAutocompleteNoResults($event)"
+                                                           (autocompleteOnSelect)="autocompleteOnSelect($event)"
+                                                           [autocompleteOptionsLimit]="30"
+                                                           class="form-control autocomplete" maxlength="906" id="Searchtxt" tabindex="2">
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="col s12 l6 m4">
+                                            <a class="header blue-text lighter bigger" (click)="SetdefaultPage()" tabindex="1" style="border:none;">
+                                                <h4 class="header blue-text lighter bigger">
+
+                                                    <i class="Small {{CSSTEXT}} blue-text" style="font-size: 1.5rem;"></i>{{ADD_NEW_CUST_TEXT}}    <!--{{RES.CUSTOMER_MASTER.APP_LBL_NEW_CUST}}Add New Customer-->
+                                                </h4>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="space-6"></div>
+                                    <!--<div>{{RES.CUSTOMER_MASTER.APP_TXT_REQD}}</div>-->
+                                    <hr />
+                                    <form (ngSubmit)="saveCustomerData()">
+                                        <!--<fieldset>-->
+                                        <div class="row">
+
+                                            <div class="col s12 m4 l4">
+                                                <label for="lname" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_LNAME}}</label>
+                                                <input type="text" id="lname" class="form-control" [(ngModel)]="modelInput.lname" (change)="CheckCustWithfnamelnamecompphsemails()" required maxlength="50" tabindex="3" />   <!-- (change)="CheckCustWithfnamelnamecompphsemails()"Last Name*-->
+                                              
+
+
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label for="fname" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_FNAME}}</label>
+                                                <input type="text" id="fname" class="form-control" [(ngModel)]="modelInput.fname" (change)="CheckCustWithfnamelnamecompphsemails()" required maxlength="50" tabindex="4" />   <!-- (change)="CheckCustWithfnamelnamecompphsemails()"First Name*-->
+                                                
+
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label for="mname" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_MNAME}}</label>
+                                                <input type="text" id="mname" class="form-control" [(ngModel)]="modelInput.MiddleName" maxlength="100" tabindex="5" /> <!--Middle Name-->
+                                                
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+
+                                                <label for="compname" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_CNAME}}</label>
+                                                <input type="text" id="compname" class="form-control" [(ngModel)]="modelInput.Company" maxlength="200" (change)="setdefaultAddress()" tabindex="6" /> <!--Company Name*-->
+                                                
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <label class="block clearfix">
+                                                    {{RES.CUSTOMER_MASTER.APP_LBL_CTYPE}}
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Customer Type" [(ngModel)]="modelInput.CustomerType" (change)="SetDefaultCust()" tabindex="7">
+
+                                                    <option selected="selected" value="">{{RES.CUSTOMER_MASTER.APP_DP_CTYPE}}</option>
+                                                    <option *ngFor="#DropObject of _CustTypes" value="{{DropObject.Value}}">
+                                                        {{DropObject.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label class="block clearfix">
+                                                    {{RES.CUSTOMER_MASTER.APP_LBL_EMP}}
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Contact Employee" [(ngModel)]="modelInput.employeeid" tabindex="8">
+
+                                                    <option value="" selected="selected">{{RES.CUSTOMER_MASTER.APP_DP_EMP}}</option> <!--Select Contact Employee-->
+                                                    <option *ngFor="#obj of _Employees" value="{{obj.Value}}">
+                                                        {{obj.Text}}
+                                                    </option>
+                                                </select>
+
+
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label class="block clearfix">
+                                                    {{RES.CUSTOMER_MASTER.APP_LBL_SOURCE}}
+                                                </label>
+                                                <select style="width:100%" [(ngModel)]="modelInput.CameFromCustomer" class="browser-default" label="Source" tabindex="9">
+                                                    <option value="">{{RES.CUSTOMER_MASTER.APP_DP_SOURCE}}</option><!--Select Source-->
+                                                    <option *ngFor="#obj of _Sources" value="{{obj.Value}}">
+                                                        {{obj.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 l2 m4">
+                                                <a class="header blue-text lighter bigger" (click)="More()" tabindex="10">
+                                                    <i class="ace-icon fa"></i>
+                                                    <b>{{ShowMoreText}}....</b>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <!---------------Customer Other Detail------------------------>
+                                        <div id="CustOthDet" *ngIf="ShowMore==true">
+                                            <div class="row">
+                                                <div class="col s12 l6 m6">
+                                                    <label for="CustCode" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_CCODE}}</label>
+                                                    <input type="text" id="CustCode" class="form-control" [(ngModel)]="modelInput.CustomerCode" maxlength="25" tabindex="11" />
+                                                    
+
+
+                                                </div>
+                                                <div class="col s12 l6 m6">
+                                                    <!--<input type="date" id="Birthdate" class="form-control" [(ngModel)]="modelInput.BirthDate" tabindex="12" />-->
+                                                    <label for="Birthdate" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_BDATE}}</label>
+                                                    <div class="col s12">
+                                                        <mx-date (ondata)="dateSelectionChange($event)" cssclass="col s4 browser-default" [setdate]="modelInput.BirthDate"></mx-date>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 l6 m6">
+                                                    <label for="JobTitle" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_JOB}}</label>
+                                                    <input type="text" id="JobTitle" class="form-control" [(ngModel)]="modelInput.jobtitlePartner" maxlength="255" tabindex="13" /><!--Job Title-->
+                                                    
+
+                                                </div>
+                                                <div class="col s12 l6 m6">
+                                                    <label for="Title" class="active">{{RES.CUSTOMER_MASTER.APP_TXT_PH_TITLE}}</label>
+                                                    
+                                                    <input type="text" id="Title" class="form-control" [(ngModel)]="modelInput.Title" autocomplete="off" maxlength="25"  tabindex="14" /><!--Title-->
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12 l6 m6">
+                                                    <label class="block clearfix">
+                                                        {{RES.CUSTOMER_MASTER.APP_DP_SUFFIX}}
+                                                    </label>
+                                                    <select style="width:100%" [(ngModel)]="modelInput.Safixid" class="browser-default" label="Suffix" tabindex="15">
+                                                        <option value="">{{RES.CUSTOMER_MASTER.APP_DP_SUFFIX}}</option><!--Select Suffix-->
+                                                        <option *ngFor="#obj of _Suffixes" value="{{obj.Value}}">
+                                                            {{obj.Text}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col s12 l6 m6">
+                                                    <label class="block clearfix">
+                                                        {{RES.CUSTOMER_MASTER.APP_LBL_GENDER}}
+                                                    </label>
+                                                    <select style="width:100%" [(ngModel)]="modelInput.Gender" class="browser-default" label="Gender" tabindex="16" id="GenderDD">
+                                                        <option value="0">{{RES.CUSTOMER_MASTER.APP_DP_GENDER}}</option><!--Select Gender-->
+                                                        <option value="1">{{RES.CUSTOMER_MASTER.APP_DP_GENDER_M}}</option><!--Male-->
+                                                        <option value="2">{{RES.CUSTOMER_MASTER.APP_DP_GENDER_F}}</option><!--Female-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Phones -->
+                                        <div class="space-4"></div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a class="header blue-text lighter bigger">
+
+                                                    <strong>{{RES.CUSTOMER_MASTER.APP_LBL_PHONE}}</strong><!--Phones-->
+                                                </a>
+                                                <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+                                                <!-- Modal -->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!--<div class="col-sm-12">-->
+                                            <table class="table">
+                                                <thead>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="#obj of modelInput.CustomerPhones; #order = index">
+
+                                                        <td>
+                                                            <div class="col s12">
+
+
+                                                                <label class="block clearfix">
+                                                                    {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PHAREA}}
+
+                                                                    <span class="clearfix">
+                                                                        <input type="number" [(ngModel)]="obj.Area" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_AREA}}" onKeyDown="if (event.keyCode == 69 && this.value.length == 3 && event.keyCode != 8 && event.keyCode != 46 ) { alert('Not Enter');return false; } " name="ar[]" style="width:50px" class="LeftText" tabindex="17+8*PhIndex" />
+
+                                                                    </span>
+                                                                </label>
+
+                                                            </div>
+                                                            <div class="col s12">
+                                                                <label class="block clearfix" *ngIf="obj.IsShowRemarks==true">
+                                                                    {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PHPRE}}
+                                                                    <span class="clearfix">
+                                                                        <input type="number" style="width:50px" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_PREFIX}}" [(ngModel)]="obj.Prefix" onKeyDown="if (this.value.length == 3 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;" name="pre[]" tabindex="21" /><!--Prefix-->
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col s12">
+                                                                <label class="block clearfix">
+                                                                    {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PHNO}}
+                                                                    <span class="clearfix">
+                                                                        <input type="number" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_PHONE}}" [(ngModel)]="obj.Phone" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;" (change)="CheckCustWithfnamelnamecompphsemails()" name="ph[]" (focus)="ShowRemarks(obj)" tabindex="17"  />
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col s12">
+                                                                <label class="block clearfix" *ngIf="obj.IsShowRemarks==true">
+                                                                    {{RES.CUSTOMER_MASTER.APP_GRD_LBL_REM}}
+                                                                    <span class="clearfix">
+                                                                        <input type="text" class="form-control" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_COMMENT}}" [(ngModel)]="obj.Comments" maxlength="250" tabindex="22" /><!--Comments-->
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col s12" style="vertical-align: top;">
+                                                                <label class="block clearfix">
+                                                                    {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PTYPE}}
+                                                                </label>
+                                                                <!--<span class="clearfix">-->
+                                                                <select class="browser-default" placeholder="PhoneType" [(ngModel)]="obj.PhoneTypeId" required style="width:150px;" tabindex="18" (change)="CheckPhoneType(obj)" name="phtype[]">
+
+                                                                    <option value="">{{RES.CUSTOMER_MASTER.APP_DP_PTYPE}}</option>
+                                                                    <option *ngFor="#obj of _PhoneTypes" value="{{obj.Value}}">
+                                                                        {{obj.Text}}
+                                                                    </option>
+                                                                </select>
+                                                                <!--</span>-->
+
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_SMS}}
+                                                                <span class="clearfix">
+                                                                    <input type="checkbox" id="sms_{{order}}" placeholder="{{RES.CUSTOMER_MASTER.APP_CHK_PH_SMS}}" [(ngModel)]="obj.IsSms" tabindex="19" /><!--For SMS-->
+                                                                    <label htmlFor="sms_{{order}}"></label>
+                                                                </span>
+                                                            </label>
+
+                                                        </td>
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PHPUBLISH}}
+                                                                <span class="clearfix">
+                                                                    <input type="checkbox" id="Publish_{{order}}" [(ngModel)]="obj.phpublish" tabindex="20" />
+                                                                    <label htmlFor="Publish_{{order}}"></label>
+                                                                </span>
+                                                            </label>
+                                                        </td>
+                                                        <td style="width:150px">
+                                                            <a class="green-text" (click)="AddPhones(obj)" tabindex="23">
+                                                                <i class="mdi-content-add"></i>{{RES.CUSTOMER_MASTER.LBL_MORE}}
+                                                            </a>
+                                                            <a class="red-text" (click)="delPhoneDet(obj)" tabindex="24">
+                                                                <i class="mdi-content-remove"></i>
+                                                            </a>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--</div>-->
+                                        </div>
+
+                                        <!--Emails -->
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a class="header blue-text lighter bigger">
+                                                    <!--data-toggle="modal" (click)="showAddPopup()" data-target="#AddEmailModal"-->
+
+                                                    <strong>{{RES.CUSTOMER_MASTER.APP_LNK_EMAIL}}</strong><!--Emails-->
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+                                            <!-- Modal -->
+                                           <div class="col s12">  
+                                            <table class="table" id="EmailTable">
+                                                <thead>
+
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <tr *ngFor="#obj of modelInput.CustomerEmails; #order = index" class="trrow">
+
+                                                        <td>
+
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_EMAIL}}
+                                                                <span class="block">
+                                                                    <input type="text" class="form-control" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_EMAIL}}" [(ngModel)]="obj.Email" (change)="CheckCustWithfnamelnamecompphsemails()" value="{{obj.Email}}" maxlength="255" tabindex="25" /> <!--data-ng-required="true"--><!--Email*-->
+                                                                </span>
+                                                            </label>
+                                                        </td>
+
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_ENAME}}
+                                                                <span class="block">
+                                                                    <input type="text" class="form-control" placeholder="{{RES.CUSTOMER_MASTER.APP_TXT_PH_ENAME}}" [(ngModel)]="obj.EmailName" maxlength="255" tabindex="26" /> <!--data-ng-required="true"--><!--Name*-->
+
+                                                                </span>
+                                                            </label>
+                                                        </td>
+
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_NLETTER}}
+                                                                <span class="clearfix">
+                                                                    <input type="checkbox" id="Newslettere_{{order}}" [(ngModel)]="obj.Newslettere" tabindex="27" />
+                                                                    <label htmlFor="Newslettere_{{order}}"></label>
+                                                                </span>
+                                                            </label>
+                                                        </td>
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_PUBLISH}}
+                                                                <span class="clearfix">
+                                                                    <input type="checkbox" id="pubemail_{{order}}" [(ngModel)]="obj.publish" tabindex="28" />
+                                                                    <label htmlFor="pubemail_{{order}}"></label>
+                                                                </span>
+                                                            </label>
+                                                        </td>
+                                                        <td style="width:150px">
+                                                            <a class="green-text" (click)="AddEmails(obj)" name="addEbtn"><i class="mdi-content-add" tabindex="29"></i>{{RES.CUSTOMER_MASTER.LBL_MORE}}</a>
+                                                            <a class="red-text" (click)="delEmailDet(obj)" name="delEbtn"><i class="mdi-content-remove" tabindex="30"></i></a>
+
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                        <!--Addresses-->
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a class="header blue-text lighter bigger">
+
+                                                    <strong>{{RES.CUSTOMER_MASTER.APP_LNK_LBL_ADDRS}}</strong><!--Addresses-->
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                            <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+                                            <!-- Modal -->
+                                            <table class="table">
+                                                <thead>
+
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr *ngFor="#obj of modelInput.CustomerAddresses; #order = index">
+                                                        <td>
+                                                            <label class="block clearfix" style="margin-bottom:20px;">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_ADDRESS}}
+                                                                <span class="block">
+                                                                    <select class="browser-default" label="jhvhjvh" placeholder="AddressType" [(ngModel)]="obj.AddressTypeId" tabindex="31" style="width:100%">
+                                                                        <!--style="width:60px"-->
+                                                                        <option selected="selected" value="">{{RES.CUSTOMER_MASTER.APP_DP_ADDRTYPE}}</option><!--Select AddressType*-->
+                                                                        <option *ngFor="#obj of _AddressTypes" value="{{obj.Value}}">
+                                                                            {{obj.Text}}
+                                                                        </option>
+                                                                    </select>
+                                                                </span>
+                                                            </label>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_CITY}}
+                                                                <span class="block">
+                                                                    <input type="text" id="City" class="form-control" [(ngModel)]="obj.CityName" autocomplete="off" maxlength="80" style="width:140px" tabindex="34" /><!-- style="width:80px"City*-->
+                                                                </span>
+                                                            </label>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_COUNTRY}}
+                                                                <span class="block">
+                                                                    <!--<input type="text" class="form-control" placeholder="CountryCode" [(ngModel)]="Address.CountryCode" id="Countrydd" />-->
+                                                                    <select class="browser-default" label="jhvhjvh"  [(ngModel)]="obj.CountryCode" id="Countrydd" style="width:140px" tabindex="38">
+                                                                        <!--style="width:60px"-->
+                                                                        <!--(change)="GetCountry(Address.CountryCode)"-->
+                                                                        <option selected="selected" value="">{{RES.CUSTOMER_MASTER.APP_DP_COUNTRY}}</option><!--Select Country*-->
+                                                                        <option *ngFor="#obj of _Countries" value="{{obj.Value}}">
+                                                                            {{obj.Text}}
+                                                                        </option>
+                                                                    </select>
+                                                                </span>
+                                                            </label>
+
+                                                        </td>
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_STREET}}
+
+                                                                <span class="block">
+                                                                    <input type="text" class="form-control" [(ngModel)]="obj.Street" maxlength="255" style="width:250px" tabindex="32" /><!-- style="width:90px"Street*-->
+                                                                </span>
+                                                            </label>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_ZIP}}
+                                                                <span class="block">
+                                                                    <input type="text" class="form-control" [(ngModel)]="obj.Zip" maxlength="9" style="width:100px" tabindex="35" />  <!-- style="width:50px"Zip*-->
+                                                                </span>
+                                                            </label>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_STATE}}
+                                                                <span class="block">
+                                                                    <!--<input type="text" class="form-control" placeholder="StateId" [(ngModel)]="Address.StateId" id="Statedd"/>-->
+                                                                    <select class="browser-default" label="jhvhjvh" [(ngModel)]="obj.StateId" id="Statedd" style="width:140px" tabindex="39">
+                                                                        <!--style="width:60px"-->
+                                                                        <option selected="selected" value="">{{RES.CUSTOMER_MASTER.APP_DP_STATE}}</option><!--Select State-->
+                                                                        <option *ngFor="#obj of _States" value="{{obj.Value}}">
+                                                                            {{obj.Text}}
+                                                                        </option>
+                                                                    </select>
+                                                                </span>
+                                                            </label>
+
+                                                        </td>
+                                                        <td>
+                                                            <label class="block clearfix">
+                                                                {{RES.CUSTOMER_MASTER.APP_GRD_LBL_ADAREA}}
+                                                                <span class="block">
+                                                                    <input type="text" class="form-control" [(ngModel)]="obj.Street2" maxlength="200" style="width:180px" tabindex="33" /><!-- style="width:90px"Area*-->
+                                                                </span>
+                                                            </label>
+                                                            <div class="row">
+                                                                <div class="col s6">
+                                                                    <label class="block">
+                                                                        {{RES.CUSTOMER_MASTER.APP_GRD_LBL_MADDRESS}}
+                                                                    </label>
+                                                                    <div class="input-field">
+                                                                        <input type="checkbox" id="main_{{order}}" [(ngModel)]="obj.MainAddress" style="width:20px" tabindex="36" /><!--Is Main Address-->
+                                                                        <label htmlFor="main_{{order}}"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col s6">
+                                                                    <label class="block">
+                                                                        {{RES.CUSTOMER_MASTER.APP_GRD_LBL_DELIVERY}}
+                                                                    </label>
+
+                                                                    <div class="input-field">
+                                                                        <input type="checkbox" id="delvr_{{order}}" [(ngModel)]="obj.ForDelivery" style="width:20px" tabindex="37" /><!--style="width:40px"Delivery-->
+                                                                        <label htmlFor="delvr_{{order}}"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width:100px">
+                                                            <a class="green-text" (click)="AddAddresses(obj)">
+                                                                <i class="mdi-content-add" tabindex="40"></i>{{RES.CUSTOMER_MASTER.LBL_MORE}}
+                                                            </a>
+                                                            <a class="red-text" (click)="delAddressDet(obj)" tabindex="41"><i class="mdi-content-remove"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a (click)="showhideGroups()" class="header blue-text lighter bigger" tabindex="42">
+                                                    <strong>{{GroupText}}</strong><!--Addresses-->
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <ul style="padding-left:4px;">
+                                                    <li *ngFor="#obj of modelInput.CustomerGroups"> {{obj.GroupText}}</li>
+                                                </ul>
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <div id="GrpDiv">
+
+                                                        <label class="block clearfix">
+                                                            <span class="block">
+                                                                <input type="checkbox" id="ShowAll" placeholder="{{RES.CUSTOMER_MASTER.APP_CHK_PH_SMS}}" [(ngModel)]="IsShowAll" (change)="bindGroup()" tabindex="43" /><!--For SMS-->
+                                                                <label for="ShowAll">{{RES.CUSTOMER_MASTER.APP_LBL_SHOWALL}}</label>
+                                                            </span>
+                                                        </label>
+                                                        <table>
+                                                            <thead>
+                                                                <tr></tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td></td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <div>
+                                                            <strong>{{RES.CUSTOMER_MASTER.APP_LBL_GRPS}}</strong>
+                                                        </div>
+                                                        <div class="k-content {{KendoRTLCSS}}" style="margin: 4px auto;width: 100%; padding: 40px 10px 20px; overflow-y:auto;">
+                                                            <div id="groupTree" style="overflow: visible;" *ngIf="IsShowAll==false">{{RES.CUSTOMER_MASTER.APP_LBL_LOAD}}</div><!--Loading-->
+                                                            <div id="groupTree1" style="overflow: visible;" *ngIf="IsShowAll==true">{{RES.CUSTOMER_MASTER.APP_LBL_LOAD}}</div><!--Loading-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                &nbsp;
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    
+                                                        <label for="Remarks" class="active">{{RES.CUSTOMER_MASTER.APP_LBL_REMARKS}}</label>
+                                                        <textarea id="Remarks" rows="2" cols="50" [(ngModel)]="modelInput.Remark" style="max-height:20px;overflow-y:auto" 
+                                                                  tabindex="44" class="materialize-textarea"></textarea>
+                                                        
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s12">
+
+                                                    <button type="submit" class="btn waves-effect waves-light green accent-4" disabled="{{Isbtndisable}}" tabindex="45">
+
+                                                        <span class="bigger-110">{{SAVE_BTN_TEXT}}</span>
+                                                    </button>
+                                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" disabled="{{Isbtndisable}}" (click)="SetdefaultPage()" tabindex="46">
+
+                                                        <span class="bigger-110">{{RES.CUSTOMER_MASTER.APP_BTN_CANCEL}}</span>
+                                                    </button>&nbsp;
+                                                </div>
+                                                <div class="col s12 m4 l2">
+
+                                                    <div *ngIf="ShowMsg==true" class="{{MsgClass}}">
+                                                        <strong>{{Msg}}</strong>
+                                                    </div>
+                                                    <img src="http://localhost:57998/Images/Loader2.gif" style="float:left" *ngIf="ShowLoader==true" />
+                                                </div>
+                                            </div>
+                                            <!--<div class="space-4"></div>-->
+                                            <div class="row">
+                                                <div class="col s12 l12 m12">
+                                                    <button type="button" class="btn waves-effect waves-light btn-default" disabled="{{Isbtndisable}}" (click)="OpenChargeCreditPage()" tabindex="47">
+                                                        <span class="bigger-110">{{RES.CUSTOMER_MASTER.APP_BTN_CHARGECREDIT}}</span>
+                                                    </button>
+                                                    <button type="button" class="btn waves-effect waves-light btn-default" disabled="{{Isbtndisable}}" (click)="OpenNewReceipt()" tabindex="47">
+                                                        <span class="bigger-110">{{RES.CUSTOMER_MASTER.APP_LBL_NEWRECEIPT}}</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="CustModal" class="modal modal-fixed-footer MModal" style="z-index: 1003; display: none; opacity: 0; transform: scaleX(0.7); top: 481.386px;">
+                                                <div class="modal-content">
+                                                    <div class="row">
+                                                        <div class="col s12">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>{{RES.CUSTOMER_MASTER.APP_TXT_PH_CUSTID}}</th>
+                                                                        <th>{{RES.CUSTOMER_MASTER.APP_GRD_LBL_SRCH_LNAME}}</th>
+                                                                        <th>{{RES.CUSTOMER_MASTER.APP_GRD_LBL_SRCH_FNAME}}</th>
+                                                                        <th>{{RES.CUSTOMER_MASTER.APP_TXT_PH_MNAME}}</th>
+                                                                        <th>{{RES.CUSTOMER_MASTER.APP_TXT_PH_FILEAS}}</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="#obj of custSearchData">
+                                                                        <td>{{obj.CustomerId}}</td>
+                                                                        <td>{{obj.lname}}</td>
+                                                                        <td>{{obj.fname}}</td>
+                                                                        <td>{{obj.MiddleName}}</td>
+                                                                        <td>{{obj.FileAs}}</td>
+                                                                        <td><a class="blue-text" (click)="editCustDet(obj)" data-dismiss="modal" tabindex="49"><i class="small mdi-content-create blue-text"></i></a></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <!--</div>-->
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a class="waves-effect waves-red btn-flat modal-action modal-close {{CHANGEDIR}}">Close</a>
+                                                    <!--<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>-->
+                                                </div>
+                                            </div>
+
+
+</form>
+                                </div>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </div>
+                    <!-- /.position-relative -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.main-content -->
+</div>
+<style type="text/css">
+    input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color: red;
+    }
+
+    input.ng-valid.ng-touched, select.ng-valid.ng-touched {
+        background-color: none;
+        border-color: none;
+    }
+    @media screen and (min-width: 500px){
+        .autocomplete {
+            width:520px;height:30px;
+        }
+    }
+    @media screen and (max-width: 450px){
+        .autocomplete {
+            width:auto;height:30px;
+        }
+    }
+    /*form .row {
+        padding:2px;
+    }*/
+ 
+    
+</style>
+ 
+<!-- /.main-container -->

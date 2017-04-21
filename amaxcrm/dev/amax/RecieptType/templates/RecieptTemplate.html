@@ -1,0 +1,155 @@
+<style>
+    input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+    /*.table tbody tr .green{
+        display:none;
+    }
+    .table tbody tr:last-child .green{
+        display:block;
+    }
+
+    .table tbody tr .red{
+        display:block;
+    }*/
+
+    /*#EmailTable a {
+        display:none
+    }*/
+</style>  
+  
+<!--<div class="container">-->
+        <div class="content">
+            <div class="row">
+                <div class="col s12 card-panel">
+                    <div>
+                        <div>
+                            <h1>
+                                <i class="mdi-content-select-all green-text"></i>
+                                <span class="red-text">{{RES.SCREEN_ADDRECIEPTTEMP.APP_LBL_RCPTTEMP_HEADING}}</span>  <!--{{RES.CUSTOMER_MASTER.CUST_LABAL}}Customer-->
+
+
+                            </h1>
+                            <h4 class="blue-text" id="id-company-text"></h4>
+                        </div>
+                        <div class="position-relative">
+                            <div class="visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <form (ngSubmit)="saveReceiptTemplateData()">
+                                            <!--<fieldset>-->
+                                                <h4 class="header blue-text lighter bigger">
+                                                    <i class="mdi-content-add"></i>
+                                                    {{RES.SCREEN_ADDRECIEPTTEMP.APP_LBL_RCPTTEMP_RCPTDET}}    
+                                                </h4>
+                                            <div class="row">
+                                                <div class="input-field col s4">
+                                                    <!--<label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">-->
+                                                            <input type="text" id="LetterNameEng" class="form-control" [(ngModel)]="modelInput.ThanksLetterNameEng" maxlength="200" value="{{modelInput.ThanksLetterNameEng}}" />
+                                                    <label for="LetterNameEng" class="active">{{RES.SCREEN_ADDRECIEPTTEMP.APP_TXT_PH_THNKSLTRNAMEENG}}</label>
+                                                        <!--</span>
+                                                    </label>-->
+                                                    </div>
+                                                <div class="input-field col s4">
+                                                    <!--<label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">-->
+                                                            <input type="text" id="LetterName" class="form-control" [(ngModel)]="modelInput.ThanksLetterName" maxlength="200" />
+                                                    <label for="LetterName" class="active">{{RES.SCREEN_ADDRECIEPTTEMP.APP_TXT_PH_THNKSLTRNAME}}</label>
+                                                        <!--</span>
+                                                    </label>-->
+                                                    </div>
+                                                <div class="col s4">
+                                                    <label class="block clearfix">jjjkj
+                                                    </label>
+                                                        <!--<span class="block">-->
+                                                            <select class="form-control browser-default" label="Receipt Type" [(ngModel)]="modelInput.ReceiptId" required>
+                                                                <!--[(ngModel)]="modelInput.CustomerType"-->
+                                                                <option selected="selected" value="">{{RES.SCREEN_ADDRECIEPTTEMP.APP_DP_RECEIPTTYPE}}</option> <!--Select Customer Type-->
+                                                                <option *ngFor="#DropObject of _ReceiptTypes" value="{{DropObject.Value}}">
+                                                                    {{DropObject.Text}}
+                                                                </option>
+                                                            </select>
+
+                                                        <!--</span>-->
+                                                   
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <!--<label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">-->
+                                                            <input type="text" id="MailSubj" class="form-control" [(ngModel)]="modelInput.MailSubj" required maxlength="250" />
+                                                    <label for="MailSubj" class="active">{{RES.SCREEN_ADDRECIEPTTEMP.APP_TXT_PH_MAILSUBJ}}</label>
+                                                        <!--</span>
+                                                    </label>-->
+                                                </div>
+                                            </div>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <textarea class="form-control" [(ngModel)]="modelInput.MailBody" placeholder="{{RES.SCREEN_ADDRECIEPTTEMP.APP_TXT_PH_MAILBODY}}" required maxlength="2550" rows="10" cols="80" id="editor">
+                                                            </textarea>
+                                                        <!--<ckeditor [(ngModel)]="modelInput.MailBody" debounce="500">
+                                                            <p>Hello <strong>world</strong></p>
+                                                        </ckeditor>-->
+                                                        <!--<ckeditor 
+                                                                  (change)="onChange($event)"
+                                                                  (ready)="onReady($event)"
+                                                                  (focus)="onFocus($event)"
+                                                                  (blur)="onBlur($event)"
+                                                                  debounce="500">
+                                                        </ckeditor>-->
+                                                    </span>
+                                                </label>
+                                                <button type="button" class="pull-right btn waves-effect waves-light  grey lighten-2" disabled="{{Isbtndisable}}" style="float:left;" (click)="CancelBtn()">
+                                                    <i class="ace-icon fa"></i>
+
+                                                    <span class="bigger-110">{{RES.SCREEN_ADDRECIEPTTEMP.APP_BTN_CANCEL}}</span><!--Save Changes  {{RES.SCREEN_ADDRECIEPTTEMP.APP_BTN_SAVE}}-->
+                                                </button>&nbsp;
+                                                <button type="submit" class="pull-right btn waves-effect waves-light green accent-4" disabled="{{Isbtndisable}}" style="float:left;">
+                                                    <i class="ace-icon fa"></i>
+                                                    <!--<span class="bigger-110">{{RES.APP_BTN_LOGIN}}</span>-->
+
+                                                    <span class="bigger-110">{{SAVE_BTN_TEXT}}</span><!--Save Changes  {{RES.SCREEN_ADDRECIEPTTEMP.APP_BTN_SAVE}}-->
+                                                </button>&nbsp;
+                                                
+                                                <button type="button" class="pull-right btn waves-effect waves-light indigo" disabled="{{Isbtndisable}}" style="float:left;" (click)="EditTemplate()" id="EditTemp">
+                                                    <i class="ace-icon fa fa-file-code-o"></i>
+
+
+                                                    <span class="bigger-110">{{RES.SCREEN_ADDRECIEPTTEMP.APP_BTN_EDITTEMP}}</span><!--Save Changes  {{RES.SCREEN_ADDRDRECIEPTTEMP.APP_BTN_SAVE}}-->
+                                                </button>
+                                                <div *ngIf="ShowMsg==true" class="pull-right {{MsgClass}}">
+                                                    <strong>  {{Msg}}</strong>
+                                                </div>
+                                                <img src="http://localhost:57998/Images/Loader2.gif" style="float:right" *ngIf="ShowLoader==true" />
+<!--</fieldset>-->
+                                            </form>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                                        <!-- /.position-relative -->
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.main-content -->
+                    <!--</div>-->
+<style type="text/css">
+    input.ng-invalid.ng-touched,select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color:red;
+    }
+
+    input.ng-valid.ng-touched,select.ng-valid.ng-touched {
+        background-color: none;
+        border-color:none;
+    }
+</style>
+
+    <!-- /.main-container -->

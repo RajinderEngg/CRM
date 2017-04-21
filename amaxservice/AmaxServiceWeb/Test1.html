@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        $(function () {
+            var req = '{"Lang":"en"}';
+
+            $.ajax({
+                headers: {"X-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJNRDUiLCJleHAiOjE0ODEzODQzMTUsInNlcmlzIjoxMH0=.eyJlbXBsb3llZWlkIjo0MSwiZVR5cGUiOjEsInN5c3VzZXIiOnRydWUsImZuYW1lIjoianVkeSIsImRheUVuZCI6bnVsbCwic2V4IjpudWxsLCJzeXNkYXRhIjp0cnVlLCJVc2VNb2JpbGUiOnRydWUsIklzRGlnaXRhbCI6MCwiVGltZVpvbmUiOiIrMDU6MzAiLCJsbmFtZSI6ImFtYXgiLCJkYXlTdGFydCI6bnVsbCwiZW1haWwiOiJhc2hlckBhbWF4LmNvLmlsIiwiQnJhbmNoaWQiOjEsIkRlcGFydG1lbnRJZCI6MSwiSXNCcmFuY2hFbmFibGVkIjp0cnVlLCJhdXRob1R5cGUiOjEwLCJTZWN1cml0eUNvbnRleHQiOiJ6dFFWeWxLaFdVUGhLeTB2cHNwSEJtZGJvbk5NVUJybERlajBXQ01qZDhtZVFiNTdkZThYR01xNjR0RWZuWlNoNHVxL3crZk4rbTFEdWtoRWJKcGt6OHM3Q3pENE1DU0tCSWJWc1dXRjFkV2s2TkRyTkxuZnJmeEJwZW9LbG51dUhFWXVSOG1sZDhNZmlwNzZDSE8zOCs4bzhKNWRJNXFoZkxUMStnR1lBVlhNZnNvdjlCaFFNQUlwUkxVUkIwOWFqaWNMRUdXMTVmUUg5QkNXcjVMTkZnPT0ifQ==.+2I6BO3U0Q6GyZSF7RQTyw=="},
+                ContentType: "application/json",
+                url: "/api/Service/GetTreeData",
+                data: req,
+                type: "POST",
+                success: function (res) { alert('Success!'); }
+            });
+        })
+        //serviceConfig.accesTokenRequestHeader
+        
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

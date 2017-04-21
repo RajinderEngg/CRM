@@ -1,0 +1,2 @@
+for the service http://c.srv.amax.co.il/kumar.php
+for the app http://c.amax.co.il/kumar.php

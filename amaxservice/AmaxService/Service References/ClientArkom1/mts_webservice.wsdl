@@ -1,0 +1,1657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="https://secure.arkom.co.il/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="https://secure.arkom.co.il/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="https://secure.arkom.co.il/">
+      <s:element name="_ZG_cAltP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fTN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fTP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TAP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_cAltPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_cAltPResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_GTI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fTN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fTP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UU5" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TNU" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TPS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TNM" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_GTIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_GTIResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TNU" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TPS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TNM" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_LH">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TP" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorP" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="sL" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iA" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="sCN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_LHResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_LHResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="sL" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="iA" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="sCN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_MR">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sR" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BF" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_MRResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_MRResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="sR" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BF" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_ODQ">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Q" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DS2F">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="RF" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="sRet" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_ODQResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_ODQResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="DS2F">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="RF" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="sRet" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_ST_">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_ST_Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_ST_Result" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="RS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_fEOD_">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_fEOD_Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_fEOD_Result" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_SM_">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FT" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ST" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ES" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EB" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RT" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="_ZG_SM_Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="_ZG_SM_Result" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionRequest_INTIN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IntIN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionRequest_INTINResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutTransactionRequest_INTINResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequest_INTIN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IntIN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequest_INTINResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutMultiTransactionRequest_INTINResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_CC_Transaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CardExpiry" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSum" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransPoints" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Last4Digits" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CVV2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransCurrency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ISO_Currency" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreditType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ApprovalCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="FirstPayment" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="FixedPayment" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="NumOfFixedPayments" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransRef" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="J_Prm" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Z_Prm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Q_Prm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="R_Prm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_CC_TransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_CC_TransactionResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CardNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CardExpiry" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSum" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransPoints" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Last4Digits" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CVV2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransCurrency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ISO_Currency" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreditType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ApprovalCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="FirstPayment" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="FixedPayment" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="NumOfFixedPayments" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransRef" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="J_Prm" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Z_Prm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Q_Prm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="R_Prm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutTransactionRequestResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionResults">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionResultsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetTransactionResultsResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequestZipFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BinFile" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequestZipFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutMultiTransactionRequestZipFileResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMultiTransactionResultsZipFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BinFile" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMultiTransactionResultsZipFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetMultiTransactionResultsZipFileResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="BinFile" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RequestBuffer" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutMultiTransactionRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutMultiTransactionRequestResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMultiTransactionResults">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMultiTransactionResultsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetMultiTransactionResultsResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Answer" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_ezCountDoc">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ezCountREQ" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ezCountANS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_ezCountDocResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_ezCountDocResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ezCountANS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Transmit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_TransmitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_TransmitResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Ping">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PingResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetTransactionIDResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetErrorDescription">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ErrorDesc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetErrorDescriptionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetErrorDescriptionResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ErrorDesc" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_SendNotes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientEmail" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_SendNotesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_SendNotesResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionAcknowledge">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_PutTransactionAcknowledgeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_PutTransactionAcknowledgeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTerminalInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Terminal_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Terminal_Email" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTerminalInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetTerminalInfoResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Terminal_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Terminal_Email" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMonthTransactions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetMonthTransactionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetMonthTransactionsResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionNotes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetTransactionNotesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetTransactionNotesResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantNote" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientNote" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_TokenHandler">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="OPcode" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TokenSTR" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PAN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AltPan" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_TokenHandlerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_TokenHandlerResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TokenSTR" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalPassword" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSUM" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransTASH" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransREF" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransCurrency" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreditType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReturnURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Footer_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_Redirect_GetTransIDResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSUM" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransResult">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransResultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_Redirect_GetTransResultResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSUM" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransTASH" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransREF" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransCurrency" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreditType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReturnURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Footer_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_GetTransDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_Redirect_GetTransDataResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransSUM" type="s:double" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransTASH" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransREF" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="TransCurrency" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="CreditType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReturnURL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Header_2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Footer_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Language" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_SetTransStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TransID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransAnswer" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_Redirect_SetTransStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_Redirect_SetTransStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetDB_Table">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TerminalPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TableName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DataSet2Fill">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="Limit" type="s:long" />
+            <s:element minOccurs="1" maxOccurs="1" name="VirtualCanSee" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MTS_GetDB_TableResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MTS_GetDB_TableResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="DataSet2Fill">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="_ZG_cAltPSoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_cAltP" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_cAltPSoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_cAltPResponse" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_GTISoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_GTI" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_GTISoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_GTIResponse" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_LHSoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_LH" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_LHSoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_LHResponse" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_MRSoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_MR" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_MRSoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_MRResponse" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_ODQSoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_ODQ" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_ODQSoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_ODQResponse" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_ST_SoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_ST_" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_ST_SoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_ST_Response" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_fEOD_SoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_fEOD_" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_fEOD_SoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_fEOD_Response" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_SM_SoapIn">
+    <wsdl:part name="parameters" element="tns:_ZG_SM_" />
+  </wsdl:message>
+  <wsdl:message name="_ZG_SM_SoapOut">
+    <wsdl:part name="parameters" element="tns:_ZG_SM_Response" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionRequest_INTINSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionRequest_INTIN" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionRequest_INTINSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionRequest_INTINResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequest_INTINSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequest_INTIN" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequest_INTINSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequest_INTINResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_CC_TransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_CC_Transaction" />
+  </wsdl:message>
+  <wsdl:message name="MTS_CC_TransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_CC_TransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionRequest" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionResultsSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionResults" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionResultsSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionResultsResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequestZipFileSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequestZipFile" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequestZipFileSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequestZipFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMultiTransactionResultsZipFileSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetMultiTransactionResultsZipFile" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMultiTransactionResultsZipFileSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetMultiTransactionResultsZipFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequest" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutMultiTransactionRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutMultiTransactionRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMultiTransactionResultsSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetMultiTransactionResults" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMultiTransactionResultsSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetMultiTransactionResultsResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_ezCountDocSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_ezCountDoc" />
+  </wsdl:message>
+  <wsdl:message name="MTS_ezCountDocSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_ezCountDocResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_TransmitSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Transmit" />
+  </wsdl:message>
+  <wsdl:message name="MTS_TransmitSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_TransmitResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PingSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Ping" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PingSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PingResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionIDSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionID" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionIDSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetErrorDescriptionSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetErrorDescription" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetErrorDescriptionSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetErrorDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_SendNotesSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_SendNotes" />
+  </wsdl:message>
+  <wsdl:message name="MTS_SendNotesSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_SendNotesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionAcknowledgeSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionAcknowledge" />
+  </wsdl:message>
+  <wsdl:message name="MTS_PutTransactionAcknowledgeSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_PutTransactionAcknowledgeResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTerminalInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetTerminalInfo" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTerminalInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetTerminalInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMonthTransactionsSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetMonthTransactions" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetMonthTransactionsSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetMonthTransactionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionNotesSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionNotes" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetTransactionNotesSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetTransactionNotesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_TokenHandlerSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_TokenHandler" />
+  </wsdl:message>
+  <wsdl:message name="MTS_TokenHandlerSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_TokenHandlerResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransIDSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransID" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransIDSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransResultSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransResult" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransResultSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransResultResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransDataSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransData" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_GetTransDataSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_GetTransDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_SetTransStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_SetTransStatus" />
+  </wsdl:message>
+  <wsdl:message name="MTS_Redirect_SetTransStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_Redirect_SetTransStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetDB_TableSoapIn">
+    <wsdl:part name="parameters" element="tns:MTS_GetDB_Table" />
+  </wsdl:message>
+  <wsdl:message name="MTS_GetDB_TableSoapOut">
+    <wsdl:part name="parameters" element="tns:MTS_GetDB_TableResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MTS_WebServiceSoap">
+    <wsdl:operation name="_ZG_cAltP">
+      <wsdl:input message="tns:_ZG_cAltPSoapIn" />
+      <wsdl:output message="tns:_ZG_cAltPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_GTI">
+      <wsdl:input message="tns:_ZG_GTISoapIn" />
+      <wsdl:output message="tns:_ZG_GTISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_LH">
+      <wsdl:input message="tns:_ZG_LHSoapIn" />
+      <wsdl:output message="tns:_ZG_LHSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_MR">
+      <wsdl:input message="tns:_ZG_MRSoapIn" />
+      <wsdl:output message="tns:_ZG_MRSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ODQ">
+      <wsdl:input message="tns:_ZG_ODQSoapIn" />
+      <wsdl:output message="tns:_ZG_ODQSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ST_">
+      <wsdl:input message="tns:_ZG_ST_SoapIn" />
+      <wsdl:output message="tns:_ZG_ST_SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_fEOD_">
+      <wsdl:input message="tns:_ZG_fEOD_SoapIn" />
+      <wsdl:output message="tns:_ZG_fEOD_SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_SM_">
+      <wsdl:input message="tns:_ZG_SM_SoapIn" />
+      <wsdl:output message="tns:_ZG_SM_SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest_INTIN">
+      <wsdl:input message="tns:MTS_PutTransactionRequest_INTINSoapIn" />
+      <wsdl:output message="tns:MTS_PutTransactionRequest_INTINSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest_INTIN">
+      <wsdl:input message="tns:MTS_PutMultiTransactionRequest_INTINSoapIn" />
+      <wsdl:output message="tns:MTS_PutMultiTransactionRequest_INTINSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_CC_Transaction">
+      <wsdl:input message="tns:MTS_CC_TransactionSoapIn" />
+      <wsdl:output message="tns:MTS_CC_TransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest">
+      <wsdl:input message="tns:MTS_PutTransactionRequestSoapIn" />
+      <wsdl:output message="tns:MTS_PutTransactionRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionResults">
+      <wsdl:input message="tns:MTS_GetTransactionResultsSoapIn" />
+      <wsdl:output message="tns:MTS_GetTransactionResultsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequestZipFile">
+      <wsdl:input message="tns:MTS_PutMultiTransactionRequestZipFileSoapIn" />
+      <wsdl:output message="tns:MTS_PutMultiTransactionRequestZipFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResultsZipFile">
+      <wsdl:input message="tns:MTS_GetMultiTransactionResultsZipFileSoapIn" />
+      <wsdl:output message="tns:MTS_GetMultiTransactionResultsZipFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest">
+      <wsdl:input message="tns:MTS_PutMultiTransactionRequestSoapIn" />
+      <wsdl:output message="tns:MTS_PutMultiTransactionRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResults">
+      <wsdl:input message="tns:MTS_GetMultiTransactionResultsSoapIn" />
+      <wsdl:output message="tns:MTS_GetMultiTransactionResultsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_ezCountDoc">
+      <wsdl:input message="tns:MTS_ezCountDocSoapIn" />
+      <wsdl:output message="tns:MTS_ezCountDocSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Transmit">
+      <wsdl:input message="tns:MTS_TransmitSoapIn" />
+      <wsdl:output message="tns:MTS_TransmitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Ping">
+      <wsdl:input message="tns:MTS_PingSoapIn" />
+      <wsdl:output message="tns:MTS_PingSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionID">
+      <wsdl:input message="tns:MTS_GetTransactionIDSoapIn" />
+      <wsdl:output message="tns:MTS_GetTransactionIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetErrorDescription">
+      <wsdl:input message="tns:MTS_GetErrorDescriptionSoapIn" />
+      <wsdl:output message="tns:MTS_GetErrorDescriptionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_SendNotes">
+      <wsdl:input message="tns:MTS_SendNotesSoapIn" />
+      <wsdl:output message="tns:MTS_SendNotesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionAcknowledge">
+      <wsdl:input message="tns:MTS_PutTransactionAcknowledgeSoapIn" />
+      <wsdl:output message="tns:MTS_PutTransactionAcknowledgeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTerminalInfo">
+      <wsdl:input message="tns:MTS_GetTerminalInfoSoapIn" />
+      <wsdl:output message="tns:MTS_GetTerminalInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMonthTransactions">
+      <wsdl:input message="tns:MTS_GetMonthTransactionsSoapIn" />
+      <wsdl:output message="tns:MTS_GetMonthTransactionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionNotes">
+      <wsdl:input message="tns:MTS_GetTransactionNotesSoapIn" />
+      <wsdl:output message="tns:MTS_GetTransactionNotesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_TokenHandler">
+      <wsdl:input message="tns:MTS_TokenHandlerSoapIn" />
+      <wsdl:output message="tns:MTS_TokenHandlerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransID">
+      <wsdl:input message="tns:MTS_Redirect_GetTransIDSoapIn" />
+      <wsdl:output message="tns:MTS_Redirect_GetTransIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransResult">
+      <wsdl:input message="tns:MTS_Redirect_GetTransResultSoapIn" />
+      <wsdl:output message="tns:MTS_Redirect_GetTransResultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransData">
+      <wsdl:input message="tns:MTS_Redirect_GetTransDataSoapIn" />
+      <wsdl:output message="tns:MTS_Redirect_GetTransDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_SetTransStatus">
+      <wsdl:input message="tns:MTS_Redirect_SetTransStatusSoapIn" />
+      <wsdl:output message="tns:MTS_Redirect_SetTransStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetDB_Table">
+      <wsdl:input message="tns:MTS_GetDB_TableSoapIn" />
+      <wsdl:output message="tns:MTS_GetDB_TableSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MTS_WebServiceSoap" type="tns:MTS_WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="_ZG_cAltP">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_cAltP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_GTI">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_GTI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_LH">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_LH" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_MR">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_MR" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ODQ">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_ODQ" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ST_">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_ST_" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_fEOD_">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_fEOD_" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_SM_">
+      <soap:operation soapAction="https://secure.arkom.co.il/_ZG_SM_" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest_INTIN">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionRequest_INTIN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest_INTIN">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequest_INTIN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_CC_Transaction">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_CC_Transaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionResults">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionResults" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequestZipFile">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequestZipFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResultsZipFile">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetMultiTransactionResultsZipFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResults">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetMultiTransactionResults" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_ezCountDoc">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_ezCountDoc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Transmit">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Transmit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Ping">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Ping" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionID">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetErrorDescription">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetErrorDescription" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_SendNotes">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_SendNotes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionAcknowledge">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionAcknowledge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTerminalInfo">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetTerminalInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMonthTransactions">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetMonthTransactions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionNotes">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionNotes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_TokenHandler">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_TokenHandler" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransID">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransResult">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransResult" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransData">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_SetTransStatus">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_SetTransStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetDB_Table">
+      <soap:operation soapAction="https://secure.arkom.co.il/MTS_GetDB_Table" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MTS_WebServiceSoap12" type="tns:MTS_WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="_ZG_cAltP">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_cAltP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_GTI">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_GTI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_LH">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_LH" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_MR">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_MR" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ODQ">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_ODQ" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_ST_">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_ST_" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_fEOD_">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_fEOD_" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="_ZG_SM_">
+      <soap12:operation soapAction="https://secure.arkom.co.il/_ZG_SM_" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest_INTIN">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionRequest_INTIN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest_INTIN">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequest_INTIN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_CC_Transaction">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_CC_Transaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionRequest">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionResults">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionResults" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequestZipFile">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequestZipFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResultsZipFile">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetMultiTransactionResultsZipFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutMultiTransactionRequest">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutMultiTransactionRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMultiTransactionResults">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetMultiTransactionResults" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_ezCountDoc">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_ezCountDoc" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Transmit">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Transmit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Ping">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Ping" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionID">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetErrorDescription">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetErrorDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_SendNotes">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_SendNotes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_PutTransactionAcknowledge">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_PutTransactionAcknowledge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTerminalInfo">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetTerminalInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetMonthTransactions">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetMonthTransactions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetTransactionNotes">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetTransactionNotes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_TokenHandler">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_TokenHandler" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransID">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransResult">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_GetTransData">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_GetTransData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_Redirect_SetTransStatus">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_Redirect_SetTransStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MTS_GetDB_Table">
+      <soap12:operation soapAction="https://secure.arkom.co.il/MTS_GetDB_Table" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MTS_WebService">
+    <wsdl:port name="MTS_WebServiceSoap" binding="tns:MTS_WebServiceSoap">
+      <soap:address location="https://cc.arkom.co.il/mts_webservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MTS_WebServiceSoap12" binding="tns:MTS_WebServiceSoap12">
+      <soap12:address location="https://cc.arkom.co.il/mts_webservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

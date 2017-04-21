@@ -1,0 +1,351 @@
+<style>
+    input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+    [type="radio"] + label:before, [type="radio"] + label:after {
+        left: 0;
+        right: -25px;
+    }
+    input[type="radio"] + label {
+        margin-right:40px;
+    }
+    .table tbody tr .green{
+        display:none;
+    }
+    .table tbody tr:last-child .green{
+        display:block;
+    }
+
+    .table tbody tr .red{
+        display:block;
+    }
+
+    /*#EmailTable a {
+        display:none
+    }*/
+    input {
+        height:24px;
+    }
+    select{
+        height:27px;
+    }
+    label {
+        height:18px;
+    }
+</style>  
+  
+<div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col s12 card-panel">
+                    <div>
+                        <div>
+                            <!--<div>
+                                <h1>
+                                    <i class="ace-icon fa fa-qrcode green"></i>
+                                    <span class="red">{{RES.CHARGECREDIT_SCREEN.APP_LBL_HEAD}}</span>  
+                                    <span class="blue" id="id-text2" ng-show="modelInput.CustomerId!='-1'">{{CustIdText}}</span>
+                                    <label class="block clearfix">
+
+                                    </label>
+                                </h1>
+                            </div>-->
+                            <h4 class="blue-text" id="id-company-text"></h4>
+                        </div>
+                        <div class="position-relative">
+                            <div class="visible widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+    
+                                            <form (ngSubmit)="CheckCreditCardDet()" action="#">
+                                                <!--<fieldset>-->
+                                                    <div class="row">
+                                                        <div class="col s4">
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        {{RES.CHARGECREDIT_SCREEN.APP_LBL_CURR}}
+                                                                    </label>
+                                                                        <!--<span class="block">-->
+                                                                            <select style="width:100%" class="browser-default" label="Customer Type" [(ngModel)]="modelInput.oCurrency" required>
+
+                                                                                <!--<option selected="selected" value="">{{RES.CHARGECREDIT_SCREEN.APP_DP_CURR}}</option>-->
+                                                                                <option *ngFor="#DropObject of _Currency" value="{{DropObject.Value}}">
+                                                                                    {{DropObject.Text}}
+                                                                                </option>
+                                                                            </select>
+                                                                        <!--</span>-->
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <div *ngFor="#obj of _CreditTypes">
+                                                                        <!--<label class="block clearfix">-->
+                                                                            <input type="radio" class="form-control" name="CreditType" (change)="ChangeCreditType(obj)" 
+                                                                                    value="{{obj.Value}}" style="float:left;width:50px;" 
+                                                                                   id="CreditType_{{obj.Value}}" /> <!--id="{{obj.Value}}"-->
+                                                                            <label htmlFor="CreditType_{{obj.Value}}">{{obj.Text}}</label>
+
+                                                                        <!--</label>-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        {{RES.CHARGECREDIT_SCREEN.APP_LBL_CTYPE}}
+                                                                    </label>
+                                                                        <!--<span class="block">-->
+                                                                            <select style="width:100%;" class="browser-default" [(ngModel)]="modelInput.ChargeType" (change)="OpenDiv()" id="Chargetype" required>
+
+                                                                                <!--<option selected="selected" value="">{{RES.CHARGECREDIT_SCREEN.APP_DP_CTYPE}}</option>-->
+                                                                                <option *ngFor="#DropObject of _ChargeTypes" value="{{DropObject.Value}}">
+                                                                                    {{DropObject.Text}}
+                                                                                </option>
+                                                                            </select>
+
+                                                                        <!--</span>-->
+                                                                    
+
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <label>{{RES.CHARGECREDIT_SCREEN.APP_LBL_TERMNO}}</label>
+                                                                    <input type="text" id="TermNo" class="form-control" [(ngModel)]="modelInput.oTerminalNumber" readonly="readonly">
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <label>{{RES.CHARGECREDIT_SCREEN.APP_LBL_USERNAME}}</label>
+                                                                    <input type="text" id="USerName" class="form-control" [(ngModel)]="modelInput.ousername" readonly="readonly">
+                                                                    
+                                                                    </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col s8">
+                                                                    <div class="row">
+                                                                        
+                                                                        <div class="row">
+                                                                            <div class="col s9">
+                                                                                <label>{{RES.CHARGECREDIT_SCREEN.APP_LBL_CREDITNO}}</label>
+                                                                                <input class="form-control" id="CardNumber" type="number" [(ngModel)]="modelInput.oCardNumber" required maxlength="20" onKeyDown="if (this.value.length == 20 && event.keyCode != 8 && event.keyCode != 46&&event.keyCode!=9) return false;" />
+                                                                            
+                                                                                </div>
+                                                                            <div class="col s3">
+                                                                                <button type="button" class="btn waves-effect waves-light indigo" disabled="{{Isbtndisable}}" style="float:right; margin-right:20px;" (click)="ClearCardNo()">
+
+                                                                                    <span class="bigger-110">{{RES.CHARGECREDIT_SCREEN.APP_BTN_CLEAR}}</span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col s4">
+                                                                            <label>
+                                                                                {{RES.CHARGECREDIT_SCREEN.APP_LBL_MNTH}}
+                                                                            </label>
+                                                                            <!--<span class="block">-->
+                                                                            <select style="width:100%" class="browser-default" [(ngModel)]="modelInput.oCardValidityMonth" required>
+                                                                                <!--[(ngModel)]="modelInput.employeeid"-->
+                                                                                <!--<option value="" selected="selected">{{RES.CHARGECREDIT_SCREEN.APP_DP_MNTH}}</option>--> <!--Select Contact Employee-->
+                                                                                <option *ngFor="#obj of _Mnths" value="{{obj.Value}}">
+                                                                                    {{obj.Text}}
+                                                                                </option>
+                                                                            </select>
+                                                                            <!--</span>-->
+
+                                                                        </div>
+                                                                        <div class="col s4">
+                                                                            <label>
+                                                                                {{RES.CHARGECREDIT_SCREEN.APP_LBL_YR}}
+                                                                            </label>
+                                                                            <!--<span class="block">-->
+                                                                            <select style="width:100%" class="browser-default" [(ngModel)]="modelInput.oCardValidityYear" required>
+                                                                                <!--[(ngModel)]="modelInput.employeeid"-->
+                                                                                <!--<option value="" selected="selected">{{RES.CHARGECREDIT_SCREEN.APP_DP_YR}}</option>--> <!--Select Contact Employee-->
+                                                                                <option *ngFor="#obj of _Years" value="{{obj.Value}}">
+                                                                                    {{obj.Text}}
+                                                                                </option>
+                                                                            </select>
+                                                                            <!--</span>-->
+
+                                                                        </div>
+
+                                                                        <div class="col s4">
+                                                                            <label>
+                                                                                {{RES.CHARGECREDIT_SCREEN.APP_LBL_CVV}}
+                                                                            </label>
+                                                                                <!--<span class="block input-icon input-icon-right">-->
+                                                                                    <input type="number" class="form-control" [(ngModel)]="modelInput.CVV" maxlength="10" onKeyDown="if (this.value.length == 10 && event.keyCode != 8 && event.keyCode != 46&&event.keyCode!=9) return false;" />   <!-- (change)="CheckCustWithfnamelnamecompphsemails()"Last Name*-->
+
+                                                                                <!--</span>-->
+                                                                            
+                                                                        </div>
+                                                                        
+                                                                        </div>
+                                                                    <div class="col s12">
+                                                                        <label>
+                                                                            {{RES.CHARGECREDIT_SCREEN.APP_LBL_OWNERNAME}}
+                                                                        </label>
+                                                                            <!--<span class="block input-icon input-icon-right">-->
+                                                                                <input type="text" class="form-control" [(ngModel)]="modelInput.CustomerName" required maxlength="150" />
+                                                                            <!--</span>-->
+                                                                        
+                                                                    </div>
+                                                                    <div class="col s12">
+                                                                        <label class="block clearfix">
+                                                                            {{RES.CHARGECREDIT_SCREEN.APP_LBL_OWNERID}}
+                                                                        </label>
+                                                                            <!--<span class="block input-icon input-icon-right">-->
+                                                                                <input type="text" class="form-control" [(ngModel)]="modelInput.oCardOwnerId" maxlength="100" required (change)="ChangeOwnerId()" />
+                                                                            <!--</span>-->
+                                                                        
+                                                                    </div>
+                                                                    <div class="col s12">
+                                                                        <label class="block clearfix">
+                                                                            {{RES.CHARGECREDIT_SCREEN.APP_LBL_AMT}}..
+                                                                        </label>
+                                                                            <!--<span class="block input-icon input-icon-right">-->
+                                                                                <input type="number" class="form-control" [(ngModel)]="modelInput.oSumToBill" required maxlength="10" onKeyDown="if (this.value.length == 10 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9 || event.keyCode == 69) return false;" />
+
+                                                                            <!--</span>-->
+                                                                        
+                                                                    </div>
+                                                                    <div *ngIf="IsCreditNoOfPay==true">
+                                                                        <div class="row">
+                                                                            <div class="col s6">
+                                                                                <label>
+                                                                                    {{RES.CHARGECREDIT_SCREEN.APP_LBL_AMT_FRST_PAY}}
+                                                                                </label>
+                                                                                <!--<span class="block input-icon input-icon-right">-->
+                                                                                <input type="number" class="form-control" [(ngModel)]="modelInput.ofirstpaymentsum" maxlength="10" onKeyDown="if (this.value.length == 10 && event.keyCode != 8 && event.keyCode != 46&&event.keyCode!=9) return false;" (change)="CalculateConstPay()" />
+
+                                                                                <!--</span>-->
+
+                                                                            </div>
+                                                                            <div class="col s6">
+                                                                                <label>
+                                                                                    {{RES.CHARGECREDIT_SCREEN.APP_LBL_NO_OF_PAY}}
+                                                                                </label>
+                                                                                    <!--<span class="block input-icon input-icon-right">-->
+                                                                                    <input type="number" class="form-control" [(ngModel)]="modelInput.oNumOfPayments" maxlength="5" onKeyDown="if (this.value.length == 5 && event.keyCode != 8 && event.keyCode != 46&&event.keyCode!=9) return false;" (change)="CalculateConstPay()" />
+
+                                                                                    <!--</span>-->
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <label class="block clearfix" style="margin-left:10px;">
+                                                                                {{NumOfPaymentsText}}
+
+                                                                            </label>
+
+                                                                            <label class="block clearfix" style="margin-left:10px;">
+                                                                                {{RemPaymentsText}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col s12">
+                                                                            <label class="block clearfix">
+                                                                                {{RES.CHARGECREDIT_SCREEN.APP_LBL_AUTH_CODE}}
+                                                                            </label>
+                                                                                <!--<span class="block input-icon input-icon-right">-->
+                                                                                    <input type="text" class="form-control" [(ngModel)]="modelInput.oapprovalnumber" maxlength="50" />
+
+                                                                                <!--</span>-->
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col s12"  *ngIf="IsCreditCancel==true">
+                                                                            <label class="block clearfix">
+                                                                                {{RES.CHARGECREDIT_SCREEN.APP_LBL_PASSWORD}}
+                                                                            </label>
+                                                                                <!--<span class="block input-icon input-icon-right">-->
+                                                                                    <input type="password" class="form-control" [(ngModel)]="modelInput.ouserpassword" maxlength="50" />
+
+                                                                                <!--</span>-->
+                                                                            
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="row">
+                                                                <div class="col s6 offset-s4">
+
+                                                                    <button type="submit" class="btn waves-effect waves-light green accent-4" style="float:left" disabled="{{Isbtndisable}}">
+                                                                        
+                                                                        <span class="bigger-110">{{SAVE_BTN_TEXT}}</span>
+                                                                    </button>
+                                                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" style="float:left" disabled="{{Isbtndisable}}" (click)="CancelBtn()">
+                                                                        <i class="ace-icon fa"></i>
+                                                                        <span class="bigger-110">{{RES.CHARGECREDIT_SCREEN.APP_BTN_CANCEL}}</span>
+                                                                    </button>
+                                                                    <button type="button" class="btn waves-effect waves-light indigo" style="float:left" disabled="{{Isbtndisable}}" 
+                                                                            *ngIf="modelInputTemp.DealNumber!= undefined && modelInputTemp.DealNumber != null && modelInputTemp.oTerminalNumber != undefined && modelInputTemp.oTerminalNumber != null" 
+                                                                            (click)="PrintPrevData()">
+                                                                        <span class="bigger-110">{{RES.CHARGECREDIT_SCREEN.APP_BTN_PRINT}}</span>
+                                                                    </button>
+                                                                    <button type="button" class="btn waves-effect waves-light btn-default" (click)="OpenNewReceipt()" tabindex="47">
+                                                                        <span class="bigger-110">{{RES.CHARGECREDIT_SCREEN.APP_LBL_NEWRECEIPT}}</span>
+                                                                    </button>
+                                                                    <!--<button type="button" class="btn btn-sm btn-default"  style="float:left" disabled="{{Isbtndisable}}" (click)="SetdefaultPage()">
+                    <i class="ace-icon fa"></i>
+                    <span class="bigger-110">{{RES.CHARGECREDIT_SCREEN.APP_BTN_CANCEL}}</span>
+                </button>&nbsp;-->
+
+
+                                                                    <div *ngIf="ShowMsg==true" style="float:left" class="{{MsgClass}}">
+                                                                        
+                                                                        <strong>{{Msg}}</strong>
+                                                                    </div>
+                                                                    <img src="http://localhost:57998/Images/Loader2.gif" style="float:left" *ngIf="ShowLoader==true" />
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                            <!--</fieldset>-->
+                                                            <iframe id="ifr1" style="display:none;"></iframe>
+</form>
+</div>
+                                </div>
+                                <!-- /.widget-body -->
+                            </div>
+                            <!-- /.login-box -->
+                        </div>
+                        <!-- /.position-relative -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.main-content -->
+    </div>
+<style type="text/css">
+    input.ng-invalid.ng-touched,select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color:red;
+    }
+
+    input.ng-valid.ng-touched,select.ng-valid.ng-touched {
+        background-color: none;
+        border-color:none;
+    }
+</style>
+
+    <!-- /.main-container -->

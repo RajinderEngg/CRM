@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Transation XToken="XToken" SHash="SHash">
+  <Xql>
+    <Insert TableName="Customer" KeyName="KeyName">
+      <CustomerName>Nitesh Kumar Shaw</CustomerName>
+      <Email>nitesh_sahw@hotmail.com</Email>
+      <Address>193 New Mahesh serampore Hooghly.</Address>
+    </Insert>
+  </Xql>
+</Transation>
