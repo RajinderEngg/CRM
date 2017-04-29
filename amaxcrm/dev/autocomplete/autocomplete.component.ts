@@ -108,27 +108,30 @@ export class Autocomplete implements OnInit {
             // If singleWords, break model here to not be doing extra work on each iteration
             let normalizedQuery = (this.autocompleteLatinize ? AutocompleteUtils.latinize(this.cd.model) : this.cd.model).toString().toLowerCase();
             normalizedQuery = this.autocompleteSingleWords ? AutocompleteUtils.tokenize(normalizedQuery, this.autocompleteWordDelimiters, this.autocompletePhraseDelimiters) : normalizedQuery;
-            for (let i = 0; i < this.autocomplete.length; i++) {
-                let match:string;
+            
+            if (this.autocomplete != undefined) {
+                for (let i = 0; i < this.autocomplete.length; i++) {
+                    let match: string;
 
-                if (typeof this.autocomplete[i] === 'object' &&
-                    this.autocomplete[i][this.autocompleteOptionField]) {
-                    match = this.autocompleteLatinize ? AutocompleteUtils.latinize(this.autocomplete[i][this.autocompleteOptionField].toString()) : this.autocomplete[i][this.autocompleteOptionField].toString();
-                }
+                    if (typeof this.autocomplete[i] === 'object' &&
+                        this.autocomplete[i][this.autocompleteOptionField]) {
+                        match = this.autocompleteLatinize ? AutocompleteUtils.latinize(this.autocomplete[i][this.autocompleteOptionField].toString()) : this.autocomplete[i][this.autocompleteOptionField].toString();
+                    }
 
-                if (typeof this.autocomplete[i] === 'string') {
-                    match = this.autocompleteLatinize ? AutocompleteUtils.latinize(this.autocomplete[i].toString()) : this.autocomplete[i].toString();
-                }
+                    if (typeof this.autocomplete[i] === 'string') {
+                        match = this.autocompleteLatinize ? AutocompleteUtils.latinize(this.autocomplete[i].toString()) : this.autocomplete[i].toString();
+                    }
 
-                if (!match) {
-                    console.log('Invalid match type', typeof this.autocomplete[i], this.autocompleteOptionField);
-                    continue;
-                }
+                    if (!match) {
+                        console.log('Invalid match type', typeof this.autocomplete[i], this.autocompleteOptionField);
+                        continue;
+                    }
 
-                if (this.testMatch(match.toLowerCase(), normalizedQuery)) {
-                    this._matches.push(this.autocomplete[i]);
-                    if (this._matches.length > this.autocompleteOptionsLimit - 1) {
-                        break;
+                    if (this.testMatch(match.toLowerCase(), normalizedQuery)) {
+                        this._matches.push(this.autocomplete[i]);
+                        if (this._matches.length > this.autocompleteOptionsLimit - 1) {
+                            break;
+                        }
                     }
                 }
             }

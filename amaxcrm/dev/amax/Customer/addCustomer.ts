@@ -74,6 +74,7 @@ export class AmaxCustomers implements OnInit {
     KendoRTLCSS: string = "";
     CHANGEDIR: string = "";
     ChangeDialog: string = "";
+    IsPopUp: boolean = true;
     //IsFileAsSave: boolean = false;
     
     //Email: string = "";
@@ -187,7 +188,7 @@ export class AmaxCustomers implements OnInit {
       // if (SrchVal != undefined && SrchVal != null && SrchVal != "") {
 
        
-          // debugger;
+         // debugger;
        if (this._previousasyncSelectedCar == context.asyncSelectedCar) {
                //clearTimeout(this.StopTimeOut);
                return this._cachedResult;
@@ -248,7 +249,7 @@ export class AmaxCustomers implements OnInit {
         this.autocompleteSelect = true;
         console.log(`Selected value: ${e.item}`);
         var CompData = e.item.split('|');
-        //debugger;
+       // debugger;
         if (e.item != undefined && e.item != "" && e.item != null) {
             //alert(CompData[0]);
             this._customerService.GetCompleteCustDet(CompData[0].trim()).subscribe(response=> {
@@ -272,7 +273,7 @@ export class AmaxCustomers implements OnInit {
                     this.SAVE_BTN_TEXT = this.RES.CUSTOMER_MASTER.APP_BTN_UPDATE;
                     this.ADD_NEW_CUST_TEXT = this.RES.CUSTOMER_MASTER.APP_LBL_NEW_CUST;
                     this.CSSTEXT = "mdi-content-create";
-                    if (this.modelInput.CustomerEmails.length == 0) {
+                    if ( this.modelInput.CustomerEmails.length == 0) {
                         this.modelInput.CustomerEmails = [{ Email: "", EmailName: this.modelInput.FileAs, Newslettere: false }]
                     }
                     if (this.modelInput.CustomerPhones.length == 0) {
@@ -554,6 +555,8 @@ export class AmaxCustomers implements OnInit {
 
             }
         );
+
+        this.IsPopUp = true;
     }
     CancelFileAstxt() {
         this.IsFileAstxtShow = true;
@@ -852,6 +855,7 @@ export class AmaxCustomers implements OnInit {
                     this.TempmodelInput = response.Data;
                     this.modelInput = response.Data;
                     this.editCustDet(this.modelInput);
+                    //this.IsPopUp = true;
                     //this.SetdefaultPage();
                     // Reset form values
                     //this._CustTypes = response.Data;
@@ -881,82 +885,90 @@ export class AmaxCustomers implements OnInit {
     }
 
     CheckCustWithfnamelnamecompphsemails(): observable {
-        var jdata = JSON.stringify(this.modelInput);
-        //debugger;
-        var fname = "";
-        var lname = "";
-        var company = "";
-        var phones = "";
-        var emails = "";
-        
-        if (this.modelInput.fname == undefined)
-            fname = "";
-        else
-            fname = this.modelInput.fname;
+        if (this.IsPopUp == true) {
+            var jdata = JSON.stringify(this.modelInput);
+            //debugger;
+            var fname = "";
+            var lname = "";
+            var company = "";
+            var phones = "";
+            var emails = "";
 
-        if (this.modelInput.lname == undefined)
-            lname = "";
-        else
-            lname = this.modelInput.lname;
-        if (this.modelInput.Company == undefined)
-            company = "";
-        else
-            company = this.modelInput.Company;
-        
-        jQuery('input[name^="ph"]').each(function () {
-            
-            if (jQuery(this).val() != "" && jQuery(this).val() != undefined && jQuery(this).val() != null && jQuery(this).val().length>=3) {
-                phones += jQuery(this).val() + "','";
-            }
-        });
-        if (phones.length > 0) phones = phones.substring(0, phones.length - 3);
-        jQuery.each(this.modelInput.CustomerEmails, function () {
-            if (this.Email != "" && this.Email != undefined && this.Email != null && this.Email.length>=3) {
-                emails += this.Email+"','";
-            }
+            if (this.modelInput.fname == undefined)
+                fname = "";
+            else
+                fname = this.modelInput.fname;
 
-        });
-        if (emails.length > 0) emails = emails.substring(0, emails.length - 3);
-        if ((fname != "" && fname.length >= 2 && lname != "" && lname.length >= 2)
-            || (company != "" && company.length >= 3)
-            || (phones != "")
-            || (emails != "")) {
-            
-            this._customerService.GetCustomersSearchData(fname, lname, company, phones, emails).subscribe(response=> {
-                //debugger;
-                response = jQuery.parseJSON(response);
-                if (response.IsError == true) {
-                    bootbox.alert({
-                        message: response.ErrMsg, className: this.ChangeDialog,
-                        buttons: {
-                            ok: {
-                                //label: 'Ok',
-                                className: this.CHANGEDIR
-                            }
-                        }
-                    });
+            if (this.modelInput.lname == undefined)
+                lname = "";
+            else
+                lname = this.modelInput.lname;
+            if (this.modelInput.Company == undefined)
+                company = "";
+            else
+                company = this.modelInput.Company;
+
+            jQuery('input[name^="ph"]').each(function () {
+
+                if (jQuery(this).val() != "" && jQuery(this).val() != undefined && jQuery(this).val() != null && jQuery(this).val().length >= 3) {
+                    phones += jQuery(this).val() + "','";
                 }
-                else {
-                    this.CustList = {};
-                    this.CustList = response.Data;
-                    if (response.Data != null && response.Data != undefined) {
-                        this.custSearchData = response.Data;
-                        jQuery('#CustModal').openModal()
-                        //jQuery('#CustModal').modal('open');
-                        //jQuery("#CustModal").show(1000);
-                    }
-                    //alert(this.RES);
-                }
-            }, error=> {
-                console.log(error);
-            }, () => {
-                console.log("CallCompleted")
             });
+            if (phones.length > 0) phones = phones.substring(0, phones.length - 3);
+            jQuery.each(this.modelInput.CustomerEmails, function () {
+                if (this.Email != "" && this.Email != undefined && this.Email != null && this.Email.length >= 3) {
+                    emails += this.Email + "','";
+                }
+
+            });
+            if (emails.length > 0) emails = emails.substring(0, emails.length - 3);
+            if ((fname != "" && fname.length >= 2 && lname != "" && lname.length >= 2)
+                || (company != "" && company.length >= 3)
+                || (phones != "")
+                || (emails != "")) {
+
+                this._customerService.GetCustomersSearchData(fname, lname, company, phones, emails).subscribe(response=> {
+                    //debugger;
+                    response = jQuery.parseJSON(response);
+                    if (response.IsError == true) {
+                        bootbox.alert({
+                            message: response.ErrMsg, className: this.ChangeDialog,
+                            buttons: {
+                                ok: {
+                                    //label: 'Ok',
+                                    className: this.CHANGEDIR
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        this.CustList = {};
+                        this.CustList = response.Data;
+                        if (response.Data != null && response.Data != undefined) {
+                            this.custSearchData = response.Data;
+                            jQuery('#CustModal').openModal()
+                            //jQuery('#CustModal').modal('open');
+                            //jQuery("#CustModal").show(1000);
+                        }
+                        //alert(this.RES);
+                    }
+                }, error=> {
+                    console.log(error);
+                }, () => {
+                    console.log("CallCompleted")
+                });
+            }
         }
         //this.bindFileAs();
     }
-
-
+    CloseModalPop() {
+        this.ClosePopUp();
+        this.IsPopUp = false;
+    }
+    ClosePopUp() {
+        jQuery("#CustModal").closeModal();
+        jQuery(".lean-overlay").css({ "display": "none" });
+    }
 
     CheckCustWithfnamelname(fname, lname,company): observable {
         var jdata = JSON.stringify(this.modelInput);
@@ -1203,7 +1215,7 @@ export class AmaxCustomers implements OnInit {
     AddPhones(phoneObj): observable {
         if (this.CanaddPhone(phoneObj)) {
 
-            debugger;
+           // debugger;
             //if (this.IsRecordEditMode == false) {
             var phid = "";
             var SMS = 0;
@@ -1413,6 +1425,11 @@ export class AmaxCustomers implements OnInit {
         }, () => {
             console.log("CallCompleted")
         });
+
+        this.ClosePopUp();
+        //////For Closing Display Popup/////////////
+        this.IsPopUp = false;
+
     }
     CheckPhoneType(PhoneObj) {
         //debugger;
@@ -1746,6 +1763,7 @@ export class AmaxCustomers implements OnInit {
         });
     }
     ngOnInit() {
+        jQuery(".lean-overlay").css({ "display": "none" });
         this.BindCustTitles();
        // debugger;
         //bootbox.alert("This is the default alert!");

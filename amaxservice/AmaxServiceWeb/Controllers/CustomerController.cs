@@ -831,6 +831,58 @@ namespace AmaxServiceWeb.Controllers
             
             return returnObj;
         }
+
+        [HttpGet]
+        [Security]
+        public ResponseData GetCustomerListForQuickSearch(string SrchVal)
+        {
+
+            ResponseData returnObj = new ResponseData();
+            try
+            {
+                if (string.IsNullOrEmpty(SrchVal) == false)
+                {
+                    CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                    List<CustomersModel> CustList = CustHP.GetCustomerListForSrch(SrchVal);
+                    List<string> FinalCustList = new List<string>();
+                    //foreach (var CustObj in CustList)
+                    //{
+                    //    FinalCustList.Add(CustObj.jobtitlePartner);
+                    //}
+                    returnObj.Data = CustList.Distinct().ToList();//CustHP.GetCustomerListForSrch(SrchVal);
+                    returnObj.IsError = false;
+                    returnObj.ErrMsg = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                returnObj.Data = null;
+                returnObj.IsError = true;
+                returnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                LogHistObj.Error = ex.Message;
+                LogHistObj.ExcLine = frame.GetFileLineNumber();
+                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                LogHistObj.Action = "GetCustomerListForSearch";
+                LogHistObj.FullDescription = ex.ToString();
+                LogHistObj.ExeptionType = "ERROR";
+                LogHistObj.APIVersion = AppConfig.APIVersion;
+                LogHistObj.FromPage = "Customer Controller";
+                LogHistObj.OnDate = System.DateTime.Now;
+                LogHistObj.ex = ex;
+                SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+
+            return returnObj;
+        }
+
+
         [HttpGet]
         [Security]
         public ResponseData GetCustomerCreditCardDet(int CustomerId, int customercreditCardid)

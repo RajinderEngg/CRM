@@ -112,8 +112,8 @@ width:100%;
                                             <div class="row">
                                                 <div class="input-field col s6 l4 m4">
 
-                                                    <i class="mdi-action-search small prefix"></i>
-                                                    <input type="text" id="CustId" placeholder="{{RES.SCREEN_RECEIPTCREATE.PH_CUSTOMERID}}" [(ngModel)]="modelInput.CustomerId" (change)="GetReceipts()" />
+                                                    <i class="mdi-action-search small prefix"  (click)="OpenCustSearch()"></i>
+                                                    <input type="text" id="CustId" placeholder="{{RES.SCREEN_RECEIPTCREATE.PH_CUSTOMERID}}" [(ngModel)]="modelInput.CustomerId" />   <!--(change)="GetReceipts()"-->
                                                     <label for="CustId" class="active">{{RES.SCREEN_RECEIPTCREATE.LBL_TXT_TO}}</label>
 
                                                 </div>
@@ -122,6 +122,28 @@ width:100%;
                                                     <label for="CustomerName" class="active">{{RES.SCREEN_RECEIPTCREATE.LBL_TXT_CUSTOMERNAME}}</label>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col s12 l3 m6">
+                                                    <div id="CustSearchModal" class="modal">
+                                                        <div class="modal-content">
+                                                            <!--<h6>{{RES.SCREEN_RECEIPTCREATE.HEADER_TXT_CUSTOMERNOTE}}</h6>
+                                                            <ul>
+                                                                <li *ngFor="#obj of _CustomerNotes">
+                                                                    <a class="modal-close blue-text" href="javascript:void(0)" (click)="ChooseNote(obj)" data-dismiss="modal" tabindex="49">{{obj.Text}}</a>
+                                                                </li>
+                                                            </ul>-->
+                                                            <!--</div>-->
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="waves-effect waves-red btn-flat modal-action modal-close {{CHANGEDIR}}">{{RES.SCREEN_RECEIPTCREATE.ANCHOR_TXT_CLOSE}}</a>
+                                                            <!--<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
                                             <!--Addresses-->
                                             <div class="row">
                                                 <div class="input-field col s12 l8 m8">
@@ -154,7 +176,7 @@ width:100%;
                                             <div class="row">
                                                 <div class="col s12 l3 m6">
                                                     <div id="NoteModal" class="modal">
-                                                        <div class="modal-content">
+                                                        <div class="modal-content col s12 l12 m12" >
                                                             <h6>{{RES.SCREEN_RECEIPTCREATE.HEADER_TXT_CUSTOMERNOTE}}</h6>
                                                             <ul>
                                                                 <li *ngFor="#obj of _CustomerNotes">

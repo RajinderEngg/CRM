@@ -326,45 +326,81 @@ namespace AmaxService.HelperClasses
                     }
                     if (IsNumber == true)
                     {
-                        Query = "select top 30 Customers.CustomerId as CustomerId,FileAs,fname,lname,middlename,Phone,customercode,customercode2 from Customers left outer join " +
-                        " CustomerPhones on Customers.CustomerId = CustomerPhones.CustomerId " +
-                        " where 1=1 or (customers.CustomerId =" + SrchVal + " or customercode like'%" + SrchVal + "%' or customercode2 like '%" + SrchVal +
-                        "%' or Phone like '%" + SrchVal + "%') order by Customers.CustomerId,customercode,customercode2,Phone ";
+                        Query = "select top 30 Customers.CustomerId as CustomerId,Customers.FileAs as FileAs,Customers.customercode as customercode,Customers.customercode2 as customercode2,Phone from Customers left outer join " +
+                        " CustomerPhones on Customers.CustomerId = CustomerPhones.CustomerId left outer join" +
+                        " Reciepts on Reciepts.CustomerId=Customers.CustomerId left outer join " +
+                        " RecieptLine on RecieptLine.RecieptNo=Reciepts.RecieptNo " +
+                        " where 1=1 or (customers.CustomerId =" + SrchVal + " or Customers.customercode like '%" + SrchVal + "%' or Customers.customercode2 like '%" + SrchVal +
+                        "%' or Phone like '%" + SrchVal + "%' or Reciepts.RecieptNo like '%"+ SrchVal + "%' or Reciepts.Credit4Digit like '%"+SrchVal+ "%' or RecieptLine.CheckNo like '%"+SrchVal+ "%' )  group by Customers.CustomerId,Customers.FileAs,Customers.customercode,Customers.customercode2,Phone order by Customers.CustomerId,Customers.customercode,Customers.customercode2,Phone ";
                         DataSet ds = db.GetDataSet(Query, null, false);
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        //bool IsDup = false;
+                        //foreach (var DupCustObj in returnObj)
+                        //{
+                        //    if (DupCustObj.CustomerId == Convert.ToInt32(ds.Tables[0].Rows[i]["CustomerId"]))
+                        //    {
+                        //        IsDup = true;
+                        //        break;
+                        //    }
+                        //}
+                        //if (IsDup == false)
+                        //{
                             CustomersModel CustObj = new CustomersModel();
                             CustObj.CustomerId = Convert.ToInt32(ds.Tables[0].Rows[i]["CustomerId"]);
-                            CustObj.fname = Convert.ToString(ds.Tables[0].Rows[i]["fname"]);
-                            CustObj.MiddleName = Convert.ToString(ds.Tables[0].Rows[i]["MiddleName"]);
-                            CustObj.lname = Convert.ToString(ds.Tables[0].Rows[i]["lname"]);
+                            //CustObj.fname = Convert.ToString(ds.Tables[0].Rows[i]["fname"]);
+                            //CustObj.MiddleName = Convert.ToString(ds.Tables[0].Rows[i]["MiddleName"]);
+                            //CustObj.lname = Convert.ToString(ds.Tables[0].Rows[i]["lname"]);
                             CustObj.FileAs = Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
                             CustObj.jobtitlePartner = Convert.ToString(ds.Tables[0].Rows[i]["CustomerId"]) + " | " + //Convert.ToString(ds.Tables[0].Rows[i]["Phone"]) + " | " +
-                                                                                                                     //Convert.ToString(ds.Tables[0].Rows[i]["customercode"]) + " | "+ Convert.ToString(ds.Tables[0].Rows[i]["customercode2"])+" | "+
-                                                     Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
+                            //Convert.ToString(ds.Tables[0].Rows[i]["customercode"]) + " | "+ Convert.ToString(ds.Tables[0].Rows[i]["customercode2"])+" | "+
+                            Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
                             returnObj.Add(CustObj);
-                        }
+                        //}
+                    }
                     }
                     else
                     {
-                        Query = "select top 30 Customers.CustomerId as CustomerId,fname,lname,middlename,FileAs,spousename,company from Customers" +
-                            " where fileas like '" + SrchVal + "%' or fileas like '%" + SrchVal + "%' or SpouseName='" + SrchVal + "'" +
-                            " or Company='" + SrchVal + "' or fname='" + SrchVal + "' or lname='" + SrchVal + "' " +
-                            " order by fileas,spousename,company,fname,lname";
-                        DataSet ds = db.GetDataSet(Query, null, false);
+                        //Query = "select top 30 Customers.CustomerId as CustomerId,Customers.FileAs as FileAs,Customers.fname as fname,Customers.lname as lname,Customers.middlename as middlename,Customers.customercode as customercode,Customers.customercode2 as customercode2,Customers.spousename as spousename,Customers.company as company from Customers left outer join " +
+                        //" Reciepts on Reciepts.CustomerId=Customers.CustomerId left outer join " +
+                        //" RecieptLine on RecieptLine.RecieptNo=Reciepts.RecieptNo " +
+                        //    " where fileas like '" + SrchVal + "%' or fileas like '%" + SrchVal + "%' or SpouseName='" + SrchVal + "'" +
+                        //    " or Customers.Company='" + SrchVal + "' or Customers.fname='" + SrchVal + "' or Customers.lname='" + SrchVal + "' or RecieptLine.CheckNo like '%" + SrchVal + "%' " +
+                        //    " order by Customers.fileas,Customers.spousename,Customers.company,Customers.fname,Customers.lname";
+
+
+                    Query = "select top 30 Customers.CustomerId as CustomerId,Customers.FileAs as FileAs,Customers.spousename as spousename,Customers.company as company,Customers.fname as fname,Customers.lname as lname from Customers left outer join " +
+                       " Reciepts on Reciepts.CustomerId=Customers.CustomerId left outer join " +
+                       " RecieptLine on RecieptLine.RecieptNo=Reciepts.RecieptNo " +
+                           " where fileas like '" + SrchVal + "%' or fileas like '%" + SrchVal + "%' or SpouseName='" + SrchVal + "'" +
+                           " or Customers.Company='" + SrchVal + "' or Customers.fname='" + SrchVal + "' or Customers.lname='" + SrchVal + "' or RecieptLine.CheckNo like '%" + SrchVal + "%' " +
+                           " group by Customers.CustomerId,Customers.FileAs,Customers.spousename,Customers.company,Customers.fname,Customers.lname order by Customers.fileas,Customers.spousename,Customers.company,Customers.fname,Customers.lname";
+                    DataSet ds = db.GetDataSet(Query, null, false);
                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
+                        //bool IsDup = false;
+                        //foreach (var DupCustObj in returnObj)
+                        //{
+                        //    if (DupCustObj.CustomerId == Convert.ToInt32(ds.Tables[0].Rows[i]["CustomerId"]))
+                        //    {
+                        //        IsDup = true;
+                        //        break;
+                        //    }
+                        //}
+                        //if (IsDup == false)
+                        //{
                             CustomersModel CustObj = new CustomersModel();
                             CustObj.CustomerId = Convert.ToInt32(ds.Tables[0].Rows[i]["CustomerId"]);
-                            CustObj.fname = Convert.ToString(ds.Tables[0].Rows[i]["fname"]);
-                            CustObj.MiddleName = Convert.ToString(ds.Tables[0].Rows[i]["MiddleName"]);
-                            CustObj.lname = Convert.ToString(ds.Tables[0].Rows[i]["lname"]);
+                            //CustObj.fname = Convert.ToString(ds.Tables[0].Rows[i]["fname"]);
+                            //CustObj.MiddleName = Convert.ToString(ds.Tables[0].Rows[i]["MiddleName"]);
+                            //CustObj.lname = Convert.ToString(ds.Tables[0].Rows[i]["lname"]);
                             CustObj.FileAs = Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
                             CustObj.jobtitlePartner = Convert.ToString(ds.Tables[0].Rows[i]["CustomerId"]) + " | " + //Convert.ToString(ds.Tables[0].Rows[i]["lname"]) + " | " +
-                                                                                                                     //Convert.ToString(ds.Tables[0].Rows[i]["fname"]) + " | "+ Convert.ToString(ds.Tables[0].Rows[i]["spousename"]) + " | " +
-                                                                                                                     //Convert.ToString(ds.Tables[0].Rows[i]["company"]) + " | " + 
-                                                     Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
+                            //Convert.ToString(ds.Tables[0].Rows[i]["fname"]) + " | "+ Convert.ToString(ds.Tables[0].Rows[i]["spousename"]) + " | " +
+                            //Convert.ToString(ds.Tables[0].Rows[i]["company"]) + " | " + 
+                            Convert.ToString(ds.Tables[0].Rows[i]["FileAs"]);
                             returnObj.Add(CustObj);
+                        //}
                         }
                     }
                 }

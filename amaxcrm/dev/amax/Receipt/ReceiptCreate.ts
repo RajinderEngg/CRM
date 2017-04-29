@@ -45,7 +45,7 @@ export class AmaxReceiptCreate implements OnInit {
     ShowMore: boolean = false;
     IsBankDetShow: boolean = false;
     DefaultDate: string = "";
-    
+    IPopUpOpen: boolean = false;
     static $inject = ['$scope', '$location', '$anchorScroll'];
    // @ViewChild('RTLDiv') private myScrollContainer: ElementRef;
     constructor(private _resourceService: ResourceService, private _RecieptService: RecieptService, private _CustomerService: CustomerService, private _routeParams: RouteParams, private _ChargeCreditService: ChargeCreditService) {
@@ -55,6 +55,7 @@ export class AmaxReceiptCreate implements OnInit {
         //this.modelInput.AddModel = {};
         this.modelInput.ReceiptLines = [];
         
+        this.IPopUpOpen = false;
         this.IsBankDetShow = false;
         this.modelInput.ReceiptTypeId = _routeParams.params.ReceiptTypeId;
         //this.baseUrl = "http://localhost:3000/#/";
@@ -137,7 +138,130 @@ export class AmaxReceiptCreate implements OnInit {
             dataobj.IsCreditShow = false;
         }
     }
+    setdefaultmode() {
+        //document.location = this.baseUrl + "ReceiptCreate/" + this.modelInput.CustomerId + " /" + this.modelInput.ReceiptId;
+        this.IPopUpOpen = false;
+        this.RowCount = 0;
+        window.scrollTo(0, 0);
+        var _ReceiptTypeId = this.modelInput.ReceiptTypeId
+        var PrevReceiptType = this.modelInput.RecieptType;
+
+        var CustId = this.modelInput.CustomerId;
+        var CustName = this.modelInput.CustomerName;
+        var addressId = this.modelInput.AddressId;
+        var thnkLetterId = this.modelInput.ThanksLetterId;
+        var PrintValueDate = this.modelInput.ValueDate;
+        var associationName = this.modelInput.associationName;
+        var PrinterId = this.modelInput.PrinterId;
+        var associationid = this.modelInput.associationId;
+        this.modelInput = {};
+        this.modelInput.CustomerId = CustId;
+        this.modelInput.CustomerName = CustName;
+        
+        this.modelInput.AddressId = addressId;
+        this.modelInput.associationName = associationName;
+        
+        this.modelInput.ThanksLetterId = thnkLetterId;
+        this.modelInput.PrintValueDate = PrintValueDate;
+        this.modelInput.ReceiptTypeId = _ReceiptTypeId;
+        this.modelInput.PrinterId = PrinterId;
+        this.modelInput.associationId = associationid;
+        this.modelInput.ReceiptLines = [];
+        var DupObj = {
+            Amount: 0, ValueDate: this.DefaultDate, PayTypeId: 1, AccountId: "", AccountNo: "",
+            BranchNo: "", Bank: "", CreditCardType: "", DonationTypeId: "", ProjectCategoryId: "", ProjectId: "", ReferenceDate: this.DefaultDate,
+            For_Invoice: "", RecievedCustId: CustId, Payed: false, DepositeRemark: "", ShowMore: false, ShowMoreText: "More",
+            CashCSS: "grey", CreditCSS: "white", BankCSS: "white", OtherCSS: "white", IsShowOthers: false, IsCreditShow: false, IsBankDetShow: false
+        };
+
+        this.modelInput.ReceiptLines.push(DupObj);
+        //this.GetCustomerDetail(CustId);
+                            
+        //this.modelInput.RecieptType = PrevReceiptType;
+        this._RecieptService.GetRecieptType(this._routeParams.params.ReceiptTypeId).subscribe(resp=> {
+            // debugger;
+            var response = jQuery.parseJSON(resp);
+            if (response.IsError == true) {
+                bootbox.alert({
+                    message: response.ErrMsg,
+                    className: this.ChangeDialog,
+                    buttons: {
+                        ok: {
+                            //label: 'Ok',
+                            className: this.CHANGEDIR
+                        }
+                    }
+                });
+            }
+            else {
+                this.modelInput.RecieptType = response.Data[0].RecieptNameEng;
+                this.modelInput.CurrencyId = response.Data[0].CurrencyId;
+
+            }
+        }, error=> {
+            console.log(error);
+        }, () => {
+            console.log("CallCompleted")
+        });
+        // this.IsBankDetShow = false;
+
+        this._RecieptService.GetEmployee().subscribe(resp=> {
+            //debugger;
+            var response = jQuery.parseJSON(resp);
+            if (response.IsError == true) {
+                bootbox.alert({
+                    message: response.ErrMsg,
+                    className: this.ChangeDialog,
+                    buttons: {
+                        ok: {
+                            //label: 'Ok',
+                            className: this.CHANGEDIR
+                        }
+                    }
+                });
+            }
+            else {
+                //debugger;
+                this.modelInput.EmployeeId = response.Data[0].Value;
+                this.modelInput.EmployeeName = response.Data[0].Text;
+
+            }
+        }, error=> {
+            console.log(error);
+        }, () => {
+            console.log("CallCompleted")
+        });
+
+        this._RecieptService.GetReceiptDetail().subscribe(resp=> {
+            // debugger;
+            var response = jQuery.parseJSON(resp);
+            if (response.IsError == true) {
+                bootbox.alert({
+                    message: response.ErrMsg,
+                    className: this.ChangeDialog,
+                    buttons: {
+                        ok: {
+                            //label: 'Ok',
+                            className: this.CHANGEDIR
+                        }
+                    }
+                });
+            }
+            else {
+                this.modelInput.RecieptNo = response.Data.Value;
+                this.modelInput.RecieptDate = response.Data.Text;
+
+            }
+        }, error=> {
+            console.log(error);
+        }, () => {
+            console.log("CallCompleted")
+        });
+    }
     saveReceiptData(IsExit) {
+        debugger;
+        //if (this.IPopUpOpen == false)
+        //{
         var EmpName = jQuery("#EmpId").val();
         this._RecieptService.GetEmployeeFromEmpName(EmpName).subscribe(resp=> {
             //debugger;
@@ -184,13 +308,13 @@ export class AmaxReceiptCreate implements OnInit {
             
             for (var cnt in this.modelInput.ReceiptLines) // for acts as a foreach
             {
-                var ErrorMessage = "Row Number - " + (cnt+1) + " is not valid <br>" ;
+                var ErrorMessage = "Row Number - " + (cnt + 1) + " is not valid <br>";
                 if (this.ValidateRowModel(this.modelInput.ReceiptLines[cnt], ErrorMessage) == false) {
                     CheckRowValid = false;
                     break;
                 }
             }
-            
+
             if (CheckRowValid == true) {
 
                 var jdata = JSON.stringify(this.modelInput);
@@ -199,7 +323,7 @@ export class AmaxReceiptCreate implements OnInit {
                     console.log(response);
                     response = jQuery.parseJSON(response);
                     this.Isbtndisable = "";
-                    
+
                     if (response.IsError == true) {
                         alert(response.ErrMsg);
                         this.MsgClass = "text-danger";
@@ -215,128 +339,15 @@ export class AmaxReceiptCreate implements OnInit {
                                 }
                             }
                         });
-                        debugger;
+                        this._resourceService.deleteCookie("ReceiptCreate_Cache");
+                        
                         if (IsExit == true) {
                             document.location = this.baseUrl + "ReceiptSelect/" + this.modelInput.EmployeeId + " /" + this.modelInput.CustomerId;
                         }
                         else {
-                            //document.location = this.baseUrl + "ReceiptCreate/" + this.modelInput.CustomerId + " /" + this.modelInput.ReceiptId;
-                            this.RowCount = 0;
-                            window.scrollTo(0, 0);
-                            var _ReceiptTypeId =   this.modelInput.ReceiptTypeId
-                            var PrevReceiptType = this.modelInput.RecieptType;
-
-                            var CustId = this.modelInput.CustomerId;
-                            var CustName = this.modelInput.CustomerName;
-                            var addressId = this.modelInput.AddressId;
-                            var thnkLetterId = this.modelInput.ThanksLetterId;
-                            var PrintValueDate = this.modelInput.ValueDate;
-                            var associationName = this.modelInput.associationName;
-                            var PrinterId = this.modelInput.PrinterId;
-                            var associationid = this.modelInput.associationId;
-                            this.modelInput = {};
-                            this.modelInput.CustomerId = CustId;
-                            this.modelInput.CustomerName = CustName;
-                            this.CustId = response.CustomerId;
-                            this.modelInput.AddressId = addressId;
-                            this.modelInput.associationName = associationName;
+                            this.setdefaultmode();
                             this.modelInput.PrintRecieptNo = response.Data.RecieptNo;
-                            this.modelInput.ThanksLetterId = thnkLetterId;
-                            this.modelInput.PrintValueDate = PrintValueDate;
-                            this.modelInput.ReceiptTypeId = _ReceiptTypeId;
-                            this.modelInput.PrinterId = PrinterId;
-                            this.modelInput.associationId = associationid;
-                            this.modelInput.ReceiptLines = [];
-                            var DupObj = {
-                                Amount: 0, ValueDate: this.DefaultDate, PayTypeId: 1, AccountId: "", AccountNo: "",
-                                BranchNo: "", Bank: "", CreditCardType: "", DonationTypeId: "", ProjectCategoryId: "", ProjectId: "", ReferenceDate: this.DefaultDate,
-                                For_Invoice: "", RecievedCustId: CustId, Payed: false, DepositeRemark: "", ShowMore: false, ShowMoreText: "More",
-                                CashCSS: "grey", CreditCSS: "white", BankCSS: "white", OtherCSS: "white", IsShowOthers: false, IsCreditShow: false, IsBankDetShow: false
-                            };
-
-                            this.modelInput.ReceiptLines.push(DupObj);
-                            //this.GetCustomerDetail(CustId);
-                            
-                            //this.modelInput.RecieptType = PrevReceiptType;
-                            this._RecieptService.GetRecieptType(this._routeParams.params.ReceiptTypeId).subscribe(resp=> {
-                                // debugger;
-                                var response = jQuery.parseJSON(resp);
-                                if (response.IsError == true) {
-                                    bootbox.alert({
-                                        message: response.ErrMsg,
-                                        className: this.ChangeDialog,
-                                        buttons: {
-                                            ok: {
-                                                //label: 'Ok',
-                                                className: this.CHANGEDIR
-                                            }
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.modelInput.RecieptType = response.Data[0].RecieptNameEng;
-                                    this.modelInput.CurrencyId = response.Data[0].CurrencyId;
-
-                                }
-                            }, error=> {
-                                console.log(error);
-                            }, () => {
-                                console.log("CallCompleted")
-                            });
-                           // this.IsBankDetShow = false;
-
-                            this._RecieptService.GetEmployee().subscribe(resp=> {
-                                //debugger;
-                                var response = jQuery.parseJSON(resp);
-                                if (response.IsError == true) {
-                                    bootbox.alert({
-                                        message: response.ErrMsg,
-                                        className: this.ChangeDialog,
-                                        buttons: {
-                                            ok: {
-                                                //label: 'Ok',
-                                                className: this.CHANGEDIR
-                                            }
-                                        }
-                                    });
-                                }
-                                else {
-                                    //debugger;
-                                    this.modelInput.EmployeeId = response.Data[0].Value;
-                                    this.modelInput.EmployeeName = response.Data[0].Text;
-
-                                }
-                            }, error=> {
-                                console.log(error);
-                            }, () => {
-                                console.log("CallCompleted")
-                            });
-
-                            this._RecieptService.GetReceiptDetail().subscribe(resp=> {
-                                // debugger;
-                                var response = jQuery.parseJSON(resp);
-                                if (response.IsError == true) {
-                                    bootbox.alert({
-                                        message: response.ErrMsg,
-                                        className: this.ChangeDialog,
-                                        buttons: {
-                                            ok: {
-                                                //label: 'Ok',
-                                                className: this.CHANGEDIR
-                                            }
-                                        }
-                                    });
-                                }
-                                else {
-                                    this.modelInput.RecieptNo = response.Data.Value;
-                                    this.modelInput.RecieptDate = response.Data.Text;
-
-                                }
-                            }, error=> {
-                                console.log(error);
-                            }, () => {
-                                console.log("CallCompleted")
-                            });
+                            this.CustId = response.CustomerId;
                         }
                     }
 
@@ -363,6 +374,7 @@ export class AmaxReceiptCreate implements OnInit {
                 msg += "<br>Please enter valid employee";
             }
             if (this.modelInput.ThanksLetterId == null || this.modelInput.ThanksLetterId == "" || this.modelInput.ThanksLetterId == undefined) {
+                msg += this.modelInput.ThanksLetterId;
                 msg += "<br>Please select print template";
             }
             if (this.modelInput.PrinterId == null || this.modelInput.PrinterId == "" || this.modelInput.PrinterId == undefined) {
@@ -385,10 +397,11 @@ export class AmaxReceiptCreate implements OnInit {
                 }
             });
         }
+    //}
     }
 
     delModel(ModelObj): observable {
-        //debugger;
+        debugger;
         if (this.modelInput.ReceiptLines.length > 1) {
             var index = 0;
             jQuery.each(this.modelInput.ReceiptLines, function () {
@@ -620,8 +633,33 @@ export class AmaxReceiptCreate implements OnInit {
             this.BindTotal();
         }
     }
+    OpenCustSearch() {
+        this.IPopUpOpen = true;
+        localStorage.setItem("TempReceiptId", this.modelInput.ReceiptTypeId);
+
+        if (this.modelInput != undefined && this.modelInput != null) {
+            var jdata = JSON.stringify(this.modelInput);
+            this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
+        }
+        document.location = this.baseUrl + "Customer/Search/0/ReceiptCreate";
+        //jQuery('#CustSearchModal  .modal-content').html('<object data="' + this.baseUrl+'Customer/Search/1/ReceiptCreate" style="width:100%;height:500px"/>');
+        //jQuery('#CustSearchModal').openModal();
+
+    }
     OpenNotes() {
-        jQuery('#NoteModal').openModal();
+
+        //debugger;
+        //if (this.IPopUpOpen == false) {
+            jQuery('#NoteModal').openModal();
+        //}
+        //else {
+        //    this.modelInput.CustomerId = this._routeParams.params.Id;
+        //    window.open(this.baseUrl + "ReceiptCreate/" + this.modelInput.CustomerId + "/" + this.modelInput.ReceiptTypeId, "_self");
+            
+        //    jQuery('#CustSearchModal').closeModal();
+        //    jQuery(".lean-overlay").css({ "display": "none" });
+        //    this.setdefaultmode();
+        //}
     }
     OpenTemplates() {
         jQuery('#TemplateModal').openModal();
@@ -797,8 +835,20 @@ export class AmaxReceiptCreate implements OnInit {
         });
     }
     ngOnInit() {
+        
+        //jQuery(".lean-overlay").css({ "display": "none" });
+        jQuery("#NoteModal").closeModal();
+        jQuery(".lean-overlay").css({ "display": "none" });
         window.scrollTo(0, 0);
-     
+        debugger;
+
+        var jdata = this._resourceService.getCookie("ReceiptCreate_Cache");
+        if (jdata != undefined && jdata != undefined && jdata != "") {
+            jdata = jdata.substring(1, jdata.length);
+            this.modelInput = jQuery.parseJSON(jdata);
+            this.modelInput.CustomerId = this._routeParams.params.Id;
+            this.GetCustomerDetail();
+        }
       //  alert("ddd");
         this.Lang = localStorage.getItem("lang");
         this._resourceService.GetLangRes(this.Formtype, this.Lang).subscribe(response=> {

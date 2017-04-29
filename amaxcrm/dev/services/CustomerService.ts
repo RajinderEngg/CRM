@@ -210,6 +210,12 @@ export class CustomerService {
             { headers: this.getHeader() }
         ).map(res=> res.text());
     }
+    public GetCompleteQuickSearch(SrchVal: any): Observable {
+        return this.http.get(
+            this.baseUrl + "Customer/GetCustomerListForQuickSearch?SrchVal=" + SrchVal,
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
     public CheckIsOpenCharge(): Observable {
         return this.http.get(
             this.baseUrl + "Dropdown/BindTerminalList",

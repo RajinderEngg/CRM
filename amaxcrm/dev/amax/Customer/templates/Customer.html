@@ -719,7 +719,7 @@
                                                                         <td>{{obj.fname}}</td>
                                                                         <td>{{obj.MiddleName}}</td>
                                                                         <td>{{obj.FileAs}}</td>
-                                                                        <td><a class="blue-text" (click)="editCustDet(obj)" data-dismiss="modal" tabindex="49"><i class="small mdi-content-create blue-text"></i></a></td>
+                                                                        <td><a class="modal-action modal-close blue-text" (click)="editCustDet(obj)" data-dismiss="modal" tabindex="49"><i class="small mdi-content-create blue-text"></i></a></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -728,8 +728,8 @@
                                                     <!--</div>-->
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <a class="waves-effect waves-red btn-flat modal-action modal-close {{CHANGEDIR}}">Close</a>
-                                                    <!--<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>-->
+                                                    <a class="waves-effect waves-red btn-flat {{CHANGEDIR}}" (click)="CloseModalPop()">Close</a>
+                                                    <!--<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>    modal-action modal-close-->
                                                 </div>
                                             </div>
 

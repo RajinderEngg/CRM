@@ -1,4 +1,4 @@
-///<reference path="services/AmaxService.ts"/>
+﻿///<reference path="services/AmaxService.ts"/>
 import { Component, OnInit } from 'angular2/core';
 import { AmaxCrmUIComponent } from './amaxComponents/amaxCrmUIComponent';
 import { AmaxLoginComponent } from './amaxComponents/amaxLoginComponent';
@@ -15,6 +15,9 @@ import {AmaxEmployeeProfile} from "./amax/employee/profile";
 import {AmaxEmployeeSettings} from "./amax/employee/settings";
 import {AmaxSmsComponent} from "./amax/sms";
 import {AmaxCustomers} from "./amax/Customer/addCustomer";
+
+import {AmaxSearchCustomers} from "./amax/Customer/SearchCustomer";
+
 import {AmaxReciept} from "./amax/RecieptType/Reciept";
 import {AmaxRecieptTemplate} from "./amax/RecieptType/RecieptTemplate";
 import {AmaxTemplate} from "./amax/RecieptType/Template";
@@ -68,6 +71,10 @@ import {AmaxReceiptCreate} from "./amax/Receipt/ReceiptCreate";
 	
 	//Customer Routing
     { path: "/Customer/Add/:Id", name: "AddCustomer", component: AmaxCustomers },
+
+    //Customer Routing
+    { path: "/Customer/Search/:ForPopup/:FromPage", name: "SearchCustomer", component: AmaxSearchCustomers },
+
     //Reciept Type
     { path: "/ReceiptType/:Id", name: "ReceiptType", component: AmaxReciept },
 

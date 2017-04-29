@@ -44,7 +44,7 @@ export class AmaxCrmSidebarComponent implements OnInit{
             Uname = Uname.substring(1, Uname.length);
         }
         this.UserName = Uname;
-        this.SideNav = this.SideNav = this._resourceService.GetMenues();
+        this.SideNav = this._resourceService.GetMenues();
 
 
         //Main Left Sidebar Menu
