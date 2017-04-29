@@ -401,7 +401,7 @@ export class AmaxReceiptCreate implements OnInit {
     }
 
     delModel(ModelObj): observable {
-        debugger;
+        //debugger;
         if (this.modelInput.ReceiptLines.length > 1) {
             var index = 0;
             jQuery.each(this.modelInput.ReceiptLines, function () {
@@ -466,7 +466,7 @@ export class AmaxReceiptCreate implements OnInit {
             var ThanksLetter_Id = this.modelInput.ThanksLetterId;
             var LeadCurrencyId = this.modelInput.CurrencyId;
             this._RecieptService.CreateReceiptPdf(Customer_Id, ThanksLetter_Id, Recipt_No, Reciept_Type, LeadCurrencyId).subscribe(response=> {
-                debugger;
+               // debugger;
                 response = jQuery.parseJSON(response);
                 if (response.IsError == false) {
                     var l = response.Data.toString().substring(0, 5);
@@ -622,13 +622,13 @@ export class AmaxReceiptCreate implements OnInit {
                 MText = "יותר";
             }
             var ModelObj = {
-                Amount: 0, ValueDate: this.DefaultDate, PayTypeId: "", AccountId: "", AccountNo: "",
+                Amount: 0, ValueDate: this.DefaultDate, PayTypeId: "1", AccountId: "", AccountNo: "",
                 BranchNo: "", Bank: "", CreditCardType: "", DonationTypeId: "", ProjectCategoryId: "", ProjectId: "", ReferenceDate: this.DefaultDate,
                 For_Invoice: "", RecievedCustId: "", Payed: false, DepositeRemark: "", ShowMore: false, ShowMoreText: MText,
                 CashCSS: "grey", CreditCSS: "white", BankCSS: "white", OtherCSS: "white", IsShowOthers: false, IsCreditShow: false, IsBankDetShow: false
             };
             CurrentModel.RecievedCustId = this.CustId;
-
+            debugger;
             this.modelInput.ReceiptLines.push(ModelObj);
             this.BindTotal();
         }
@@ -669,7 +669,7 @@ export class AmaxReceiptCreate implements OnInit {
         this.modelInput.CustomerNoteId = objct.Value;
     }
     ChooseThanksLetters(objct) {
-        debugger;
+       // debugger;
         this.modelInput.ThanksLetterName = objct.Text;
         this.modelInput.ThanksLetterId = objct.Value;
     }
@@ -840,7 +840,7 @@ export class AmaxReceiptCreate implements OnInit {
         jQuery("#NoteModal").closeModal();
         jQuery(".lean-overlay").css({ "display": "none" });
         window.scrollTo(0, 0);
-        debugger;
+       // debugger;
 
         var jdata = this._resourceService.getCookie("ReceiptCreate_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {

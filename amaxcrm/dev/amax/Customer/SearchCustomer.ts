@@ -204,7 +204,7 @@ export class AmaxSearchCustomers implements OnInit {
 
     }
     SearchCustomer() {
-        debugger;
+      //  debugger;
         this.Isbtndisable = "disabled";
         this.ShowLoader = true;
         this._customerService.GetCompleteQuickSearch(this.modelInput.SearchContent).subscribe(response=> {
@@ -272,7 +272,7 @@ export class AmaxSearchCustomers implements OnInit {
             this.CHANGEDIR = "ltrmodal";
             this.ChangeDialog = "input_left";
         }
-        debugger;
+       // debugger;
 
         var jdata = this._resourceService.getCookie(this.FromPage + "_Search_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {
