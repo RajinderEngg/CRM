@@ -625,14 +625,14 @@ namespace AmaxServiceWeb.Controllers
                     }).ToList<KendoGroupTree>();
                     kendoTreeRoot.ForEach(a =>
                     {
-                        a.items = x.Where(e => e.GroupParenCategory == a.id).Select(e => new KendoGroupTree()
+                        a.items = x.Where(e => e.GroupParenCategory == a.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                         {
                             id = e.GroupId,
                             text = language == "en" ? e.GroupNameEng : e.GroupName,
                         }).ToList<KendoGroupTree>();
                         a.items.ForEach(b =>
                         {
-                            b.items = x.Where(e => e.GroupParenCategory == b.id).Select(e => new KendoGroupTree()
+                            b.items = x.Where(e => e.GroupParenCategory == b.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                             {
                                 id = e.GroupId,
                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
@@ -640,7 +640,7 @@ namespace AmaxServiceWeb.Controllers
 
                             b.items.ForEach(c =>
                             {
-                                c.items = x.Where(e => e.GroupParenCategory == c.id).Select(e => new KendoGroupTree()
+                                c.items = x.Where(e => e.GroupParenCategory == c.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                 {
                                     id = e.GroupId,
                                     text = language == "en" ? e.GroupNameEng : e.GroupName,
@@ -648,56 +648,56 @@ namespace AmaxServiceWeb.Controllers
 
                                 c.items.ForEach(d =>
                                 {
-                                    d.items = x.Where(e => e.GroupParenCategory == d.id).Select(e => new KendoGroupTree()
+                                    d.items = x.Where(e => e.GroupParenCategory == d.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                     {
                                         id = e.GroupId,
                                         text = language == "en" ? e.GroupNameEng : e.GroupName,
                                     }).ToList<KendoGroupTree>();
                                     d.items.ForEach(f =>
                                     {
-                                        f.items = x.Where(e => e.GroupParenCategory == f.id).Select(e => new KendoGroupTree()
+                                        f.items = x.Where(e => e.GroupParenCategory == f.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                         {
                                             id = e.GroupId,
                                             text = language == "en" ? e.GroupNameEng : e.GroupName,
                                         }).ToList<KendoGroupTree>();
                                         f.items.ForEach(g =>
                                         {
-                                            g.items = x.Where(e => e.GroupParenCategory == g.id).Select(e => new KendoGroupTree()
+                                            g.items = x.Where(e => e.GroupParenCategory == g.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                             {
                                                 id = e.GroupId,
                                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
                                             }).ToList<KendoGroupTree>();
                                             g.items.ForEach(h =>
                                             {
-                                                h.items = x.Where(e => e.GroupParenCategory == h.id).Select(e => new KendoGroupTree()
+                                                h.items = x.Where(e => e.GroupParenCategory == h.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                 {
                                                     id = e.GroupId,
                                                     text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                 }).ToList<KendoGroupTree>();
                                                 h.items.ForEach(i =>
                                                 {
-                                                    i.items = x.Where(e => e.GroupParenCategory == i.id).Select(e => new KendoGroupTree()
+                                                    i.items = x.Where(e => e.GroupParenCategory == i.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                     {
                                                         id = e.GroupId,
                                                         text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                     }).ToList<KendoGroupTree>();
                                                     i.items.ForEach(j =>
                                                     {
-                                                        j.items = x.Where(e => e.GroupParenCategory == j.id).Select(e => new KendoGroupTree()
+                                                        j.items = x.Where(e => e.GroupParenCategory == j.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                         {
                                                             id = e.GroupId,
                                                             text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                         }).ToList<KendoGroupTree>();
                                                         j.items.ForEach(k =>
                                                         {
-                                                            k.items = x.Where(e => e.GroupParenCategory == k.id).Select(e => new KendoGroupTree()
+                                                            k.items = x.Where(e => e.GroupParenCategory == k.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                             {
                                                                 id = e.GroupId,
                                                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                             }).ToList<KendoGroupTree>();
                                                             k.items.ForEach(l =>
                                                             {
-                                                                l.items = x.Where(e => e.GroupParenCategory == l.id).Select(e => new KendoGroupTree()
+                                                                l.items = x.Where(e => e.GroupParenCategory == l.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                                 {
                                                                     id = e.GroupId,
                                                                     text = language == "en" ? e.GroupNameEng : e.GroupName,

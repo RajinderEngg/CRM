@@ -13,6 +13,7 @@ export const AUTOCOMPLETE_DIRECTIVES = [Autocomplete, AutocompleteContainer];
 declare var jQuery;
 declare var swal;
 declare var moment;
+
 @Component({
 
     templateUrl: './app/amax/Customer/templates/customer.html',
@@ -75,6 +76,9 @@ export class AmaxCustomers implements OnInit {
     CHANGEDIR: string = "";
     ChangeDialog: string = "";
     IsPopUp: boolean = true;
+
+    
+
     //IsFileAsSave: boolean = false;
     
     //Email: string = "";
@@ -1581,7 +1585,8 @@ export class AmaxCustomers implements OnInit {
         this.EditPhoneData = PhoneObj;
     }
     delPhoneDet(PhoneObj): observable {
-        if (this.modelInput.CustomerPhones > 1) {
+        debugger;
+        if (this.modelInput.CustomerPhones.length > 1) {
             var index = 0;
             jQuery.each(this.modelInput.CustomerPhones, function () {
                 if (this == PhoneObj) {

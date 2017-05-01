@@ -82,10 +82,12 @@ export class AmaxGeneralGroups implements OnInit {
     GetCustData(): Observable {
         this.GroupIds = "";
         var _CheckedGroups = [];
+        //debugger;
         Kendo_utility.checkedNodeIds(jQuery("#groupTree").data("kendoTreeView").dataSource.view(), _CheckedGroups);
         for (var i = 0; i < _CheckedGroups.length; i++) {
             this.GroupIds = this.GroupIds+  _CheckedGroups[i]+",";
         }
+        //alert(this.GroupIds);
         if (this.GroupIds.length > 0) {
             this.GroupIds = this.GroupIds.substring(0, this.GroupIds.length - 1);
         }
@@ -196,9 +198,13 @@ export class AmaxGeneralGroups implements OnInit {
                jQuery("#groupTree").kendoTreeView({
                    loadOnDemand: true,
                    checkboxes: {
-                       checkChildren: true
+                       //checkChildren: true
                    },
-                   //check: this.onGroupSelect,
+                   check: function (e) {
+                       this.expandRoot = e.node;
+
+                       this.expand($(this.expandRoot).find(".k-item").addBack());
+                   },
                    dataSource: res.Data.kendoTree
                });
                var dataSource = null;

@@ -1,10 +1,15 @@
 <!--<link href="../../../src/materialize/css/layouts/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">-->
 <style>
+   
     [type="checkbox"] + label:before, [type="checkbox"] + label:after {
         left: 0;
         right: -25px;
     }
 
+    /*.row .col.offset-l3 {
+    margin-left: 25%!important;
+    margin-right: 25%!important;
+}*/
     [type="text"] + label:before, [type="text"] + label:after {
         left: 0;
         right: -15px;
@@ -65,9 +70,10 @@
 </div>
 <div class="row">
 
+    <div class="col s12 m3 l3">.
+    </div>
 
-
-    <div class="col s12 m6 l6 offset-l3 card-panel">
+    <div class="col s12 m6 l6 card-panel">
         <form action="#">
             <!--<fieldset>-->
             <div class="row">
@@ -79,29 +85,29 @@
                 <div class="row margin">
                     <div class="input-field col s12">
                         <i class="mdi-social-person-outline prefix"></i>
-                        <input id="username" type="text" [(ngModel)]="modelInput.userName">
+                        <input id="username" type="text" [(ngModel)]="modelInput.userName"  (keypress)="checkLogin($event.keyCode)">
                         <label for="username" class="center-align active">Username</label>
                     </div>
                 </div>
                 <div class="row margin">
                     <div class="input-field col s12">
                         <i class="mdi-action-lock-outline prefix"></i>
-                        <input id="password" type="password" [(ngModel)]="modelInput.password">
+                        <input id="password" type="password" [(ngModel)]="modelInput.password"  (keypress)="checkLogin($event.keyCode)">
                         <label for="password" class="center-align active">Password</label>
                     </div>
                 </div>
                 <div class="row margin">
                     <div class="input-field col s12">
                         <i class="mdi-social-people prefix"></i>
-                        <input id="OrgId" type="text" [(ngModel)]="modelInput.orgName">
+                        <input id="OrgId" type="text" [(ngModel)]="modelInput.orgName" (keypress)="checkLogin($event.keyCode)">
                         <label for="OrgId" class="center-align active">Organization</label>
                     </div>
                 </div>
                 <div class="col s12">
                     <!--<label class="block clearfix">
                         <span class="block">-->
-                    <mx-select cssclass="browser-default" [data]="languageArray" Vallabel="code" label="name" (onData)="languageSelectionChange($event)" selectedval="{{Language}}"></mx-select>
-                    <!--<select style="width:100%" class="browser-default" [(ngModel)]="Language" (change)="languageSelectionChange($event)">
+                    <mx-select cssclass="browser-default" [data]="languageArray" Vallabel="code" label="name" (onData)="languageSelectionChange($event)" selectedval="{{Language}}"  (keypress)="checkLogin($event.keyCode)"></mx-select>
+                    <!--<select style="width:100%" class="browser-default" [(ngModel)]="Language"  (keypress)="checkLogin($event.keyCode)" (change)="languageSelectionChange($event)">
 
 
                         <option *ngFor="#DropObject of languageArray" value="{{DropObject.code}}">
@@ -133,22 +139,23 @@
         <!-- /.widget-main -->
         <div class="row">
             <div class="input-field col s6 m6 l6">
-                <p class="margin medium-small">
+                <p class="margin {{ForgetTextCSS}} medium-small">
                     <a href="#" data-target="#forgot-box" class="forgot-password-link">
-                        <i class="mdi-navigation-arrow-back"></i> I forgot my password
+                        <i class="{{ForgetIcon}}"></i> I forgot my password
                     </a>
                 </p>
             </div>
             <div class="input-field col s6 m6 l6">
-                <p class="margin right-align medium-small">
+                <p class="margin {{RegTextCSS}} medium-small">
                     <a href="#" data-target="#signup-box" class="user-signup-link">
                         I want to register
-                        <i class="mdi-navigation-arrow-forward"></i>
+                        <i class="{{RegIcon}}"></i>
                     </a>
                 </p>
             </div>
         </div>
     </div>
+    <div class="col s12 m3 l3"></div>
     <!-- /.main-container -->
 </div>
 

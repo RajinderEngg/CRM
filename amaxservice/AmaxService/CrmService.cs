@@ -225,14 +225,14 @@ namespace AmaxService
                 }).ToList<KendoGroupTree>();
                 kendoTreeRoot.ForEach(a =>
                 {
-                    a.items = x.Where(e => e.GroupParenCategory == a.id).Select(e => new KendoGroupTree()
+                    a.items = x.Where(e => e.GroupParenCategory == a.id&& e.GroupId!=0).Select(e => new KendoGroupTree()
                     {
                         id = e.GroupId,
                         text = language == "en" ? e.GroupNameEng : e.GroupName,
                     }).ToList<KendoGroupTree>();
                     a.items.ForEach(b =>
                     {
-                        b.items = x.Where(e => e.GroupParenCategory == b.id).Select(e => new KendoGroupTree()
+                        b.items = x.Where(e => e.GroupParenCategory == b.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                         {
                             id = e.GroupId,
                             text = language == "en" ? e.GroupNameEng : e.GroupName,
@@ -240,7 +240,7 @@ namespace AmaxService
 
                         b.items.ForEach(c =>
                         {
-                            c.items = x.Where(e => e.GroupParenCategory == c.id).Select(e => new KendoGroupTree()
+                            c.items = x.Where(e => e.GroupParenCategory == c.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                             {
                                 id = e.GroupId,
                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
@@ -248,56 +248,56 @@ namespace AmaxService
 
                             c.items.ForEach(d =>
                             {
-                                d.items = x.Where(e => e.GroupParenCategory == d.id).Select(e => new KendoGroupTree()
+                                d.items = x.Where(e => e.GroupParenCategory == d.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                 {
                                     id = e.GroupId,
                                     text = language == "en" ? e.GroupNameEng : e.GroupName,
                                 }).ToList<KendoGroupTree>();
                                 d.items.ForEach(f =>
                                 {
-                                    f.items = x.Where(e => e.GroupParenCategory == f.id).Select(e => new KendoGroupTree()
+                                    f.items = x.Where(e => e.GroupParenCategory == f.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                     {
                                         id = e.GroupId,
                                         text = language == "en" ? e.GroupNameEng : e.GroupName,
                                     }).ToList<KendoGroupTree>();
                                     f.items.ForEach(g =>
                                     {
-                                        g.items = x.Where(e => e.GroupParenCategory == g.id).Select(e => new KendoGroupTree()
+                                        g.items = x.Where(e => e.GroupParenCategory == g.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                         {
                                             id = e.GroupId,
                                             text = language == "en" ? e.GroupNameEng : e.GroupName,
                                         }).ToList<KendoGroupTree>();
                                         g.items.ForEach(h =>
                                         {
-                                            h.items = x.Where(e => e.GroupParenCategory == h.id).Select(e => new KendoGroupTree()
+                                            h.items = x.Where(e => e.GroupParenCategory == h.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                             {
                                                 id = e.GroupId,
                                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
                                             }).ToList<KendoGroupTree>();
                                             h.items.ForEach(i =>
                                             {
-                                                i.items = x.Where(e => e.GroupParenCategory == i.id).Select(e => new KendoGroupTree()
+                                                i.items = x.Where(e => e.GroupParenCategory == i.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                 {
                                                     id = e.GroupId,
                                                     text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                 }).ToList<KendoGroupTree>();
                                                 i.items.ForEach(j =>
                                                 {
-                                                    j.items = x.Where(e => e.GroupParenCategory == j.id).Select(e => new KendoGroupTree()
+                                                    j.items = x.Where(e => e.GroupParenCategory == j.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                     {
                                                         id = e.GroupId,
                                                         text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                     }).ToList<KendoGroupTree>();
                                                     j.items.ForEach(k =>
                                                     {
-                                                        k.items = x.Where(e => e.GroupParenCategory == k.id).Select(e => new KendoGroupTree()
+                                                        k.items = x.Where(e => e.GroupParenCategory == k.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                         {
                                                             id = e.GroupId,
                                                             text = language == "en" ? e.GroupNameEng : e.GroupName,
                                                         }).ToList<KendoGroupTree>();
                                                         k.items.ForEach(l =>
                                                         {
-                                                            l.items = x.Where(e => e.GroupParenCategory == l.id).Select(e => new KendoGroupTree()
+                                                            l.items = x.Where(e => e.GroupParenCategory == l.id && e.GroupId != 0).Select(e => new KendoGroupTree()
                                                             {
                                                                 id = e.GroupId,
                                                                 text = language == "en" ? e.GroupNameEng : e.GroupName,
@@ -313,7 +313,7 @@ namespace AmaxService
                         });
                     });
                 });
-                responce.kendoTree = kendoTreeRoot;
+                responce.kendoTree = kendoTreeRoot.Distinct().ToList();
             }
             return responce;// responceDispatcher();
         }
@@ -618,7 +618,7 @@ namespace AmaxService
             var Sql_SelectCustomersForSpecifiedGroups = @"SELECT Sms.CustomerId, Sms.FileAs, Sms.CelPhone FROM (SELECT C.CustomerId, C.FileAs, 
                 REPLACE(REPLACE(REPLACE(CP.Area+CP.Phone,'-',''),' ',''),'.','') AS CelPhone FROM Customers C INNER JOIN CustomerPhones CP ON c.CustomerId = CP.CustomerId 
                 WHERE CP.PhoneTypeId @PhoneTypeId AND (C.Deceased = 0) AND (C.Deleted = 0) AND (C.ActiveStatus = 0)AND C.CustomerId IN (SELECT DISTINCT Customerid FROM
-                CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN (@GroupIdArr)) @BranchData) AS Sms WHERE LEN(Sms.CelPhone) = 10;";
+                CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN(@GroupIdArr)) @BranchData) AS Sms WHERE LEN(Sms.CelPhone) = 10;"; //WHERE CustomerGeneralGroupId IN(@GroupIdArr)
 
             //Checking for SysData privilges and branch
             if (Convert.ToBoolean(currentUser["IsBranchEnabled"])==true)////currentUser["IsBranchEnabled"]  payload.IsBranchEnabled
@@ -642,8 +642,25 @@ namespace AmaxService
                 {
                     string GroupIdArr = payload.groups.ToString();
                     GroupIdArr = GroupIdArr.Replace("\r\n", "").Replace("[", "").Replace("]", ""); //.Replace("\r\n","").Substring(1, GroupIdArr.Length - 2);
-                    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
+                    //string[] grps = GroupIdArr.Split(',');
+                    //bool IsGroupFilter = true;
+                    //for (int i = 0; i < grps.Length; i++)
+                    //{
+                    //    if (grps[i].Trim() == "0")
+                    //    {
+                    //        IsGroupFilter = false;
+                    //    }
+                    //}
+                    //if (IsGroupFilter == true)
+                    //{
+                    //    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr"," WHERE CustomerGeneralGroupId IN("+GroupIdArr+")");
+                    //}
+                    //else
+                    //{
+                    //    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", "");
+                    //}
 
+                    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
                     dtSelectedCustomers = da.GetDataTable(Sql_SelectCustomersForSpecifiedGroups,
                         new { PhoneTypeId = payload.phoneType }.ToJson().ToTypeof<Dictionary<string, object>>());
                     for (int i = 0; i < dtSelectedCustomers.Rows.Count; i++)
