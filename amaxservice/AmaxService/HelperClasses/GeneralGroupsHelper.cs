@@ -27,8 +27,8 @@ namespace AmaxService.HelperClasses
                     // " order by Customers.CustomerId";
                     bool IsGroupFilter = true;
                     string[] Grps = GroupIds.Split(',');
-                    if (Grps.Length <= 1)
-                    {
+                    //if (Grps.Length <= 1)
+                    //{
                         for (int i = 0; i < Grps.Length; i++)
                         {
                             if (Grps[i] == "0")
@@ -37,31 +37,49 @@ namespace AmaxService.HelperClasses
                                 break;
                             }
                         }
+                    //}
+                    if (IsGroupFilter == true)
+                    {
+                        for (int i = 0; i < Grps.Length; i++)
+                        {
+                            string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i] + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
+                            DataSet ds1 = db.GetDataSet(Qry, null, false);
+                            int j = 0;
+                            for (; j < ds1.Tables[0].Rows.Count; j++)
+                            {
+                                GroupIds += ","+Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                            }
+                            if (j > 0)
+                            {
+                                Grps = new string[100];
+                                Grps = GroupIds.Split(',');
+                            }
+                        }
                     }
                     string Query = "Select distinct   Deceased,ActiveStatus,RowDate,HALIA,MemberID,birthdate,birthdate2,hebdate1,hebdate2,CardType," +
-" RGBCOLOR,Gender, fname,Lname,title,salutation,foundationdates,CustomerId,FileAs,CountryCode,Addr,AddressId,AddToName," +
-" AddressTypeName,AddressTypeNameEng,StateID,cityName,Zip,ForDelivery,TypeNameHeb,TypeNameEng ,memberend,memberStart," +
-" EmployeeId,SpouseName,CustomerCode,CustomerCode2,Company,MiddleName,Suffix,TMPINFO,TMPINFO2, TMPINFO3,TMPINFO4, job, " +
-" jobPartner, TitleSpouse,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,Street2," +
-" ClientCameFromName From (SELECT Deceased, ActiveStatus, RowDate, HALIA, Customers.MemberID, Customers.hebdate1," +
-" Customers.hebdate2, Customers.birthdate, Customers.birthdate2, Customers.CardType, CustomerType.RGBCOLOR, Customers.Gender," +
- " salutation, Customers.title,(SELECT     COUNT(CustomerId) AS countfund  FROM  FoundationDates" +
- " WHERE(CustomerId = Customers.CustomerId)) AS foundationdates, Customers.memberend,Customers.memberStart," +
- " Customers.Deleted,Customers.IsNewsLetter, Customers.fname, Customers.lname, Customers.FileAs,Customers.SpouseName," +
-" Customers.CustomerCode,Customers.CustomerCode2,Customers.Company, nd_MainCustomerAddress.Street + ' ' + nd_MainCustomerAddress.Street2 AS Addr," +
- " nd_MainCustomerAddress.CountryCode, CustomerEmails.EmailName, CustomerEmails.Email, CustomerEmails.LastEmail," +
- " CustomerEmails.MaxYearDelivery, CustomerEmails.MaxMonthlyDelivery, CustomerEmails.General, CustomerEmails.Newslettere, nd_MainCustomerAddress.AddressId, nd_MainCustomerAddress.CityName, " +
- " nd_MainCustomerAddress.Zip, nd_MainCustomerAddress.ForDelivery, nd_MainCustomerAddress.LastDelivery, nd_MainCustomerAddress.AddToName, nd_MainCustomerAddress.AddressTypeId, CustomerAddressType.AddressTypeName, CustomerAddressType.AddressTypeNameEng, Customers.CustomerId, nd_MainCustomerAddress.StateId, nd_MainCustomerAddress.MainAddress, CustomerEmails.Priority, CustomerType.TypeNameHeb, CustomerType.TypeNameEng, CustomerGroupsGeneral.GroupName, CustomerGroupsGeneral.GroupNameEng, CustomerGroupsGeneral.GroupId, Customers.BankCode, Customers.SnifNo, Customers.AccountType, Customers.AccountNo, CustomerGroupsGeneralSet.MountToCharge, Customers.ID, Customers.lname + ' ' + Customers.fname AS FullName, nd_MainCustomerAddress.Street, nd_MainCustomerAddress.Street2, nd_MainCustomerAddress.Remark,Customers.EmployeeId,  Customers.MiddleName,Customers.Suffix,Customers.TMPINFO, Customers.TMPINFO2, Customers.TMPINFO3, Customers.TMPINFO4," +
- " Customers.custposition as job, Customers.jobtitlePartner as jobPartner, Customers.TitleSpouse,Customers.n1," +
-" Customers.n2,Customers.n3,Customers.n4,Customers.n5,Customers.n6,Customers.n7,Customers.n8,Customers.n9,Customers.n10," +
-" Customers.n11,Customers.n12,Customers.n13,Customers.n14,Customers.n15,Customers.n16,Customers.n17," +
-" Customers.n18,Customers.n19,Customers.n20, '' as JoinDate,ClientCameFrom.ClientCameFromName FROM " +
-" ClientCameFrom INNER JOIN Customers ON ClientCameFrom.id = Customers.CamefromSource LEFT OUTER JOIN CustomerGroupsGeneral " +
-" RIGHT OUTER JOIN CustomerGroupsGeneralSet ON CustomerGroupsGeneral.GroupId = CustomerGroupsGeneralSet.CustomerGeneralGroupId ON " +
-" Customers.CustomerId = CustomerGroupsGeneralSet.Customerid LEFT OUTER JOIN CustomerType ON Customers.CustomerType = CustomerType.TypeId LEFT OUTER JOIN " +
-" States RIGHT OUTER JOIN nd_MainCustomerAddress ON States.StateName = nd_MainCustomerAddress.StateId " +
-" LEFT OUTER JOIN CustomerAddressType ON nd_MainCustomerAddress.AddressTypeId = CustomerAddressType.AddressTypeId ON Customers.CustomerId = nd_MainCustomerAddress.CustomerId " +
-" LEFT OUTER JOIN CustomerEmails ON Customers.CustomerId = CustomerEmails.CustomerId Where Customers.ActiveStatus = 0  And Customers.IsNewsLetter = 0  And Deleted = 0  )DerivedTBL Where   Deleted = 0 And(MainAddress = 1 or MainAddress is null)  ";
+                    " RGBCOLOR,Gender, fname,Lname,title,salutation,foundationdates,CustomerId,FileAs,CountryCode,Addr,AddressId,AddToName," +
+                    " AddressTypeName,AddressTypeNameEng,StateID,cityName,Zip,ForDelivery,TypeNameHeb,TypeNameEng ,memberend,memberStart," +
+                    " EmployeeId,SpouseName,CustomerCode,CustomerCode2,Company,MiddleName,Suffix,TMPINFO,TMPINFO2, TMPINFO3,TMPINFO4, job, " +
+                    " jobPartner, TitleSpouse,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14,n15,n16,n17,n18,n19,n20,Street2," +
+                    " ClientCameFromName From (SELECT Deceased, ActiveStatus, RowDate, HALIA, Customers.MemberID, Customers.hebdate1," +
+                    " Customers.hebdate2, Customers.birthdate, Customers.birthdate2, Customers.CardType, CustomerType.RGBCOLOR, Customers.Gender," +
+                    " salutation, Customers.title,(SELECT     COUNT(CustomerId) AS countfund  FROM  FoundationDates" +
+                    " WHERE(CustomerId = Customers.CustomerId)) AS foundationdates, Customers.memberend,Customers.memberStart," +
+                    " Customers.Deleted,Customers.IsNewsLetter, Customers.fname, Customers.lname, Customers.FileAs,Customers.SpouseName," +
+                    " Customers.CustomerCode,Customers.CustomerCode2,Customers.Company, nd_MainCustomerAddress.Street + ' ' + nd_MainCustomerAddress.Street2 AS Addr," +
+                    " nd_MainCustomerAddress.CountryCode, CustomerEmails.EmailName, CustomerEmails.Email, CustomerEmails.LastEmail," +
+                    " CustomerEmails.MaxYearDelivery, CustomerEmails.MaxMonthlyDelivery, CustomerEmails.General, CustomerEmails.Newslettere, nd_MainCustomerAddress.AddressId, nd_MainCustomerAddress.CityName, " +
+                    " nd_MainCustomerAddress.Zip, nd_MainCustomerAddress.ForDelivery, nd_MainCustomerAddress.LastDelivery, nd_MainCustomerAddress.AddToName, nd_MainCustomerAddress.AddressTypeId, CustomerAddressType.AddressTypeName, CustomerAddressType.AddressTypeNameEng, Customers.CustomerId, nd_MainCustomerAddress.StateId, nd_MainCustomerAddress.MainAddress, CustomerEmails.Priority, CustomerType.TypeNameHeb, CustomerType.TypeNameEng, CustomerGroupsGeneral.GroupName, CustomerGroupsGeneral.GroupNameEng, CustomerGroupsGeneral.GroupId, Customers.BankCode, Customers.SnifNo, Customers.AccountType, Customers.AccountNo, CustomerGroupsGeneralSet.MountToCharge, Customers.ID, Customers.lname + ' ' + Customers.fname AS FullName, nd_MainCustomerAddress.Street, nd_MainCustomerAddress.Street2, nd_MainCustomerAddress.Remark,Customers.EmployeeId,  Customers.MiddleName,Customers.Suffix,Customers.TMPINFO, Customers.TMPINFO2, Customers.TMPINFO3, Customers.TMPINFO4," +
+                    " Customers.custposition as job, Customers.jobtitlePartner as jobPartner, Customers.TitleSpouse,Customers.n1," +
+                    " Customers.n2,Customers.n3,Customers.n4,Customers.n5,Customers.n6,Customers.n7,Customers.n8,Customers.n9,Customers.n10," +
+                    " Customers.n11,Customers.n12,Customers.n13,Customers.n14,Customers.n15,Customers.n16,Customers.n17," +
+                    " Customers.n18,Customers.n19,Customers.n20, '' as JoinDate,ClientCameFrom.ClientCameFromName FROM " +
+                    " ClientCameFrom INNER JOIN Customers ON ClientCameFrom.id = Customers.CamefromSource LEFT OUTER JOIN CustomerGroupsGeneral " +
+                    " RIGHT OUTER JOIN CustomerGroupsGeneralSet ON CustomerGroupsGeneral.GroupId = CustomerGroupsGeneralSet.CustomerGeneralGroupId ON " +
+                    " Customers.CustomerId = CustomerGroupsGeneralSet.Customerid LEFT OUTER JOIN CustomerType ON Customers.CustomerType = CustomerType.TypeId LEFT OUTER JOIN " +
+                    " States RIGHT OUTER JOIN nd_MainCustomerAddress ON States.StateName = nd_MainCustomerAddress.StateId " +
+                    " LEFT OUTER JOIN CustomerAddressType ON nd_MainCustomerAddress.AddressTypeId = CustomerAddressType.AddressTypeId ON Customers.CustomerId = nd_MainCustomerAddress.CustomerId " +
+                    " LEFT OUTER JOIN CustomerEmails ON Customers.CustomerId = CustomerEmails.CustomerId Where Customers.ActiveStatus = 0  And Customers.IsNewsLetter = 0  And Deleted = 0  )DerivedTBL Where   Deleted = 0 And(MainAddress = 1 or MainAddress is null)  ";
                     if(IsGroupFilter==true)
                         Query+=" AND((GroupId in ("+GroupIds+")) )";
 

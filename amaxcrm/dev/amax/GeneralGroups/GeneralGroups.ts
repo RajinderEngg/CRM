@@ -87,9 +87,14 @@ export class AmaxGeneralGroups implements OnInit {
         for (var i = 0; i < _CheckedGroups.length; i++) {
             this.GroupIds = this.GroupIds+  _CheckedGroups[i]+",";
         }
+
+        
         //alert(this.GroupIds);
         if (this.GroupIds.length > 0) {
             this.GroupIds = this.GroupIds.substring(0, this.GroupIds.length - 1);
+            /////////////////Creating Cache///////////////////
+
+            this._resourceService.setCookie("GeneralGroup_Cache", this.GroupIds, 10);
         }
         this._GeneralGroupsService.GetCompleteCustDet(this.GroupIds).subscribe(response=> {
             //debugger;
@@ -108,6 +113,11 @@ export class AmaxGeneralGroups implements OnInit {
             }
             else {
                 this.modelInput = response.Data;
+                var burl = this.baseUrl;
+                jQuery.each(this.modelInput, function () {
+                    this.BUrl = burl+"Customer/Add/";
+                });
+
                 var dataSource = this.modelInput;
                 jQuery("#grid").kendoGrid({
                     dataSource: dataSource,
@@ -124,9 +134,9 @@ export class AmaxGeneralGroups implements OnInit {
                     columns: [
                         {
                             field: "CustomerId", title: this.RES.GENERAL_GROUP.KENDOGRID_CUSTID,
-                            //template: '<a href="#=CustomerId#">#:CustomerId#</a>'
+                            //template: '<a href="#=CustomerId#">#:CustomerId#</a>' http://c.amax.co.il/#/Customer/Add/
                             template: function (dataItem) {
-                                return "<a href='http://localhost:3000/#/Customer/Add/" + kendo.htmlEncode(dataItem.CustomerId) + "'>" + kendo.htmlEncode(dataItem.CustomerId) + "</a>";
+                                return "<a href='" + kendo.htmlEncode(dataItem.BUrl)+ kendo.htmlEncode(dataItem.CustomerId) + "'>" + kendo.htmlEncode(dataItem.CustomerId) + "</a>";
                             }
                         },
                         { field: "FileAs", title: this.RES.GENERAL_GROUP.KENDOGRID_FILEAS }
@@ -203,7 +213,7 @@ export class AmaxGeneralGroups implements OnInit {
                    check: function (e) {
                        this.expandRoot = e.node;
 
-                       this.expand($(this.expandRoot).find(".k-item").addBack());
+                       this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
                    },
                    dataSource: res.Data.kendoTree
                });
@@ -228,6 +238,21 @@ export class AmaxGeneralGroups implements OnInit {
 
                    ],
                });
+
+               debugger;
+               var jdata = this._resourceService.getCookie("GeneralGroup_Cache");
+               if (jdata != undefined && jdata != undefined && jdata != "") {
+                   jdata = jdata.substring(1, jdata.length);
+                   this.GroupIds = jdata;
+                   var grpids = this.GroupIds.split(',');
+                   var bindgrps = "";
+                   for (var i = 0; i < grpids.length; i++) {
+                       bindgrps += grpids[i] + ";";
+                   }
+                   Kendo_utility.checkingNodeIds(jQuery("#groupTree").data("kendoTreeView").dataSource.view(), bindgrps.substring(0, bindgrps.length - 1));
+                   this.GetCustData();
+               }
+
            },
            (err) => {
 
@@ -237,7 +262,7 @@ export class AmaxGeneralGroups implements OnInit {
            }
 
        );
-
+       
        
 
     }
