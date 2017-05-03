@@ -379,6 +379,12 @@ namespace AmaxServiceWeb.Controllers
                     if (string.IsNullOrEmpty(ReciptLineObj.RowDate) == true)
                         ReciptLineObj.RowDate = "01-01-1900";
                 }
+                foreach (var ReciptProdObj in saveObj.ReceiptProducts)
+                {
+                    ReciptProdObj.ReceiptType = saveObj.RecieptType;
+                    ReciptProdObj.ReceiptNo = saveObj.RecieptNo;
+                    ReciptProdObj.RawDate = DateTime.Now.ToString("dd-MM-yyyy");
+                }
                 int g = RcptCreateHP.SaveReceipt(saveObj);
                 if (g > 0)
                 {

@@ -30,6 +30,7 @@ export class AmaxReceiptCreate implements OnInit {
     _ProjectCats = [];
     _Projects = [];
     _Currencies = [];
+    IsShowProducts: boolean = false;
 //    modelInput.ReceiptLines = [];
     _ThankLetters = [];
     RowCount:number = 0;
@@ -54,7 +55,9 @@ export class AmaxReceiptCreate implements OnInit {
         this.modelInput = {};
         //this.modelInput.AddModel = {};
         this.modelInput.ReceiptLines = [];
-        
+        this.modelInput.ReceiptProducts = [];
+        //this.modelInput.ReceiptProducts = [{ RowNo: "1", ProductNo: "", ProductName: "", Price: "0", Qty: "1", Total: "0" }];
+        this.IsShowProducts = false;
         this.IPopUpOpen = false;
         this.IsBankDetShow = false;
         this.modelInput.ReceiptTypeId = _routeParams.params.ReceiptTypeId;
@@ -141,6 +144,7 @@ export class AmaxReceiptCreate implements OnInit {
     setdefaultmode() {
         //document.location = this.baseUrl + "ReceiptCreate/" + this.modelInput.CustomerId + " /" + this.modelInput.ReceiptId;
         this.IPopUpOpen = false;
+        this.IsShowProducts = false;
         this.RowCount = 0;
         window.scrollTo(0, 0);
         var _ReceiptTypeId = this.modelInput.ReceiptTypeId
@@ -155,6 +159,7 @@ export class AmaxReceiptCreate implements OnInit {
         var PrinterId = this.modelInput.PrinterId;
         var associationid = this.modelInput.associationId;
         this.modelInput = {};
+        
         this.modelInput.CustomerId = CustId;
         this.modelInput.CustomerName = CustName;
         
@@ -167,6 +172,8 @@ export class AmaxReceiptCreate implements OnInit {
         this.modelInput.PrinterId = PrinterId;
         this.modelInput.associationId = associationid;
         this.modelInput.ReceiptLines = [];
+        this.modelInput.ReceiptProducts = [];
+        //this.modelInput.ReceiptProducts = [{ RowNo: "1", ProductNo: "", ProductName: "", Price: "0", Qty: "1", Total: "0" }];
         var DupObj = {
             Amount: 0, ValueDate: this.DefaultDate, PayTypeId: 1, AccountId: "", AccountNo: "",
             BranchNo: "", Bank: "", CreditCardType: "", DonationTypeId: "", ProjectCategoryId: "", ProjectId: "", ReferenceDate: this.DefaultDate,
@@ -308,15 +315,25 @@ export class AmaxReceiptCreate implements OnInit {
             
             for (var cnt in this.modelInput.ReceiptLines) // for acts as a foreach
             {
-                var ErrorMessage = "Row Number - " + (cnt + 1) + " is not valid <br>";
+                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid <br>";
                 if (this.ValidateRowModel(this.modelInput.ReceiptLines[cnt], ErrorMessage) == false) {
                     CheckRowValid = false;
                     break;
                 }
             }
 
-            if (CheckRowValid == true) {
+            for (var cnt in this.modelInput.ReceiptProducts) // for acts as a foreach
+            {
+                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid <br>";
+                if (this.ValidateProductRowModel(this.modelInput.ReceiptProducts[cnt], ErrorMessage,cnt) == false) {
+                    CheckRowValid = false;
+                    break;
+                }
+            }
 
+
+            if (CheckRowValid == true) {
+                debugger;
                 var jdata = JSON.stringify(this.modelInput);
                 //console.log(jdata);
                 this._RecieptService.AddReceipt(jdata).subscribe(response=> {
@@ -611,6 +628,47 @@ export class AmaxReceiptCreate implements OnInit {
             return IsValidData;
         
     }
+
+    ValidateProductRowModel(CurrentModel, msg,rowno) {
+        //msg = "";
+        var IsValidData = true;
+        
+        //var msg = "";
+        if (CurrentModel.ProductNo == null || CurrentModel.ProductNo == "" || CurrentModel.ProductNo == undefined) {
+            IsValidData = false;
+            msg += "<br>Please enter product no";
+        }
+        if (CurrentModel.ProductName == null || CurrentModel.ProductName == "" || CurrentModel.ProductName == undefined) {
+            IsValidData = false;
+            msg += "<br>Please enter product name";
+        }
+        if (CurrentModel.Price == null || CurrentModel.Price == "" || CurrentModel.Price == undefined) {
+            IsValidData = false;
+            msg += "<br>Please enter price";
+        }
+        if (CurrentModel.Qty == null || CurrentModel.Qty == "" || CurrentModel.Qty == undefined) {
+            IsValidData = false;
+            msg += "<br>Please enter quantity";
+        }
+        
+
+        if (IsValidData == false) {
+            bootbox.alert({
+                message: msg,
+                className: this.ChangeDialog,
+                buttons: {
+                    ok: {
+                        //label: 'Ok',
+                        className: this.CHANGEDIR
+                    }
+                }
+            });
+        }
+        return IsValidData;
+
+    }
+
+
     AddReceiptLine(CurrentModel) {
         // this.modelInput.AddModel.Bank = jQuery("#Bank").val();
         if (this.ValidateRowModel(CurrentModel, "")) {
@@ -833,6 +891,112 @@ export class AmaxReceiptCreate implements OnInit {
         }, () => {
             console.log("CallCompleted")
         });
+    }
+    ShowHideProducts() {
+        if (this.IsShowProducts == false) {
+            this.modelInput.ReceiptProducts = [];
+            this.modelInput.ReceiptProducts = [{ RowNo: "1", ProductNo: "", ProductName: "", Price: "0", Qty: "1", Total: "0" }];
+            this.IsShowProducts = true;
+        }
+        else {
+            if (this.modelInput.ReceiptProducts.length == 0) {
+                this.IsShowProducts = false;
+            }
+        }
+    }
+    CanaddProduct(prodObj): boolean {
+        //debugger;
+        
+        return (prodObj.ProductNo != undefined && prodObj.ProductNo != "")
+            && (prodObj.ProductName != undefined && prodObj.ProductName != "")
+            && (prodObj.Price != undefined && prodObj.Price != "")
+            && (prodObj.Qty != undefined && prodObj.Qty != "");
+        
+    }
+    AddProducts(prodObj): observable {
+        debugger;
+        if (this.CanaddProduct(prodObj)) {
+        
+            
+            var ProductObj = { RowNo: (this.modelInput.ReceiptProducts.length+1).toString(), ProductNo: "", ProductName: "", Price: "0", Qty: "1", Total: "0" };
+            this.modelInput.ReceiptProducts.push(ProductObj);
+            this.BindProdTotal();
+            
+            
+        }
+        else {
+            var msg = '';
+            if (prodObj.ProductNo == undefined || prodObj.ProductNo == "") {
+                
+                msg += '\nPlease enter product no' ;
+            }
+            if (prodObj.ProductName == undefined || prodObj.ProductName == "") {
+                
+                msg += '\nPlease enter product name';
+            }
+            if (prodObj.Price == undefined || prodObj.Price == "") {
+                
+                msg += '\nPlease enter price';
+            }
+            if (prodObj.Qty == undefined || prodObj.Qty == "") {
+                
+                msg += '\nPlease enter quantity';
+            }
+            bootbox.alert({
+                message: msg, className: this.ChangeDialog,
+                buttons: {
+                    ok: {
+                        //label: 'Ok',
+                        className: this.CHANGEDIR
+                    }
+                }
+            });
+
+        }
+
+    }
+    delProductDet(ProdObj): observable {
+        debugger;
+        //if (this.modelInput.ReceiptProducts.length > 1) {
+            var index = 0;
+            jQuery.each(this.modelInput.ReceiptProducts, function () {
+                if (this == ProdObj) {
+                    return false
+                }
+                index = index + 1;
+            });
+            this.modelInput.ReceiptProducts.splice(index, 1);
+            index = 1;
+            jQuery.each(this.modelInput.ReceiptProducts, function () {
+                this.RowNo = index.toString();
+                index = index + 1;
+            });
+            this.BindProdTotal();
+            if (this.modelInput.ReceiptProducts.length == 0) {
+                this.IsShowProducts = false;
+            }
+        //}
+    }
+    CalculateProdRowTotal(prodObj) {
+        debugger;
+        var Price = 0;
+        if (prodObj.Price != undefined && prodObj.Price != null && prodObj.Qty != "") {
+            Price = parseFloat(prodObj.Price);
+        }
+        var Qty = 0;
+        if (prodObj.Qty != undefined && prodObj.Qty != null && prodObj.Qty != "") {
+            Qty = parseFloat(prodObj.Qty);
+        }
+        prodObj.Total = (Price * Qty).toFixed(2);
+        this.BindProdTotal();
+    }
+
+    BindProdTotal() {
+        var ProdTotal = 0;
+        jQuery.each(this.modelInput.ReceiptProducts, function () {
+            ProdTotal = parseFloat(ProdTotal.toString())+ parseFloat(this.Total);
+        });
+        this.modelInput.ProductTotal = ProdTotal.toFixed(2);
     }
     ngOnInit() {
         

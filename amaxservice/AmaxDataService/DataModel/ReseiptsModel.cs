@@ -62,5 +62,7 @@ namespace AmaxDataService.DataModel
         public string PaymentRequest { get; set; }
         public int CustomerNoteId { get; set; }
         public List<ReceiptLineModel> ReceiptLines { get; set; }
+        public List<ReceiptsProductsModel> ReceiptProducts { get; set; }
+        public decimal ProductTotal { get; set; }
     }
 }

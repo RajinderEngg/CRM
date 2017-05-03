@@ -65,6 +65,7 @@
     <Compile Include="DataModel\LoginModel.cs" />
     <Compile Include="DataModel\PhoneTypesModel.cs" />
     <Compile Include="DataModel\ReceiptLineModel.cs" />
+    <Compile Include="DataModel\ReceiptsProductsModel.cs" />
     <Compile Include="DataModel\RecieptThnksLetterModel.cs" />
     <Compile Include="DataModel\RecieptTypeModel.cs" />
     <Compile Include="DataModel\ReseiptsModel.cs" />

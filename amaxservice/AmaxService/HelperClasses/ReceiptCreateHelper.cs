@@ -18,9 +18,15 @@ namespace AmaxService.HelperClasses
         public string SecurityconString { get; set; }
         public string lang { get; set; }
         public DataBind DataB;
+        public ReceiptsProductsHelper RecProdHP;
         private object serializer;
 
         public string LoggedEmpId { get; set; }
+        public ReceiptCreateHelper()
+        {
+            RecProdHP = new ReceiptsProductsHelper();
+            DataB = new DataBind();
+        }
         public Dictionary<string, object> GetReceiptDict(ReseiptsModel custobj)
         {
 
@@ -237,7 +243,7 @@ namespace AmaxService.HelperClasses
 
                                 ReceiptsParameterDict.Clear();
                                 ReceiptsParameterDict.Add("RecieptRoWID", CustRecpts.RecieptRoWID);
-                                ReceiptsParameterDict.Add("RecieptType", CustRecpts.RecieptNo);
+                                ReceiptsParameterDict.Add("RecieptType", CustRecpts.RecieptType);
                                 ReceiptsParameterDict.Add("RecieptNo", CustRecpts.RecieptNo);
                                 string DelAddressQuery = "delete from RecieptLine where RecieptRoWID=@RecieptRoWID and RecieptType=@RecieptType and RecieptNo=@RecieptNo";
                                 returnObj += db.InsertData(DelAddressQuery, ReceiptsParameterDict, db.Transaction);
@@ -254,7 +260,25 @@ namespace AmaxService.HelperClasses
                             "@AmountInLeadCurrent,Convert(datetime,@ReferenceDate,103),@OldReceiptId,@Payed,@For_Invoice,@IsExport,@WasDeposit,@DepositeNo,Convert(datetime,@DepositeDate,103),@DepositeToAccountId,@DepositeRemark,@TotalDeposit,@KevaInstitute,@CreditCardType,Convert(datetime,@RowDate,103),@BankId) ";
                             returnObj += db.InsertData(AddressQuery, ReceiptsParameterDict, db.Transaction);
                         }
-                        
+                        foreach (var RecptsProds in RectObj.ReceiptProducts)
+                        {
+
+
+                            ReceiptsParameterDict.Clear();
+                            if (tempcustId != -1)
+                            {
+                                ReceiptsParameterDict.Clear();
+                                ReceiptsParameterDict.Add("ReceiptType", RecptsProds.ReceiptType);
+                                ReceiptsParameterDict.Add("ReceiptNo", RecptsProds.ReceiptNo);
+                                string DelAddressQuery = "delete from [ReceiptsProducts] where ReceiptType=@ReceiptType and ReceiptNo=@ReceiptNo";
+                                returnObj += db.InsertData(DelAddressQuery, ReceiptsParameterDict, db.Transaction);
+                            }
+                            ReceiptsParameterDict.Clear();
+                            ReceiptsParameterDict = RecProdHP.GetReceiptsProductsDict(RecptsProds);
+                            string AddressQuery = "insert into ReceiptsProducts([ReceiptType],[ReceiptNo],[ProductNo],[ProductName],[Price],[Qty],[Total],[RawDate]) " +
+                            "Values(@ReceiptType,@ReceiptNo,@ProductNo,@ProductName,@Price,@Qty,@Total,Convert(datetime,@RawDate,103))";
+                            returnObj += db.InsertData(AddressQuery, ReceiptsParameterDict, db.Transaction);
+                        }
                         db.Transaction.Commit();
                     }
                 }

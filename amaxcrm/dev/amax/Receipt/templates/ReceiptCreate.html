@@ -198,6 +198,122 @@ width:100%;
                                                     <a (click)="AddModel()"><h5><i class="mdi-content-add-circle-outline"></i> Add Record</h5></a>
                                                 </div>
                                             </div>-->
+
+                                            <div class="row">
+                                                <div class="col s12">
+                                                    <a class="header blue-text lighter bigger" (click)="ShowHideProducts()" >
+
+                                                        <strong>Products</strong>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="IsShowProducts==true">
+                                                <!--<div class="col-sm-12">-->
+                                                <table class="table">
+                                                    <thead>
+
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="#obj of modelInput.ReceiptProducts; #order = index">
+
+                                                            <td>
+                                                                <div class="col s12">
+
+
+                                                                    <label class="block clearfix">
+                                                                        Row No
+                                                                        <span class="clearfix">
+                                                                            <input type="text" [(ngModel)]="obj.RowNo" placeholder="Row No" name="ar[]" style="width:50px" class="LeftText" readonly="readonly" />
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        Product No
+                                                                        <span class="clearfix">
+                                                                            <input type="text" style="width:120px" placeholder="Product No" [(ngModel)]="obj.ProductNo" name="pre[]" /><!--Prefix-->
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            
+
+                                                            <td>
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        <button type="button" class="btn waves-effect waves-light btn-default" disabled="{{Isbtndisable}}" (click)="OpenPasteModal(obj)">
+                                                                            <i class="small mdi-communication-message"></i></button></label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        Product Name
+                                                                        <span class="clearfix">
+                                                                            <input type="text" placeholder="Product Name" [(ngModel)]="obj.ProductName" name="ph[]" style="width:120px;"/>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        Price
+                                                                        <span class="clearfix">
+                                                                            <input type="number" class="form-control" placeholder="Price" name="price[]" [(ngModel)]="obj.Price" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;" (change)="CalculateProdRowTotal(obj)"/>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="col s12">
+                                                                    <label class="block clearfix">
+                                                                        Quantity
+                                                                        <span class="clearfix">
+                                                                            <input type="number" class="form-control" [(ngModel)]="obj.Qty" name="qty[]" maxlength="50" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;"  (change)="CalculateProdRowTotal(obj)"/>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <label class="block clearfix">
+                                                                    Total
+                                                                    <span class="clearfix">
+                                                                        <input type="number" class="form-control" placeholder="Total" [(ngModel)]="obj.Total" maxlength="50"  style="width:50px" readonly="readonly"/>
+                                                                    </span>
+                                                                </label>
+
+                                                            </td>
+                                                            
+                                                            <td style="width:150px">
+                                                                <a class="green-text" (click)="AddProducts(obj)">
+                                                                    <i class="mdi-content-add"></i>More
+                                                                </a>
+                                                                <a class="red-text" (click)="delProductDet(obj)">
+                                                                    <i class="mdi-content-remove"></i>Less
+                                                                </a>
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!--</div>-->
+                                                <div class="row">
+                                                    <div class="col s12 l2 m2 offset-l10">
+                                                        <div class="input-field col s12 l12 m12">
+                                                            <input type="number" id="Total" placeholder="Total" [(ngModel)]="modelInput.ProductTotal" />
+                                                            <label for="Total" class="active">Total</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
+
+
+
                                             <div class="row">
                                                 <div class="col s12">
                                                     <table class="table table-striped addReceipt">

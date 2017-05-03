@@ -277,8 +277,20 @@ export class AmaxCustomers implements OnInit {
                     this.SAVE_BTN_TEXT = this.RES.CUSTOMER_MASTER.APP_BTN_UPDATE;
                     this.ADD_NEW_CUST_TEXT = this.RES.CUSTOMER_MASTER.APP_LBL_NEW_CUST;
                     this.CSSTEXT = "mdi-content-create";
-                    if ( this.modelInput.CustomerEmails.length == 0) {
+                    if (this.modelInput.CustomerEmails.length == 0) {
                         this.modelInput.CustomerEmails = [{ Email: "", EmailName: this.modelInput.FileAs, Newslettere: false }]
+                    }
+                    else {
+                        jQuery.each(this.modelInput.CustomerEmails, function () {
+                            if (this.Newslettere == "1") {
+
+                                this.Newslettere = false;
+
+                            }
+                            else {
+                                this.Newslettere = true;
+                            }
+                        });
                     }
                     if (this.modelInput.CustomerPhones.length == 0) {
                         var phid = "";
@@ -828,6 +840,14 @@ export class AmaxCustomers implements OnInit {
                     else {
                         this.publish = "0";
                     }
+                    debugger;
+                    if (this.Newslettere == true) {
+                        this.Newslettere = false;
+                    }
+                    else {
+                        this.Newslettere = true;
+                    }
+                    
                     i++;
                 });
             }
@@ -1324,7 +1344,7 @@ export class AmaxCustomers implements OnInit {
     
     editCustDet(Obj) {
         this._customerService.GetCompleteCustDet(Obj.CustomerId).subscribe(response=> {
-           // debugger;
+            debugger;
             response = jQuery.parseJSON(response);
             if (response.IsError == true) {
                 bootbox.alert({
@@ -1351,6 +1371,12 @@ export class AmaxCustomers implements OnInit {
                     jQuery.each(this.modelInput.CustomerEmails, function () {
                         this.NewsOrder = "News" + count;
                         this.EPublishOrder = "EPub" + count++;
+                        if (this.Newslettere == "1") {
+                            this.Newslettere = false;
+                        }
+                        else {
+                            this.Newslettere = true;
+                        }
                     });
                 }
                 if (this.modelInput.CustomerPhones.length == 0) {
