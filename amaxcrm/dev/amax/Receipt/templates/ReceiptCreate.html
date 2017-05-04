@@ -203,7 +203,7 @@ width:100%;
                                                 <div class="col s12">
                                                     <a class="header blue-text lighter bigger" (click)="ShowHideProducts()" >
 
-                                                        <strong>Products</strong>
+                                                        <strong>{{RES.SCREEN_RECEIPTCREATE.HEADER_TXT_PRODUCTS}}</strong>
                                                     </a>
                                                 </div>
                                             </div>
@@ -216,83 +216,111 @@ width:100%;
                                                     <tbody>
                                                         <tr *ngFor="#obj of modelInput.ReceiptProducts; #order = index">
 
-                                                            <td>
-                                                                <div class="col s12">
+                                                            <td style="width:7.5%;">
+                                                                <div class="col s12 m12 L12">
 
 
                                                                     <label class="block clearfix">
-                                                                        Row No
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_ROWNO}}
                                                                         <span class="clearfix">
-                                                                            <input type="text" [(ngModel)]="obj.RowNo" placeholder="Row No" name="ar[]" style="width:50px" class="LeftText" readonly="readonly" />
+                                                                            <input type="text" [(ngModel)]="obj.RowNo" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_ROWNO}}Row No" name="ar[]" style="width:50px" class="LeftText" readonly="readonly" />
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td style="width:16%;">
+                                                                
                                                                 <div class="col s12">
                                                                     <label class="block clearfix">
-                                                                        Product No
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODUCTNO}}
                                                                         <span class="clearfix">
-                                                                            <input type="text" style="width:120px" placeholder="Product No" [(ngModel)]="obj.ProductNo" name="pre[]" /><!--Prefix-->
+                                                                            <input type="text" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_PRODUCTNO}}" [(ngModel)]="obj.ProductNo" name="pre[]" style="width:180px;"/><!--Prefix-->
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
                                                             
 
-                                                            <td>
-                                                                <div class="col s12">
+                                                            <td  style="width:14%;">
+                                                                <!--<div class="col s12 m3 l3">.</div>-->
+                                                                <div class="col s12 m6 l6 offset-l3">
                                                                     <label class="block clearfix">
                                                                         <button type="button" class="btn waves-effect waves-light btn-default" disabled="{{Isbtndisable}}" (click)="OpenPasteModal(obj)">
                                                                             <i class="small mdi-communication-message"></i></button></label>
                                                                 </div>
+                                                                <!--<div class="col s12 m3 l3"></div>-->
+                                                                <div class="row">
+                                                                    <div class="col s12 l12 m12">
+                                                                        <div id="PasteTextModal" class="modal">
+                                                                            <div class="modal-content">
+                                                                                <h6 class="blue-text">{{RES.SCREEN_RECEIPTCREATE.MODAL_HEADER_TXT_PASTETEXT}}</h6>
+                                                                                
+                                                                                
+                                                                                    
+
+                                                                                    <div class="input-field col s12 l12 m12">
+                                                                                        <br />
+                                                                                        <input type="text" id="PasteText" [(ngModel)]="PasteText" placeholder="{{RES.SCREEN_RECEIPTCREATE.MODAL_TXT_PH_PAGETEXT}} &#8629;"  (keypress)="GetValidateText($event.keyCode)"/>  <!--(change)="GetValidateText()"(change)="GetValidateText()"-->
+                                                                                       
+                                                                                    </div>
+                                                                               
+                                                                                <!--</div>-->
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <a class="waves-effect waves-red btn-flat modal-action modal-close {{CHANGEDIR}}">{{RES.SCREEN_RECEIPTCREATE.ANCHOR_TXT_TEMPCLOSE}}</a>
+                                                                                <!--<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Agree</a>-->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
                                                             </td>
-                                                            <td>
-                                                                <div class="col s12">
+                                                            <td  style="width:19.5%;">
+                                                                <div class="col s12 m12 l12">
                                                                     <label class="block clearfix">
-                                                                        Product Name
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODUCTNAME}}
                                                                         <span class="clearfix">
-                                                                            <input type="text" placeholder="Product Name" [(ngModel)]="obj.ProductName" name="ph[]" style="width:120px;"/>
+                                                                            <input type="text" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_PRODUCTNAME}}" [(ngModel)]="obj.ProductName" name="ph[]" style="width:200px;"/>
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td  style="width:11%;">
                                                                 <div class="col s12">
                                                                     <label class="block clearfix">
-                                                                        Price
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRICE}}
                                                                         <span class="clearfix">
-                                                                            <input type="number" class="form-control" placeholder="Price" name="price[]" [(ngModel)]="obj.Price" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;" (change)="CalculateProdRowTotal(obj)"/>
+                                                                            <input type="number" class="form-control" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_PRICE}}" name="price[]" [(ngModel)]="obj.Price" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;" (change)="CalculateProdRowTotal(obj)"/>
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td style="width:11%;">
                                                                 <div class="col s12">
                                                                     <label class="block clearfix">
-                                                                        Quantity
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_QTY}}
                                                                         <span class="clearfix">
-                                                                            <input type="number" class="form-control" [(ngModel)]="obj.Qty" name="qty[]" maxlength="50" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;"  (change)="CalculateProdRowTotal(obj)"/>
+                                                                            <input type="number" class="form-control" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_QTY}}" [(ngModel)]="obj.Qty" name="qty[]" maxlength="50" style="width:50px" onKeyDown="if (this.value.length == 11 && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) return false;"  (change)="CalculateProdRowTotal(obj)"/>
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td style="width:11%;">
                                                                 <label class="block clearfix">
-                                                                    Total
+                                                                    {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_TOTAL}}
                                                                     <span class="clearfix">
-                                                                        <input type="number" class="form-control" placeholder="Total" [(ngModel)]="obj.Total" maxlength="50"  style="width:50px" readonly="readonly"/>
+                                                                        <input type="number" class="form-control" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_TOTAL}}" [(ngModel)]="obj.Total" maxlength="50"  style="width:50px" readonly="readonly"/>
                                                                     </span>
                                                                 </label>
 
                                                             </td>
                                                             
-                                                            <td style="width:150px">
+                                                            <td style="width:70px">
                                                                 <a class="green-text" (click)="AddProducts(obj)">
-                                                                    <i class="mdi-content-add"></i>More
+                                                                    <i class="mdi-content-add"></i>{{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODMORE}}
                                                                 </a>
                                                                 <a class="red-text" (click)="delProductDet(obj)">
-                                                                    <i class="mdi-content-remove"></i>Less
+                                                                    <i class="mdi-content-remove"></i>{{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODLESS}}
                                                                 </a>
 
                                                             </td>
@@ -303,8 +331,8 @@ width:100%;
                                                 <div class="row">
                                                     <div class="col s12 l2 m2 offset-l10">
                                                         <div class="input-field col s12 l12 m12">
-                                                            <input type="number" id="Total" placeholder="Total" [(ngModel)]="modelInput.ProductTotal" />
-                                                            <label for="Total" class="active">Total</label>
+                                                            <input type="number" id="Total" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_PRODTOTAL}}" [(ngModel)]="modelInput.ProductTotal" readonly="readonly"/>
+                                                            <label for="Total" class="active">{{RES.SCREEN_RECEIPTCREATE.LBL_TXT_PRODTOTAL}}</label>
                                                         </div>
                                                     </div>
                                                 </div>

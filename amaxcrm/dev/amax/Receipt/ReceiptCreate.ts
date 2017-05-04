@@ -30,6 +30,7 @@ export class AmaxReceiptCreate implements OnInit {
     _ProjectCats = [];
     _Projects = [];
     _Currencies = [];
+    PasteText: string = "";
     IsShowProducts: boolean = false;
 //    modelInput.ReceiptLines = [];
     _ThankLetters = [];
@@ -47,6 +48,7 @@ export class AmaxReceiptCreate implements OnInit {
     IsBankDetShow: boolean = false;
     DefaultDate: string = "";
     IPopUpOpen: boolean = false;
+    PopProdObj: Object = {};
     static $inject = ['$scope', '$location', '$anchorScroll'];
    // @ViewChild('RTLDiv') private myScrollContainer: ElementRef;
     constructor(private _resourceService: ResourceService, private _RecieptService: RecieptService, private _CustomerService: CustomerService, private _routeParams: RouteParams, private _ChargeCreditService: ChargeCreditService) {
@@ -266,7 +268,7 @@ export class AmaxReceiptCreate implements OnInit {
         });
     }
     saveReceiptData(IsExit) {
-        debugger;
+       // debugger;
         //if (this.IPopUpOpen == false)
         //{
         var EmpName = jQuery("#EmpId").val();
@@ -306,7 +308,7 @@ export class AmaxReceiptCreate implements OnInit {
         ) {
 
             this.modelInput.RecieptType = this.modelInput.ReceiptTypeId;
-            var LineCount = this.modelInput.ReceiptLines.length;
+            var LineCount = this.modelInput.ReceiptLines.length;debu
             var CheckRowValid = true;
             if (LineCount < 1) {
                 CheckRowValid = false;
@@ -315,7 +317,7 @@ export class AmaxReceiptCreate implements OnInit {
             
             for (var cnt in this.modelInput.ReceiptLines) // for acts as a foreach
             {
-                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid <br>";
+                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid in Receipt Lines <br>";
                 if (this.ValidateRowModel(this.modelInput.ReceiptLines[cnt], ErrorMessage) == false) {
                     CheckRowValid = false;
                     break;
@@ -324,7 +326,7 @@ export class AmaxReceiptCreate implements OnInit {
 
             for (var cnt in this.modelInput.ReceiptProducts) // for acts as a foreach
             {
-                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid <br>";
+                var ErrorMessage = "Row Number - " + (parseInt(cnt) + 1).toString() + " is not valid in Products <br>";
                 if (this.ValidateProductRowModel(this.modelInput.ReceiptProducts[cnt], ErrorMessage,cnt) == false) {
                     CheckRowValid = false;
                     break;
@@ -333,7 +335,7 @@ export class AmaxReceiptCreate implements OnInit {
 
 
             if (CheckRowValid == true) {
-                debugger;
+                //debugger;
                 var jdata = JSON.stringify(this.modelInput);
                 //console.log(jdata);
                 this._RecieptService.AddReceipt(jdata).subscribe(response=> {
@@ -686,10 +688,84 @@ export class AmaxReceiptCreate implements OnInit {
                 CashCSS: "grey", CreditCSS: "white", BankCSS: "white", OtherCSS: "white", IsShowOthers: false, IsCreditShow: false, IsBankDetShow: false
             };
             CurrentModel.RecievedCustId = this.CustId;
-            debugger;
+           // debugger;
             this.modelInput.ReceiptLines.push(ModelObj);
             this.BindTotal();
         }
+    }
+    ValidatePasteText() {
+        var SplitText = this.PasteText.split(/[\t]+/);
+        var IsValidData = true;
+        var msg = "";
+       // debugger;
+        if (SplitText.length == 4) {
+            if (jQuery.isNumeric(SplitText[1].trim()) == false) {
+                IsValidData = false;
+                msg = "Quantity must be numeric only";
+            }
+            var SplitPrice = SplitText[3].trim().split(/[\s]+/);
+            if (SplitPrice.length == 2) {
+                if (jQuery.isNumeric(SplitPrice[1].trim()) == false) {
+                    IsValidData = false;
+                    msg = "Price must be numeric only";
+                }
+            }
+            else {
+                IsValidData = false;
+                msg = "Please enter text in Product No \t Quantity \t Product Name \t Price format only";
+            }
+        }
+        else {
+            IsValidData = false;
+            msg = "Please enter text in Product No \t Quantity \t Product Name \t Price format only";
+        }
+        if (IsValidData == false) {
+            bootbox.alert({
+                message: msg,
+                className: this.ChangeDialog,
+                buttons: {
+                    ok: {
+                        //label: 'Ok',
+                        className: this.CHANGEDIR
+                    }
+                }
+            });
+        }
+        return IsValidData;
+    }
+    GetValidateText(keyCode) {
+        
+        
+        if (keyCode == 13) {
+            this.PasteText = jQuery("#PasteText").val();
+            if (this.ValidatePasteText()) {
+                var SplitText = this.PasteText.split(/[\t]+/);
+                this.PopProdObj.ProductNo = SplitText[0].trim();
+                this.PopProdObj.Qty = parseFloat(SplitText[1].trim());
+                this.PopProdObj.ProductName = SplitText[2].trim();
+                var SplitPrice = SplitText[3].trim().split(/[\s]+/);
+                this.PopProdObj.Price = parseFloat(SplitPrice[1].trim()).toFixed(2);
+                this.PopProdObj.Total = (parseFloat(SplitPrice[1].trim()) * parseFloat(SplitText[1].trim())).toFixed(2);
+                this.PasteText = "";
+                jQuery('#PasteTextModal').closeModal();
+                this.BindProdTotal();
+            }
+        }
+    }
+    OpenPasteModal(ProdObj) {
+       
+        if ((ProdObj.ProductNo != undefined || ProdObj.ProductNo != null || ProdObj.ProductNo != "")
+            && (ProdObj.ProductName != undefined || ProdObj.ProductName != null || ProdObj.ProductName != "")
+            && (ProdObj.Price != undefined || ProdObj.Price != null || ProdObj.Price != "")) {
+            this.PasteText = "";
+            
+        }
+        else {
+            this.PasteText = ProdObj.ProductNo + " | " + ProdObj.ProductName + " | " + ProdObj.Price;
+        }
+        this.PopProdObj = ProdObj;
+        
+        jQuery('#PasteTextModal').openModal();
     }
     OpenCustSearch() {
         this.IPopUpOpen = true;
@@ -914,7 +990,7 @@ export class AmaxReceiptCreate implements OnInit {
         
     }
     AddProducts(prodObj): observable {
-        debugger;
+       // debugger;
         if (this.CanaddProduct(prodObj)) {
         
             
@@ -956,7 +1032,7 @@ export class AmaxReceiptCreate implements OnInit {
 
     }
     delProductDet(ProdObj): observable {
-        debugger;
+      //  debugger;
         //if (this.modelInput.ReceiptProducts.length > 1) {
             var index = 0;
             jQuery.each(this.modelInput.ReceiptProducts, function () {
@@ -978,7 +1054,7 @@ export class AmaxReceiptCreate implements OnInit {
         //}
     }
     CalculateProdRowTotal(prodObj) {
-        debugger;
+      //  debugger;
         var Price = 0;
         if (prodObj.Price != undefined && prodObj.Price != null && prodObj.Qty != "") {
             Price = parseFloat(prodObj.Price);
@@ -988,6 +1064,7 @@ export class AmaxReceiptCreate implements OnInit {
             Qty = parseFloat(prodObj.Qty);
         }
         prodObj.Total = (Price * Qty).toFixed(2);
+
         this.BindProdTotal();
     }
 

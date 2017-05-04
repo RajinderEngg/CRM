@@ -840,7 +840,7 @@ export class AmaxCustomers implements OnInit {
                     else {
                         this.publish = "0";
                     }
-                    debugger;
+                   // debugger;
                     if (this.Newslettere == true) {
                         this.Newslettere = false;
                     }
@@ -1344,7 +1344,7 @@ export class AmaxCustomers implements OnInit {
     
     editCustDet(Obj) {
         this._customerService.GetCompleteCustDet(Obj.CustomerId).subscribe(response=> {
-            debugger;
+          //  debugger;
             response = jQuery.parseJSON(response);
             if (response.IsError == true) {
                 bootbox.alert({
@@ -1611,7 +1611,7 @@ export class AmaxCustomers implements OnInit {
         this.EditPhoneData = PhoneObj;
     }
     delPhoneDet(PhoneObj): observable {
-        debugger;
+       // debugger;
         if (this.modelInput.CustomerPhones.length > 1) {
             var index = 0;
             jQuery.each(this.modelInput.CustomerPhones, function () {
