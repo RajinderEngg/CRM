@@ -13,11 +13,96 @@ namespace AmaxService.HelperClasses
     {
         public string SecurityConString { get; set; }
         public string LangValue { get; set; }
+        public string GetAllChildGroupsFromGrpId(string GroupIds)
+        {
+            string returnObj = "";
+
+            bool IsGroupFilter = true;
+            string[] Grps = GroupIds.Split(',');
+            //if (Grps.Length <= 1)
+            //{
+            for (int i = 0; i < Grps.Length; i++)
+            {
+                if (Grps[i].Trim() == "0")
+                {
+                    IsGroupFilter = false;
+                    break;
+                }
+            }
+            //}
+            if (IsGroupFilter == true)
+            {
+                for (int i = 0; i < Grps.Length; i++)
+                {
+                    using (DbAccess db = new DbAccess(SecurityConString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+                    {
+                        string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i].Trim() + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
+                        DataSet ds1 = db.GetDataSet(Qry, null, false);
+                        int j = 0;
+                        for (; j < ds1.Tables[0].Rows.Count; j++)
+                        {
+                            GroupIds += "," + Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                        }
+                        if (j > 0)
+                        {
+                            Grps = new string[100];
+                            Grps = GroupIds.Split(',');
+                        }
+                    }
+                }
+                returnObj = GroupIds;
+            }
+
+            return returnObj;
+        }
+        public string GetAllChildGroupsFromGrpIdForSMS(string GroupIds)
+        {
+            string returnObj = "";
+
+            bool IsGroupFilter = true;
+            string[] Grps = GroupIds.Split(',');
+            ////if (Grps.Length <= 1)
+            ////{
+            //for (int i = 0; i < Grps.Length; i++)
+            //{
+            //    if (Grps[i].Trim() == "0")
+            //    {
+            //        IsGroupFilter = false;
+            //        break;
+            //    }
+            //}
+            //}
+            if (IsGroupFilter == true)
+            {
+                for (int i = 0; i < Grps.Length; i++)
+                {
+                    using (DbAccess db = new DbAccess(SecurityConString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+                    {
+                        string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i].Trim() + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
+                        DataSet ds1 = db.GetDataSet(Qry, null, false);
+                        int j = 0;
+                        for (; j < ds1.Tables[0].Rows.Count; j++)
+                        {
+                            GroupIds += "," + Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                        }
+                        if (j > 0)
+                        {
+                            Grps = new string[100];
+                            Grps = GroupIds.Split(',');
+                        }
+                    }
+                }
+                returnObj = GroupIds;
+            }
+
+            return returnObj;
+        }
         public List<CustomersModel> GetCustomersListOfGrps(string GroupIds)
         {
             List<CustomersModel> CustList = new List<CustomersModel>();
-            try
-            {
+            //try
+            //{
+                //int pi = Convert.ToInt32("4r");
                 using (DbAccess db = new DbAccess(SecurityConString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
                 {
                     //string Query = "select Customers.CustomerId as CustomerId,FileAs from Customers left outer join " +
@@ -25,37 +110,38 @@ namespace AmaxService.HelperClasses
                     // " where CustomerGeneralGroupId in(" + GroupIds + ") and  (Customers.Deceased = 0) AND (Customers.Deleted = 0) AND (Customers.ActiveStatus = 0)"+
                     // " group by Customers.CustomerId,Customers.FileAs " +
                     // " order by Customers.CustomerId";
-                    bool IsGroupFilter = true;
-                    string[] Grps = GroupIds.Split(',');
-                    //if (Grps.Length <= 1)
+                    //bool IsGroupFilter = true;
+                    //string[] Grps = GroupIds.Split(',');
+                    ////if (Grps.Length <= 1)
+                    ////{
+                    //    for (int i = 0; i < Grps.Length; i++)
+                    //    {
+                    //        if (Grps[i] == "0")
+                    //        {
+                    //            IsGroupFilter = false;
+                    //            break;
+                    //        }
+                    //    }
+                    ////}
+                    //if (IsGroupFilter == true)
                     //{
-                        for (int i = 0; i < Grps.Length; i++)
-                        {
-                            if (Grps[i] == "0")
-                            {
-                                IsGroupFilter = false;
-                                break;
-                            }
-                        }
+                    //    for (int i = 0; i < Grps.Length; i++)
+                    //    {
+                    //        string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i] + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
+                    //        DataSet ds1 = db.GetDataSet(Qry, null, false);
+                    //        int j = 0;
+                    //        for (; j < ds1.Tables[0].Rows.Count; j++)
+                    //        {
+                    //            GroupIds += ","+Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                    //        }
+                    //        if (j > 0)
+                    //        {
+                    //            Grps = new string[100];
+                    //            Grps = GroupIds.Split(',');
+                    //        }
+                    //    }
                     //}
-                    if (IsGroupFilter == true)
-                    {
-                        for (int i = 0; i < Grps.Length; i++)
-                        {
-                            string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i] + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
-                            DataSet ds1 = db.GetDataSet(Qry, null, false);
-                            int j = 0;
-                            for (; j < ds1.Tables[0].Rows.Count; j++)
-                            {
-                                GroupIds += ","+Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
-                            }
-                            if (j > 0)
-                            {
-                                Grps = new string[100];
-                                Grps = GroupIds.Split(',');
-                            }
-                        }
-                    }
+                    string FinalGrpIds = GetAllChildGroupsFromGrpId(GroupIds);
                     string Query = "Select distinct   Deceased,ActiveStatus,RowDate,HALIA,MemberID,birthdate,birthdate2,hebdate1,hebdate2,CardType," +
                     " RGBCOLOR,Gender, fname,Lname,title,salutation,foundationdates,CustomerId,FileAs,CountryCode,Addr,AddressId,AddToName," +
                     " AddressTypeName,AddressTypeNameEng,StateID,cityName,Zip,ForDelivery,TypeNameHeb,TypeNameEng ,memberend,memberStart," +
@@ -80,8 +166,8 @@ namespace AmaxService.HelperClasses
                     " States RIGHT OUTER JOIN nd_MainCustomerAddress ON States.StateName = nd_MainCustomerAddress.StateId " +
                     " LEFT OUTER JOIN CustomerAddressType ON nd_MainCustomerAddress.AddressTypeId = CustomerAddressType.AddressTypeId ON Customers.CustomerId = nd_MainCustomerAddress.CustomerId " +
                     " LEFT OUTER JOIN CustomerEmails ON Customers.CustomerId = CustomerEmails.CustomerId Where Customers.ActiveStatus = 0  And Customers.IsNewsLetter = 0  And Deleted = 0  )DerivedTBL Where   Deleted = 0 And(MainAddress = 1 or MainAddress is null)  ";
-                    if(IsGroupFilter==true)
-                        Query+=" AND((GroupId in ("+GroupIds+")) )";
+                    if(string.IsNullOrEmpty( FinalGrpIds)==false)
+                        Query+=" AND((GroupId in ("+ FinalGrpIds + ")) )";
 
 
                 //    var Sql_SelectCustomersForSpecifiedGroups = @"SELECT Sms.CustomerId, Sms.FileAs, Sms.CelPhone FROM (SELECT C.CustomerId, C.FileAs, 
@@ -127,11 +213,11 @@ namespace AmaxService.HelperClasses
                         CustList.Add(CustObj);
                     }
                 }
-            }
-            catch(Exception ex)
-            {
-                CustList = null;
-            }
+            //}
+            //catch(Exception ex)
+            //{
+            //    CustList = null;
+            //}
             return CustList.Distinct().ToList();
         }
     }

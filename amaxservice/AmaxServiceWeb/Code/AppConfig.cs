@@ -42,6 +42,13 @@ namespace AmaxServiceWeb.Code
                 return System.Web.Configuration.WebConfigurationManager.AppSettings["ReplytoName"];
             }
         }
+        public static string ToEmail
+        {
+            get
+            {
+                return System.Web.Configuration.WebConfigurationManager.AppSettings["ToEmail"];
+            }
+        }
         public static string Port
         {
             get

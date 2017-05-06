@@ -627,9 +627,14 @@ export class AmaxSmsComponent implements OnInit {
                 jQuery("#groupTree").kendoTreeView({
                     loadOnDemand: true,
                     checkboxes: {
-                        checkChildren: true
+                        //checkChildren: true
                     },
-                    //check: this.onGroupSelect,
+                    ////check: this.onGroupSelect,
+                    check: function (e) {
+                        this.expandRoot = e.node;
+
+                        this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
+                    },
                     dataSource: res.Data.kendoTree
                 });
                 jQuery("#sendLaterDate").kendoDatePicker({

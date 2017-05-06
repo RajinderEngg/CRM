@@ -308,7 +308,7 @@ export class AmaxReceiptCreate implements OnInit {
         ) {
 
             this.modelInput.RecieptType = this.modelInput.ReceiptTypeId;
-            var LineCount = this.modelInput.ReceiptLines.length;debu
+            var LineCount = this.modelInput.ReceiptLines.length;
             var CheckRowValid = true;
             if (LineCount < 1) {
                 CheckRowValid = false;
@@ -775,7 +775,7 @@ export class AmaxReceiptCreate implements OnInit {
             var jdata = JSON.stringify(this.modelInput);
             this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
         }
-        document.location = this.baseUrl + "Customer/Search/0/ReceiptCreate";
+        document.location = this.baseUrl + "Customer/Search/0/ReceiptCreate/" + this.modelInput.CustomerId;
         //jQuery('#CustSearchModal  .modal-content').html('<object data="' + this.baseUrl+'Customer/Search/1/ReceiptCreate" style="width:100%;height:500px"/>');
         //jQuery('#CustSearchModal').openModal();
 

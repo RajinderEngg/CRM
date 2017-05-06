@@ -88,6 +88,7 @@ namespace AmaxServiceWeb.Controllers
                 secureDictionary.Add("Branchid", branchid);
                 secureDictionary.Add("sysdata", sysdata);
                 crmservice.currentUser = secureDictionary;
+                crmservice.SecurityConnection = databaseconnection;
                 //new System.Data.DataRow().
                 resData.Data = crmservice.SendSms(model);
             }

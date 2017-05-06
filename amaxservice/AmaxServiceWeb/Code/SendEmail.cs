@@ -28,24 +28,33 @@ namespace AmaxServiceWeb.Code
             string ReplytoName = AppConfig.ReplytoName; //"Amax support";
             int Port = Convert.ToInt32(AppConfig.Port);
             string SMT, strErrorMsg;
-
+            string ToMail = AppConfig.ToEmail;
             //string mypath = HttpContext.Current.Request.PhysicalApplicationPath;
             SMT = AppConfig.SMT; //"mail.amax.co.il";
 
             try
             {
                 LogHistoryHelper LogHistHP = new LogHistoryHelper();
-
+                ///////////////Body of Email///////////////////////////////////////
+                string EmailBody = "Respected Sir/Madam" +
+                    "<p>This email is sending to you for informing you that C.R.M. got error in following place when Employee of EmployeeId " + LogHistObj.EmployeeId + " of Organigation " + LogHistObj.OrgId + " is logged in on Dated " + LogHistObj.OnDate + ".</p>" +
+                    "<p>The error was occured in " + LogHistObj.FromPage + " and action name wass " + LogHistObj.Action + ". The error is given bellow:- </p>" +
+                    "<p>" + LogHistObj.Error + "</p>" +
+                    "<p>Full Description :- </p>" +
+                    "<p>" + LogHistObj.FullDescription + "</p><br /><br />" +
+                    "With Regards";
                 //////////Sending Email
                 System.Net.Mail.SmtpClient mailClient = new System.Net.Mail.SmtpClient(SMT, Port);
-                MailMessage MyMailMessage = new System.Net.Mail.MailMessage(FromMail, FromMail, strSub, LogHistObj.Error);
+                MailMessage MyMailMessage = new System.Net.Mail.MailMessage(FromMail, ToMail, strSub, EmailBody);
 
                 System.Net.NetworkCredential mailAuthentication = new System.Net.NetworkCredential("mailer@amax", "00gdcc");
 
                 mailClient.Credentials = mailAuthentication;
 
-
+                MyMailMessage.IsBodyHtml = true;
                 MyMailMessage.From = new MailAddress(FromMail, ReplytoName);
+                //MyMailMessage.To.Add(new MailAddress("vivek@telsoftsystems.com"));
+                //MyMailMessage.Bcc.Add(new MailAddress("info@amax.co.il"));
                 //MyMailMessage.ReplyTo = new MailAddress(ReplytoMail);
                 MyMailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 MyMailMessage.Sender = new MailAddress(AppConfig.SenderEmail);

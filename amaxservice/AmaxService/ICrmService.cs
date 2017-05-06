@@ -17,7 +17,7 @@ namespace AmaxService
     public interface ICrmService
     {
         #region Production services
-
+        string SecurityConnection { get; set; }
         /// <summary>
         /// Sql data Execution method
         /// </summary>

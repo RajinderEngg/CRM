@@ -73,7 +73,7 @@ import {AmaxReceiptCreate} from "./amax/Receipt/ReceiptCreate";
     { path: "/Customer/Add/:Id", name: "AddCustomer", component: AmaxCustomers },
 
     //Customer Routing
-    { path: "/Customer/Search/:ForPopup/:FromPage", name: "SearchCustomer", component: AmaxSearchCustomers },
+    { path: "/Customer/Search/:ForPopup/:FromPage/:ForBack", name: "SearchCustomer", component: AmaxSearchCustomers },
 
     //Reciept Type
     { path: "/ReceiptType/:Id", name: "ReceiptType", component: AmaxReciept },

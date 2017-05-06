@@ -134,7 +134,7 @@
                                                 <button type="button" class="btn waves-effect waves-light green accent-4" id="CustSearchBtn" (click)="SearchCustomer()"  disabled="{{Isbtndisable}}" title="Search Customer by name,code,company name,customerid,phoneno,receiptno,last 4 digit of credit card and cheque no"><i class="mdi-action-search small prefix"></i> Search</button> 
 
                                                 <img src="http://localhost:57998/Images/Loader2.gif" *ngIf="ShowLoader==true" />
-
+                                                <button type="button" class="btn waves-effect waves-light grey lighten-2" id="BackBtn" (click)="BackPage()" disabled="{{Isbtndisable}}" title="Back" *ngIf="IsDirect==true"> Back</button>  <!--<i class="mdi-action-search small prefix"></i>--> 
                                             </div>
                                             
 

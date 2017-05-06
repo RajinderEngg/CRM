@@ -17,6 +17,7 @@ using AmaxService.ThirdPartyApi;
 using System.Globalization;
 using jsonQ;
 using AmaxDataService.DataModel;
+using AmaxService.HelperClasses;
 
 namespace AmaxService
 {
@@ -29,13 +30,14 @@ namespace AmaxService
 
         public Dictionary<string, object> currentUser { get; set; }
         public string SecurityConnection { get; set; }
-
+        public GeneralGroupsHelper GenGrpHP;
         public CrmService()
         {
             responce = new ExpandoObject();
             responce.cost = DateTime.Now;
             responce.error = "";
             IsValid = true;
+            GenGrpHP = new GeneralGroupsHelper();
             //if (WebOperationContext.Current.IncomingRequest.Headers["X-Token"] != null)
             //    try
             //    {
@@ -206,6 +208,7 @@ namespace AmaxService
             }
             catch (Exception ex)
             {
+                
                 language = "";
             }; // EmptyString if null
             if (IsValid)
@@ -618,7 +621,7 @@ namespace AmaxService
             var Sql_SelectCustomersForSpecifiedGroups = @"SELECT Sms.CustomerId, Sms.FileAs, Sms.CelPhone FROM (SELECT C.CustomerId, C.FileAs, 
                 REPLACE(REPLACE(REPLACE(CP.Area+CP.Phone,'-',''),' ',''),'.','') AS CelPhone FROM Customers C INNER JOIN CustomerPhones CP ON c.CustomerId = CP.CustomerId 
                 WHERE CP.PhoneTypeId @PhoneTypeId AND (C.Deceased = 0) AND (C.Deleted = 0) AND (C.ActiveStatus = 0)AND C.CustomerId IN (SELECT DISTINCT Customerid FROM
-                CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN(@GroupIdArr)) @BranchData) AS Sms WHERE LEN(Sms.CelPhone) = 10;"; //WHERE CustomerGeneralGroupId IN(@GroupIdArr)
+                CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN(@GroupIdArr) and CP.IsSms=1 and LEN(CP.Phone)>5) @BranchData) AS Sms "; //WHERE CustomerGeneralGroupId IN(@GroupIdArr)    // WHERE LEN(Sms.CelPhone) >= 9
 
             //Checking for SysData privilges and branch
             if (Convert.ToBoolean(currentUser["IsBranchEnabled"])==true)////currentUser["IsBranchEnabled"]  payload.IsBranchEnabled
@@ -642,25 +645,27 @@ namespace AmaxService
                 {
                     string GroupIdArr = payload.groups.ToString();
                     GroupIdArr = GroupIdArr.Replace("\r\n", "").Replace("[", "").Replace("]", ""); //.Replace("\r\n","").Substring(1, GroupIdArr.Length - 2);
-                    //string[] grps = GroupIdArr.Split(',');
-                    //bool IsGroupFilter = true;
-                    //for (int i = 0; i < grps.Length; i++)
+                    GenGrpHP.SecurityConString = SecurityConnection;
+                    string FinalGrpIds = GenGrpHP.GetAllChildGroupsFromGrpIdForSMS(GroupIdArr);
+
+                    //if (string.IsNullOrEmpty(FinalGrpIds) == false)
                     //{
-                    //    if (grps[i].Trim() == "0")
-                    //    {
-                    //        IsGroupFilter = false;
-                    //    }
-                    //}
-                    //if (IsGroupFilter == true)
-                    //{
-                    //    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr"," WHERE CustomerGeneralGroupId IN("+GroupIdArr+")");
-                    //}
+                    //    ////if (IsGroupFilter == true)
+                    //    ////{ WHERE LEN(Sms.CelPhone) = 10;
+                        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", FinalGrpIds);
+                     //   //Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@CellPhoneLength", "WHERE LEN(Sms.CelPhone) = 10");
+                     //}
                     //else
                     //{
+                        
                     //    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", "");
+                    //    //Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@CellPhoneLength", "");
+
                     //}
 
-                    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
+
+
+                      //  Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
                     dtSelectedCustomers = da.GetDataTable(Sql_SelectCustomersForSpecifiedGroups,
                         new { PhoneTypeId = payload.phoneType }.ToJson().ToTypeof<Dictionary<string, object>>());
                     for (int i = 0; i < dtSelectedCustomers.Rows.Count; i++)

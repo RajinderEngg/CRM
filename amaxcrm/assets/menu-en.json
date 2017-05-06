@@ -1,0 +1,40 @@
+{
+  "menu": [
+    {
+      "label": "Customers",
+      "routerUrl": "Customers",
+      "faicon": "fa-users",
+      "subMenus": [
+        {
+          "label": "Groups",
+          "routerUrl": "GeneralGroups",
+          "subMenus": [ ]
+        },
+        {
+          "label": "Customer Search",
+          "routerUrl": "SearchCustomer",
+          "parameters": { "ForPopup": "0","FromPage": "Direct","ForBack":"Direct" },
+          "subMenus": [ ]
+        },
+        {
+          "label": "New Customer",
+          "routerUrl": "AddCustomer",
+          "parameters": { "Id": "-1" },
+          "subMenus": [ ]
+        },
+        {
+          "label": "SMS",
+          "routerUrl": "Sms",
+          "subMenus": [ ]
+        },
+        {
+          "label": "Receipt Type",
+          "routerUrl": "ReceiptType",
+          "parameters": { "Id": "0" },
+          "subMenus": [ ]
+        }
+      ]
+    }
+  ]
+
+}

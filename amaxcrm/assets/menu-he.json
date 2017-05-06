@@ -1,0 +1,40 @@
+{
+  "menu": [
+    {
+      "label": "לקוחות",
+      "routerUrl": "Customers",
+      "faicon": "fa-users",
+      "subMenus": [
+        {
+          "label": "קבוצות כלליות",
+          "routerUrl": "GeneralGroups",
+          "subMenus": [ ]
+        },
+        {
+          "label": "חיפוש לקוחות",
+          "routerUrl": "SearchCustomer",
+          "parameters": { "ForPopup": "0","FromPage": "Direct","ForBack":"Direct"  },
+          "subMenus": [ ]
+        },
+        {
+          "label": "לקוח חדש",
+          "routerUrl": "AddCustomer",
+          "parameters": { "Id": "-1" },
+          "subMenus": [ ]
+        },
+        {
+          "label": "סמס",
+          "routerUrl": "Sms",
+          "subMenus": [ ]
+        },
+        {
+          "label": "סוג הקבלה",
+          "routerUrl": "ReceiptType",
+          "parameters": { "Id": "0" },
+          "subMenus": [ ]
+        }
+      ]
+    }
+  ]
+
+}

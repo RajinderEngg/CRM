@@ -40,6 +40,8 @@ export class AmaxSearchCustomers implements OnInit {
     IsExtended: boolean = false;
     Extended: boolean = false;
     IsRowFound: boolean = false;
+    IsDirect: boolean = false;
+    ForBack: string = "";
     private selectedCar: string = '';
     private asyncSelectedCar: string = '';
     private autocompleteLoading: boolean = false;
@@ -51,7 +53,7 @@ export class AmaxSearchCustomers implements OnInit {
         return this;
     }
     constructor(private _resourceService: ResourceService, private _customerService: CustomerService, private _routeParams: RouteParams) {
-    
+        
         this.RES.CUSTOMER_SEARCH = {};
         this.modelInput = {};
         this.modelInput.IsExtended = false;
@@ -59,11 +61,16 @@ export class AmaxSearchCustomers implements OnInit {
         this.modelInput.custSearchData = [];
         this.ForPopUp = _routeParams.params.ForPopup;
         this.FromPage = _routeParams.params.FromPage;
+        
+        debugger;
         if (this.FromPage == "ReceiptCreate") {
             this.EditIconCss = "mdi-notification-sync";
+            this.IsDirect = true;
+            this.ForBack = _routeParams.params.ForBack;
         }
         else {
             this.EditIconCss = "mdi-content-create";
+            this.IsDirect = false;
         }
         
         //if (this.ForPopUp == 1) {
@@ -161,12 +168,21 @@ export class AmaxSearchCustomers implements OnInit {
                 if (this.modelInput != undefined && this.modelInput != null) {
                     var jdata = JSON.stringify(this.modelInput);
                     if (this.FromPage == "ReceiptCreate") {
-                        this._resourceService.setCookie(this.FromPage + "_Search_Cache", jdata, 10);
-                        this._resourceService.setCookie(this.FromPage + "_Search_auto_Cache", this.asyncSelectedCar, 10);
+                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
+                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
                     }
                 }
             }
             else {
+
+                
+                if (this.modelInput != undefined && this.modelInput != null) {
+                    var jdata = JSON.stringify(this.modelInput);
+                    
+                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
+                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
+                    
+                }
                 document.location=this.BaseAppUrl + "Customer/Add/" + CompData[0].trim();
             }
         }
@@ -233,10 +249,10 @@ export class AmaxSearchCustomers implements OnInit {
                 }
                 if (this.modelInput != undefined && this.modelInput != null) {
                     var jdata = JSON.stringify(this.modelInput);
-                    if (this.FromPage == "ReceiptCreate") {
-                        this._resourceService.setCookie(this.FromPage + "_Search_Cache", jdata, 10);
-                        this._resourceService.setCookie(this.FromPage + "_Search_auto_Cache", this.asyncSelectedCar, 10);
-                    }
+                    //if (this.FromPage == "ReceiptCreate") {
+                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
+                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
+                    //}
                 }
             }
         }
@@ -249,6 +265,13 @@ export class AmaxSearchCustomers implements OnInit {
         
         this.Isbtndisable = "";
         this.ShowLoader = false;
+    }
+    BackPage() {
+        if (this.FromPage == "ReceiptCreate") {
+            debugger;
+            var ReceiptId = localStorage.getItem("TempReceiptId");
+            parent.window.open(this.BaseAppUrl + "ReceiptCreate/" + this.ForBack + "/" + ReceiptId, "_self");
+        }
     }
     SetdefaultPage(){
       
@@ -274,16 +297,17 @@ export class AmaxSearchCustomers implements OnInit {
         }
        // debugger;
 
-        var jdata = this._resourceService.getCookie(this.FromPage + "_Search_Cache");
+        var jdata = this._resourceService.getCookie("_Search_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {
             jdata = jdata.substring(1, jdata.length);
             this.modelInput = jQuery.parseJSON(jdata);
         }
-        var asyn = this._resourceService.getCookie(this.FromPage + "_Search_auto_Cache");
+        var asyn = this._resourceService.getCookie("_Search_auto_Cache");
         if (asyn != undefined && asyn != undefined && asyn != "") {
             asyn = asyn.substring(1, asyn.length);
             this.asyncSelectedCar = asyn;
         }
+        
        this._resourceService.GetLangRes(this.Formtype, this.Lang).subscribe(response=> {
            //debugger;
            response = jQuery.parseJSON(response);
