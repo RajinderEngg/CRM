@@ -79,10 +79,12 @@ export class AmaxGeneralGroups implements OnInit {
     
    
 
-    GetCustData(): Observable {
+    GetCustData(): void {
+       
         this.GroupIds = "";
         var _CheckedGroups = [];
-        //debugger;
+        
+       // debugger;
         Kendo_utility.checkedNodeIds(jQuery("#groupTree").data("kendoTreeView").dataSource.view(), _CheckedGroups);
         for (var i = 0; i < _CheckedGroups.length; i++) {
             this.GroupIds = this.GroupIds+  _CheckedGroups[i]+",";
@@ -98,6 +100,8 @@ export class AmaxGeneralGroups implements OnInit {
         }
         this._GeneralGroupsService.GetCompleteCustDet(this.GroupIds).subscribe(response=> {
             //debugger;
+            this.Isbtndisable = "disabled";
+            this.ShowLoader = true;
             response = jQuery.parseJSON(response);
             if (response.IsError == true) {
                 bootbox.alert({
@@ -144,11 +148,14 @@ export class AmaxGeneralGroups implements OnInit {
                     ],
                 });
             }
+            this.Isbtndisable = "";
+            this.ShowLoader = false;
         }, error=> {
             console.log(error);
         }, () => {
             console.log("CallCompleted")
         });
+        
     }
     ngOnInit() {
        
@@ -239,7 +246,7 @@ export class AmaxGeneralGroups implements OnInit {
                    ],
                });
 
-               debugger;
+              // debugger;
                var jdata = this._resourceService.getCookie("GeneralGroup_Cache");
                if (jdata != undefined && jdata != undefined && jdata != "") {
                    jdata = jdata.substring(1, jdata.length);

@@ -655,5 +655,26 @@ namespace AmaxService.HelperClasses
             }
             return RectDet;
         }
+
+        public List<KeyPair> GetProductCats()
+        {
+            List<KeyPair> ProjectList = new List<KeyPair>();
+            string Query = "SELECT     ProdCatId,CategoryName,CategoryNameEng FROM ProdactsCategories where Deleted!=1 ";
+
+
+
+            using (DbAccess db = new DbAccess(SecurityConString))
+            {
+                DataSet ds = db.GetDataSet(Query, null, false);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    if (LangValue == "en")
+                        ProjectList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ProdCatId"]), Convert.ToString(ds.Tables[0].Rows[i]["CategoryNameEng"])));
+                    else if (LangValue == "he")
+                        ProjectList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ProdCatId"]), Convert.ToString(ds.Tables[0].Rows[i]["CategoryName"])));
+                }
+            }
+            return ProjectList;
+        }
     }
 }

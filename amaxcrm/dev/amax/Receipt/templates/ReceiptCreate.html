@@ -215,11 +215,21 @@ width:100%;
                                                     </thead>
                                                     <tbody>
                                                         <tr *ngFor="#obj of modelInput.ReceiptProducts; #order = index">
-
-                                                            <td style="width:7.5%;">
+                                                            <td style="width:5.5%;">
+                                                                <div class="col s12 m12 L12">
+                                                                    <label class="block clearfix">
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_SEARCH}}
+                                                                        <span class="clearfix">
+                                                                            <i class="mdi-action-search small prefix" (click)="OpenProducts(obj)"></i>
+                                                                        </span>
+                                                                    </label>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                            <td style="width:8.5%;">
                                                                 <div class="col s12 m12 L12">
 
-
+                                                                    
                                                                     <label class="block clearfix">
                                                                         {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_ROWNO}}
                                                                         <span class="clearfix">
@@ -232,8 +242,9 @@ width:100%;
                                                                 
                                                                 <div class="col s12">
                                                                     <label class="block clearfix">
-                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODUCTNO}}
+                                                                        {{RES.SCREEN_RECEIPTCREATE.TBL_LBL_TXT_PRODUCTNO}} 
                                                                         <span class="clearfix">
+                                                                            
                                                                             <input type="text" placeholder="{{RES.SCREEN_RECEIPTCREATE.TBL_TXT_PH_PRODUCTNO}}" [(ngModel)]="obj.ProductNo" name="pre[]" style="width:180px;"/><!--Prefix-->
                                                                         </span>
                                                                     </label>

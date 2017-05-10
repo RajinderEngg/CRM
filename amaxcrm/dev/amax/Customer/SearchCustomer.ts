@@ -56,13 +56,14 @@ export class AmaxSearchCustomers implements OnInit {
         
         this.RES.CUSTOMER_SEARCH = {};
         this.modelInput = {};
+        
         this.modelInput.IsExtended = false;
         this.modelInput.Extended = false;
         this.modelInput.custSearchData = [];
         this.ForPopUp = _routeParams.params.ForPopup;
         this.FromPage = _routeParams.params.FromPage;
         
-        debugger;
+        
         if (this.FromPage == "ReceiptCreate") {
             this.EditIconCss = "mdi-notification-sync";
             this.IsDirect = true;
@@ -268,7 +269,7 @@ export class AmaxSearchCustomers implements OnInit {
     }
     BackPage() {
         if (this.FromPage == "ReceiptCreate") {
-            debugger;
+            //debugger;
             var ReceiptId = localStorage.getItem("TempReceiptId");
             parent.window.open(this.BaseAppUrl + "ReceiptCreate/" + this.ForBack + "/" + ReceiptId, "_self");
         }

@@ -1,0 +1,226 @@
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    [type="checkbox"] + label:before, [type="checkbox"] + label:after {
+        left: 0;
+        right: -25px;
+    }
+
+    input[type="checkbox"] + label {
+        margin-right: 40px;
+    }
+
+    [type="text"] + label:before, [type="text"] + label:after {
+        left: 0;
+        right: -25px;
+        
+    }
+
+    input[type="text"] + label {
+        margin-right: 40px;
+    }
+
+    .table tbody tr .green-text {
+        display: none;
+    }
+
+    .table tbody tr:last-child .green-text {
+        display: block;
+    }
+
+    .table tbody tr .red-text {
+        display: block;
+    }
+
+    input {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    select {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    .LeftText {
+        text-align: left !important;
+    }
+
+    .modal-content {
+        /*margin-left: 20px !important;
+        margin-right: 20px !important;*/
+        /*width: 500px !important;*/
+    }
+
+    .modal-dialog {
+        width: 650px !important;
+    }
+    .ForPopUp {
+        display:none;
+    }
+    /*button {
+        float: left !important;
+    }*/
+    /*.card-panel {
+        width:500px!important;
+    }*/
+    /*#EmailTable a {
+        display:none
+    }*/
+</style>
+<!-- Start Page Loading -->
+<!--<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>-->
+<!-- End Page Loading -->
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col s12 m12 l12 card-panel">
+                <div>
+                    <div>
+                        <h1>
+                            <i class="mdi-content-select-all green-text"></i>
+                            <span class="red-text">{{RES.RECEIPT_SEARCH.APP_LBL_RECEIPTSEARCH}}</span>  <!--{{RES.RECEIPT_SEARCH.APP_LBL_RECEIPTSEARCH}}-->
+                            <span class="blue-text" id="id-text2"></span>
+
+                        </h1>
+
+                      
+                        
+                    </div>
+                    <div class="position-relative">
+                        <div class="visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--<div class="col-sm-7">-->
+                                    <div class="row">
+                                      
+                                    </div>
+                                    
+                                    <hr />
+                                    <form>
+                                        <!--<fieldset>-->
+                                        <div class="row">
+
+                                            <div class="col s12 m4 l4">
+                                                <label for="prodno" class="active">{{RES.RECEIPT_SEARCH.TXT_LBL_PARTNUMBER}}</label>  <!--{{RES.RECEIPT_SEARCH._LBL_RECEIPTSEARCH}}-->
+                                                <input type="text" id="prodno" class="form-control" [(ngModel)]="modelInput.PartNumber" placeholder="{{RES.RECEIPT_SEARCH.TXT_PH_PARTNUMBER}}"/>  
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label for="prodname" class="active">{{RES.RECEIPT_SEARCH.TXT_LBL_PRODUCTNAME}}</label>
+                                                <input type="text" id="prodname" class="form-control" placeholder="{{RES.RECEIPT_SEARCH.TXT_PH_PRODUCTNAME}}" [(ngModel)]="modelInput.ProdNameDis" />  
+
+
+                                            </div>
+                                            <div class="col s12 m4 l4">
+                                                <label class="block clearfix">
+                                                    {{RES.RECEIPT_SEARCH.SELECT_LBL_PRODCAT}}
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Product Category" [(ngModel)]="modelInput.ProdCatId">
+
+                                                    <option selected="selected" value="-1">{{RES.RECEIPT_SEARCH.SELECT_LBL_ALL}}</option>
+                                                    <option *ngFor="#DropObject of _ProdCats" value="{{DropObject.Value}}">
+                                                        {{DropObject.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col s12 m4 l4">
+                                                <button type="button" class="btn waves-effect waves-light green accent-4" id="RectSearchBtn" (click)="SearchReceipt()"  disabled="{{Isbtndisable}}" title="Search Receipt"><i class="mdi-action-search small prefix"></i> {{RES.RECEIPT_SEARCH.BTN_TXT_SEARCH}}</button> 
+
+                                                <img src="http://localhost:57998/Images/Loader2.gif" *ngIf="ShowLoader==true" />
+                                                <button type="button" class="btn waves-effect waves-light grey lighten-2" id="BackBtn" (click)="BackPage()" disabled="{{Isbtndisable}}" title="Back" *ngIf="IsDirect==true"> {{RES.RECEIPT_SEARCH.BTN_TXT_BACK}}</button>  
+                                            </div>
+                                            
+
+                                        </div>
+                                        
+
+                                           
+                                                    <div class="row">
+                                                        <div class="col s12 m12 l12">
+                                                            <table class="table table-striped"  >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>{{RES.RECEIPT_SEARCH.GRID_LBL_PRODCAT}}</th>
+                                                                        <th>{{RES.RECEIPT_SEARCH.GRID_LBL_PARTNUMBER}}</th>
+                                                                        <th>{{RES.RECEIPT_SEARCH.GRID_LBL_PRODNAME}}</th>
+                                                                        <th>{{RES.RECEIPT_SEARCH.GRID_LBL_PRICE}}</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="#obj of modelInput.receiptSearchData">
+                                                                        <td>{{obj.ProductCategory}}</td>
+                                                                        <td>{{obj.PartNumber}}</td>
+                                                                        <td>{{obj.ProdNameDis}}</td>
+                                                                        
+                                                                        <td>{{obj.Price}}</td>
+                                                                        
+                                                                        <td><a class="modal-close blue-text" (click)="OpenReceiptCard(obj)" data-dismiss="modal" tabindex="49"><i class="small {{EditIconCss}} blue-text"></i></a></td>
+                                                                    </tr>
+                                                                    <tr *ngIf="modelInput.IsRowFound==false">
+                                                                        <td colspan="5" >{{RES.RECEIPT_SEARCH.TD_LBL_NORECFOUND}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+
+
+</form>
+                                </div>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </div>
+                    <!-- /.position-relative -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.main-content -->
+</div>
+<style type="text/css">
+    input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color: red;
+    }
+
+    input.ng-valid.ng-touched, select.ng-valid.ng-touched {
+        background-color: none;
+        border-color: none;
+    }
+    @media screen and (min-width: 500px){
+        .autocomplete {
+            width:520px;height:30px;
+        }
+    }
+    @media screen and (max-width: 450px){
+        .autocomplete {
+            width:auto;height:30px;
+        }
+    }
+    /*form .row {
+        padding:2px;
+    }*/
+ 
+    
+</style>
+ 
+<!-- /.main-container -->

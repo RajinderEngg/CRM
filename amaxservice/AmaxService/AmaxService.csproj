@@ -75,6 +75,7 @@
     <Compile Include="HelperClasses\GeneralGroupsHelper.cs" />
     <Compile Include="HelperClasses\LangResourceHelperClass.cs" />
     <Compile Include="HelperClasses\LogHistoryHelper.cs" />
+    <Compile Include="HelperClasses\ProductsHelper.cs" />
     <Compile Include="HelperClasses\ReceiptCreateHelper.cs" />
     <Compile Include="HelperClasses\ReceiptsProductsHelper.cs" />
     <Compile Include="HelperClasses\RecieptThnksLetterHelper.cs" />

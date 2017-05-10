@@ -52,9 +52,21 @@ namespace AmaxServiceWeb.Controllers
             try
             {
                 GrnGrpHP.SecurityConString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                ReturnObj.Data = GrnGrpHP.GetCustomersListOfGrps(GroupIds);
-                ReturnObj.IsError = false;
-                ReturnObj.ErrMsg = "";
+                List<CustomersModel> CustList = new List<CustomersModel>();
+                if(string.IsNullOrEmpty(GroupIds)==false)
+                CustList= GrnGrpHP.GetCustomersListOfGrps(GroupIds);
+                ReturnObj.Data = CustList;
+                if (CustList != null)
+                {
+                    ReturnObj.IsError = false;
+                    ReturnObj.ErrMsg = "";
+                }
+                else
+                {
+                    ReturnObj.IsError = true;
+                    ReturnObj.ErrMsg = "You can not select the Primary group together with another group";
+                }
+                
             }
             catch (Exception ex)
             {

@@ -455,7 +455,7 @@ export class AmaxSmsComponent implements OnInit {
             sendlater
         ).subscribe(data=> {
             console.log(data);
-           // debugger;
+            debugger;
             var _data = jQuery.parseJSON(data).Data;
             
             /*jQuery("#SelectedCustomers").kendoGrid({
@@ -479,6 +479,19 @@ export class AmaxSmsComponent implements OnInit {
                         }
                     });
                     this.openSmsSettings();
+                    return;
+                }
+                if (_data.Error) {
+                    bootbox.alert({
+                        message: _data.Error,
+                        className: this.ChangeDialog,
+                        buttons: {
+                            ok: {
+                                //label: 'Ok',
+                                className: this.CHANGEDIR
+                            }
+                        }
+                    });
                     return;
                 }
                 var RemainingCredit = _data.RemainingCredit;

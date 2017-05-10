@@ -146,7 +146,7 @@ export class AmaxReceiptCreate implements OnInit {
     setdefaultmode() {
         //document.location = this.baseUrl + "ReceiptCreate/" + this.modelInput.CustomerId + " /" + this.modelInput.ReceiptId;
         this.IPopUpOpen = false;
-        this.IsShowProducts = false;
+        
         this.RowCount = 0;
         window.scrollTo(0, 0);
         var _ReceiptTypeId = this.modelInput.ReceiptTypeId
@@ -161,7 +161,7 @@ export class AmaxReceiptCreate implements OnInit {
         var PrinterId = this.modelInput.PrinterId;
         var associationid = this.modelInput.associationId;
         this.modelInput = {};
-        
+        this.IsShowProducts = false;
         this.modelInput.CustomerId = CustId;
         this.modelInput.CustomerName = CustName;
         
@@ -359,7 +359,8 @@ export class AmaxReceiptCreate implements OnInit {
                             }
                         });
                         this._resourceService.deleteCookie("ReceiptCreate_Cache");
-                        
+                        this._resourceService.deleteCookie("ReceiptCreate_IsShowProducts");
+                        this._resourceService.deleteCookie("ReceiptCreate_Product");
                         if (IsExit == true) {
                             document.location = this.baseUrl + "ReceiptSelect/" + this.modelInput.EmployeeId + " /" + this.modelInput.CustomerId;
                         }
@@ -752,6 +753,17 @@ export class AmaxReceiptCreate implements OnInit {
             }
         }
     }
+    OpenProducts(ProdObj) {
+        localStorage.setItem("TempReceiptId", this.modelInput.ReceiptTypeId);
+        this._resourceService.setCookie("TempRowNo", ProdObj.RowNo,10);
+        if (this.modelInput != undefined && this.modelInput != null) {
+            var jdata = JSON.stringify(this.modelInput);
+            this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
+        }
+        this._resourceService.setCookie("ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
+        document.location = this.baseUrl + "SearchProducts/" + this.modelInput.CustomerId+"/ReceiptCreate";
+    }
+
     OpenPasteModal(ProdObj) {
        
         if ((ProdObj.ProductNo != undefined || ProdObj.ProductNo != null || ProdObj.ProductNo != "")
@@ -775,6 +787,7 @@ export class AmaxReceiptCreate implements OnInit {
             var jdata = JSON.stringify(this.modelInput);
             this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
         }
+        this._resourceService.setCookie("ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
         document.location = this.baseUrl + "Customer/Search/0/ReceiptCreate/" + this.modelInput.CustomerId;
         //jQuery('#CustSearchModal  .modal-content').html('<object data="' + this.baseUrl+'Customer/Search/1/ReceiptCreate" style="width:100%;height:500px"/>');
         //jQuery('#CustSearchModal').openModal();
@@ -969,6 +982,7 @@ export class AmaxReceiptCreate implements OnInit {
         });
     }
     ShowHideProducts() {
+        
         if (this.IsShowProducts == false) {
             this.modelInput.ReceiptProducts = [];
             this.modelInput.ReceiptProducts = [{ RowNo: "1", ProductNo: "", ProductName: "", Price: "0", Qty: "1", Total: "0" }];
@@ -1090,6 +1104,7 @@ export class AmaxReceiptCreate implements OnInit {
             this.modelInput.CustomerId = this._routeParams.params.Id;
             this.GetCustomerDetail();
         }
+        
       //  alert("ddd");
         this.Lang = localStorage.getItem("lang");
         this._resourceService.GetLangRes(this.Formtype, this.Lang).subscribe(response=> {
@@ -1418,7 +1433,35 @@ export class AmaxReceiptCreate implements OnInit {
             console.log("CallCompleted")
         });
         var CustId = this.modelInput.CustomerId;
-        this.GetCustomerDetail(CustId);
-
+        this.GetCustomerDetail();
+        var isshow = this._resourceService.getCookie("ReceiptCreate_IsShowProducts");
+        if (isshow != undefined && isshow != undefined && isshow != "") {
+            isshow = isshow.substring(1, isshow.length);
+            this.IsShowProducts = Boolean(isshow);
+        }
+        var rowno = this._resourceService.getCookie("TempRowNo");
+        if (rowno != undefined && rowno != undefined && rowno != "") {
+            rowno = rowno.substring(1, rowno.length);
+            var pdata = this._resourceService.getCookie("ReceiptCreate_Product");
+            if (pdata != undefined && pdata != undefined && pdata != "") {
+                pdata = pdata.substring(1, pdata.length);
+                var Product = [];
+                Product = jQuery.parseJSON(pdata);
+                jQuery.each(this.modelInput.ReceiptProducts, function () {
+                    if (this.RowNo == rowno) {
+                        this.ProductNo = Product.PartNumber;
+                        this.ProductName = Product.ProdNameDis;
+                        this.Price = parseFloat(Product.Price).toFixed(2);
+                        this.Total = (parseFloat(this.Price) * parseFloat(this.Qty)).toFixed(2);
+                        
+                        return false;
+                    }
+                    
+                });
+                this.BindProdTotal();
+                this._resourceService.deleteCookie("TempRowNo");
+                this._resourceService.deleteCookie("ReceiptCreate_Product");
+            }
+        }
     }
 }

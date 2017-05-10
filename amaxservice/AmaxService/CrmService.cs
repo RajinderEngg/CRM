@@ -620,8 +620,8 @@ namespace AmaxService
 
             var Sql_SelectCustomersForSpecifiedGroups = @"SELECT Sms.CustomerId, Sms.FileAs, Sms.CelPhone FROM (SELECT C.CustomerId, C.FileAs, 
                 REPLACE(REPLACE(REPLACE(CP.Area+CP.Phone,'-',''),' ',''),'.','') AS CelPhone FROM Customers C INNER JOIN CustomerPhones CP ON c.CustomerId = CP.CustomerId 
-                WHERE CP.PhoneTypeId @PhoneTypeId AND (C.Deceased = 0) AND (C.Deleted = 0) AND (C.ActiveStatus = 0)AND C.CustomerId IN (SELECT DISTINCT Customerid FROM
-                CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN(@GroupIdArr) and CP.IsSms=1 and LEN(CP.Phone)>5) @BranchData) AS Sms "; //WHERE CustomerGeneralGroupId IN(@GroupIdArr)    // WHERE LEN(Sms.CelPhone) >= 9
+                WHERE CP.PhoneTypeId @PhoneTypeId AND (C.Deceased = 0) AND (C.Deleted = 0) AND (C.ActiveStatus = 0)AND C.CustomerId IN (SELECT DISTINCT customers.Customerid FROM
+               customers left outer join CustomerGroupsGeneralSet on CustomerGroupsGeneralSet.Customerid=Customers.Customerid WHERE @GroupIdArr CP.IsSms=1 ) @BranchData) AS Sms where LEN(CelPhone)>=10"; //WHERE CustomerGeneralGroupId IN(@GroupIdArr)    // WHERE LEN(Sms.CelPhone) >= 9//CustomerGeneralGroupId IN(@GroupIdArr) and
 
             //Checking for SysData privilges and branch
             if (Convert.ToBoolean(currentUser["IsBranchEnabled"])==true)////currentUser["IsBranchEnabled"]  payload.IsBranchEnabled
@@ -646,22 +646,30 @@ namespace AmaxService
                     string GroupIdArr = payload.groups.ToString();
                     GroupIdArr = GroupIdArr.Replace("\r\n", "").Replace("[", "").Replace("]", ""); //.Replace("\r\n","").Substring(1, GroupIdArr.Length - 2);
                     GenGrpHP.SecurityConString = SecurityConnection;
-                    string FinalGrpIds = GenGrpHP.GetAllChildGroupsFromGrpIdForSMS(GroupIdArr);
+                    string FinalGrpIds = GenGrpHP.GetAllChildGroupsFromGrpId(GroupIdArr);
 
-                    //if (string.IsNullOrEmpty(FinalGrpIds) == false)
-                    //{
-                    //    ////if (IsGroupFilter == true)
-                    //    ////{ WHERE LEN(Sms.CelPhone) = 10;
-                        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", FinalGrpIds);
-                     //   //Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@CellPhoneLength", "WHERE LEN(Sms.CelPhone) = 10");
-                     //}
-                    //else
-                    //{
+                    if (string.IsNullOrEmpty(FinalGrpIds) == false)
+                    {
+                        //    ////if (IsGroupFilter == true)
+                        //    ////{ WHERE LEN(Sms.CelPhone) = 10;
+                        if (FinalGrpIds != "--1")
+                        {
+                            Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", " CustomerGeneralGroupId IN(" + FinalGrpIds + ") and ");
+                            //   //Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@CellPhoneLength", "WHERE LEN(Sms.CelPhone) = 10");
+                        }
+                        else
+                        {
+                            responceData.Error = "You can not select the Primary group together with another group";
+                            return responceData;//responceDispatcher(responceData);
+                        }
+                    }
+                    else
+                    {
                         
-                    //    Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", "");
+                        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", "");
                     //    //Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@CellPhoneLength", "");
 
-                    //}
+                    }
 
 
 

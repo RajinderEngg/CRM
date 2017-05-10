@@ -19,12 +19,14 @@ namespace AmaxServiceWeb.Controllers
         ReceiptCreateHelper RcptCreateHP;
         DataBind db;
         PDFHelper PDFHP;
+        ProductsHelper ProdHP;
         public ReceiptController()
         {
             RcptTypeHP = new RecieptTypeHelper();
             RcptCreateHP = new ReceiptCreateHelper();
             db = new DataBind();
             PDFHP = new PDFHelper();
+            ProdHP = new ProductsHelper();
         }
         public IEnumerable<string> Get()
         {
@@ -428,6 +430,59 @@ namespace AmaxServiceWeb.Controllers
                 SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
+        }
+
+        [HttpGet]
+        [Security]
+        public ResponseData GetProductsForSearch(int ProdCatId, string ProdNo, string ProdName)
+        {
+            ResponseData ReturnObj = new ResponseData();
+            try
+            {
+                
+                ProdHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                ProdHP.LangValue = ControllerContext.RouteData.Values["Language"].ToString();
+                List<ProductsModel> ProdList= ProdHP.GetProductsForSearch(ProdCatId, ProdNo, ProdName);
+                //foreach (var ProdObj in ProdList)
+                //{
+                //    if (LangValue == "en")
+                //    {
+                //        ProdObj.ProdNameDis = ProdObj.ProdNameEng;
+                //    }
+                //    if (LangValue == "he")
+                //    {
+                //        ProdObj.ProdNameDis = ProdObj.ProdName;
+                //    }
+                //}
+                ReturnObj.Data = ProdList;
+                ReturnObj.IsError = false;
+                ReturnObj.ErrMsg = "";
+            }
+            catch (Exception ex)
+            {
+                ReturnObj.Data = null;
+                ReturnObj.IsError = true;
+                ReturnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                LogHistObj.Error = ex.Message;
+                LogHistObj.ExcLine = frame.GetFileLineNumber();
+                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                LogHistObj.Action = "IsValidCustomerReceipt";
+                LogHistObj.FullDescription = ex.ToString();
+                LogHistObj.ExeptionType = "ERROR";
+                LogHistObj.APIVersion = AppConfig.APIVersion;
+                LogHistObj.FromPage = "RecieptType Controller";
+                LogHistObj.OnDate = System.DateTime.Now;
+                LogHistObj.ex = ex;
+                SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return ReturnObj;
         }
     }
 }

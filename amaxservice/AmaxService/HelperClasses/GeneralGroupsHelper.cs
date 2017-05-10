@@ -18,41 +18,47 @@ namespace AmaxService.HelperClasses
             string returnObj = "";
 
             bool IsGroupFilter = true;
-            string[] Grps = GroupIds.Split(',');
-            //if (Grps.Length <= 1)
+            //if (string.IsNullOrEmpty( GroupIds) != false)
             //{
-            for (int i = 0; i < Grps.Length; i++)
-            {
-                if (Grps[i].Trim() == "0")
-                {
-                    IsGroupFilter = false;
-                    break;
-                }
-            }
-            //}
-            if (IsGroupFilter == true)
-            {
+                string[] Grps = GroupIds.Split(',');
+                //if (Grps.Length <= 1)
+                //{
                 for (int i = 0; i < Grps.Length; i++)
                 {
-                    using (DbAccess db = new DbAccess(SecurityConString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+                    if (Grps[i].Trim() == "0")
                     {
-                        string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i].Trim() + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
-                        DataSet ds1 = db.GetDataSet(Qry, null, false);
-                        int j = 0;
-                        for (; j < ds1.Tables[0].Rows.Count; j++)
+                        if (Grps.Length > 1)
                         {
-                            GroupIds += "," + Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                            returnObj = "--1";
                         }
-                        if (j > 0)
-                        {
-                            Grps = new string[100];
-                            Grps = GroupIds.Split(',');
-                        }
+                        IsGroupFilter = false;
+                        break;
                     }
                 }
-                returnObj = GroupIds;
-            }
-
+                //}
+                if (IsGroupFilter == true)
+                {
+                    for (int i = 0; i < Grps.Length; i++)
+                    {
+                        using (DbAccess db = new DbAccess(SecurityConString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+                        {
+                            string Qry = "SELECT  GroupId From CustomerGroupsGeneral WHERE  GroupParenCategory=" + Grps[i].Trim() + " AND GroupId not in (" + GroupIds + ") and GroupId<>0";
+                            DataSet ds1 = db.GetDataSet(Qry, null, false);
+                            int j = 0;
+                            for (; j < ds1.Tables[0].Rows.Count; j++)
+                            {
+                                GroupIds += "," + Convert.ToString(ds1.Tables[0].Rows[j]["GroupId"]);
+                            }
+                            if (j > 0)
+                            {
+                                Grps = new string[1000];
+                                Grps = GroupIds.Split(',');
+                            }
+                        }
+                    }
+                    returnObj = GroupIds;
+                }
+            //}
             return returnObj;
         }
         public string GetAllChildGroupsFromGrpIdForSMS(string GroupIds)
@@ -87,7 +93,7 @@ namespace AmaxService.HelperClasses
                         }
                         if (j > 0)
                         {
-                            Grps = new string[100];
+                            Grps = new string[1000];
                             Grps = GroupIds.Split(',');
                         }
                     }
@@ -166,8 +172,22 @@ namespace AmaxService.HelperClasses
                     " States RIGHT OUTER JOIN nd_MainCustomerAddress ON States.StateName = nd_MainCustomerAddress.StateId " +
                     " LEFT OUTER JOIN CustomerAddressType ON nd_MainCustomerAddress.AddressTypeId = CustomerAddressType.AddressTypeId ON Customers.CustomerId = nd_MainCustomerAddress.CustomerId " +
                     " LEFT OUTER JOIN CustomerEmails ON Customers.CustomerId = CustomerEmails.CustomerId Where Customers.ActiveStatus = 0  And Customers.IsNewsLetter = 0  And Deleted = 0  )DerivedTBL Where   Deleted = 0 And(MainAddress = 1 or MainAddress is null)  ";
-                    if(string.IsNullOrEmpty( FinalGrpIds)==false)
-                        Query+=" AND((GroupId in ("+ FinalGrpIds + ")) )";
+                    if(string.IsNullOrEmpty(FinalGrpIds) == false )
+               {
+                    if (FinalGrpIds != "--1")
+                    {
+                        Query += " AND((GroupId in (" + FinalGrpIds + ")) )";
+                        
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                    
+                    
+                }
+    
+
 
 
                 //    var Sql_SelectCustomersForSpecifiedGroups = @"SELECT Sms.CustomerId, Sms.FileAs, Sms.CelPhone FROM (SELECT C.CustomerId, C.FileAs, 
@@ -175,36 +195,36 @@ namespace AmaxService.HelperClasses
                 //WHERE (C.Deceased = 0) AND (C.Deleted = 0) AND (C.ActiveStatus = 0) AND C.CustomerId IN (SELECT DISTINCT Customerid FROM
                 //CustomerGroupsGeneralSet WHERE CustomerGeneralGroupId IN ("+GroupIds+")) @BranchData) AS Sms WHERE LEN(Sms.CelPhone) = 10;";
 
-                    //    //Checking for SysData privilges and branch
-                    //    if (Convert.ToBoolean(currentUser["IsBranchEnabled"]) == true)////currentUser["IsBranchEnabled"]  payload.IsBranchEnabled
-                    //        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@BranchData", Convert.ToBoolean(currentUser["sysdata"]) ? "" :
-                    //            "AND C.CustomerId IN (SELECT CustomerId FROM CustomersBranches WHERE Branchid = @BranchId)".Replace("@BranchId", currentUser["Branchid"].ToString()));///currentUser["Branchid"]  payload.Branchid
-                    //    else
-                    //        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@BranchData", "");
+                //    //Checking for SysData privilges and branch
+                //    if (Convert.ToBoolean(currentUser["IsBranchEnabled"]) == true)////currentUser["IsBranchEnabled"]  payload.IsBranchEnabled
+                //        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@BranchData", Convert.ToBoolean(currentUser["sysdata"]) ? "" :
+                //            "AND C.CustomerId IN (SELECT CustomerId FROM CustomersBranches WHERE Branchid = @BranchId)".Replace("@BranchId", currentUser["Branchid"].ToString()));///currentUser["Branchid"]  payload.Branchid
+                //    else
+                //        Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@BranchData", "");
 
-                    //    //Checking for PhoneType
-                    //    if (Convert.ToInt32(payload.phoneType) == 0) Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@PhoneTypeId", " IN  (SELECT id FROM PhoneTypes WHERE CellPhone = 1)");
-                    //    else Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@PhoneTypeId", " = @PhoneTypeId");
-
-
-                    //    DataTable dtSmsCredentials = null, dtSelectedCustomers = null;
-
-                    //    using (var da = getDbAccess())
-                    //    {
-                    //        dtSmsCredentials = da.GetDataTable(Sql_ValidateSmsCredentialsForSendingSms,
-                    //            new { Username = payload.username, Company = payload.company }.ToJson().ToTypeof<Dictionary<string, object>>());
-                    //        if (dtSmsCredentials != null && dtSmsCredentials.Rows.Count > 0)
-                    //        {
-                    //            string GroupIdArr = payload.groups.ToString();
-                    //            GroupIdArr = GroupIdArr.Replace("\r\n", "").Replace("[", "").Replace("]", ""); //.Replace("\r\n","").Substring(1, GroupIdArr.Length - 2);
-                    //            Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
-
-                    //            dtSelectedCustomers = da.GetDataTable(Sql_SelectCustomersForSpecifiedGroups,
-                    //                new { PhoneTypeId = payload.phoneType }.ToJson().ToTypeof<Dictionary<string, object>>());
+                //    //Checking for PhoneType
+                //    if (Convert.ToInt32(payload.phoneType) == 0) Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@PhoneTypeId", " IN  (SELECT id FROM PhoneTypes WHERE CellPhone = 1)");
+                //    else Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@PhoneTypeId", " = @PhoneTypeId");
 
 
+                //    DataTable dtSmsCredentials = null, dtSelectedCustomers = null;
 
-                    DataSet ds = db.GetDataSet(Query, null, false);
+                //    using (var da = getDbAccess())
+                //    {
+                //        dtSmsCredentials = da.GetDataTable(Sql_ValidateSmsCredentialsForSendingSms,
+                //            new { Username = payload.username, Company = payload.company }.ToJson().ToTypeof<Dictionary<string, object>>());
+                //        if (dtSmsCredentials != null && dtSmsCredentials.Rows.Count > 0)
+                //        {
+                //            string GroupIdArr = payload.groups.ToString();
+                //            GroupIdArr = GroupIdArr.Replace("\r\n", "").Replace("[", "").Replace("]", ""); //.Replace("\r\n","").Substring(1, GroupIdArr.Length - 2);
+                //            Sql_SelectCustomersForSpecifiedGroups = Sql_SelectCustomersForSpecifiedGroups.Replace("@GroupIdArr", GroupIdArr);
+
+                //            dtSelectedCustomers = da.GetDataTable(Sql_SelectCustomersForSpecifiedGroups,
+                //                new { PhoneTypeId = payload.phoneType }.ToJson().ToTypeof<Dictionary<string, object>>());
+
+
+
+                DataSet ds = db.GetDataSet(Query, null, false);
                     for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
                         CustomersModel CustObj = new CustomersModel();

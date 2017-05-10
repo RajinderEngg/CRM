@@ -258,5 +258,20 @@ export class RecieptService {
             { headers: this.getHeader() }
         ).map(res=> res.text());
     }
+    public GetProducts(ProdCatId, ProdNo, ProdName): Observable {
+        var Lang = localStorage.getItem("lang");
 
+        return this.http.get(
+            this.baseUrl + "Receipt/GetProductsForSearch?ProdCatId=" + ProdCatId + "&ProdNo=" + ProdNo + "&ProdName=" + ProdName,
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
+    public GetProdCats(): Observable {
+        var Lang = localStorage.getItem("lang");
+
+        return this.http.get(
+            this.baseUrl + "Dropdown/GetProductCats",
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
 }
