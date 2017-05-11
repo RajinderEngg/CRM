@@ -1448,7 +1448,7 @@ export class AmaxReceiptCreate implements OnInit {
         var CustId = this.modelInput.CustomerId;
         this.GetCustomerDetail();
         //////////////////////Cache Implement//////////////////////////
-        debugger;
+      //  debugger;
         
         var isshow = this._resourceService.getCookie("ReceiptCreate_IsShowProducts");
         if (isshow != undefined && isshow != undefined && isshow != "") {

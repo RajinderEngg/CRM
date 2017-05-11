@@ -27,6 +27,7 @@ import {AmaxChargeCredit} from "./amax/Charge_Credit/ChargeCreditCard";
 import {AmaxReceiptSelect} from "./amax/Receipt/ReceiptSelect";
 import {AmaxReceiptCreate} from "./amax/Receipt/ReceiptCreate";
 import {AmaxSearchProducts} from "./amax/Receipt/SearchProducts";
+import {AmaxCustomerProfiles} from "./amax/Customer/CustomerProfile";
 
 @Component({
     selector: 'mx-app',
@@ -92,7 +93,9 @@ import {AmaxSearchProducts} from "./amax/Receipt/SearchProducts";
     //ChargeCredit
     { path: "/ReceiptCreate/:Id/:ReceiptTypeId", name: "ReceiptCreate", component: AmaxReceiptCreate },
     //Product Search
-    { path: "/SearchProducts/:Id/:FromPage", name: "SearchProducts", component: AmaxSearchProducts }
+    { path: "/SearchProducts/:Id/:FromPage", name: "SearchProducts", component: AmaxSearchProducts },
+    //Customer Profile
+    { path: "/Customer/Profile/:Id", name: "CustomerProfile", component: AmaxCustomerProfiles }
 ])
 
 export class AmaxAppComponent implements OnInit {
