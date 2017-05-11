@@ -215,8 +215,8 @@ namespace AmaxService.HelperClasses
                             "digitalPath,digitalDate,RowDate,isCredit) "+
 
                             "Values(@RecieptType,@RecieptNo,Convert(datetime,@RecieptDate,103),@CustomerId,@AddressId,@RecievedCustId,@WhatFor,@CurrencyId," +
-                            "@TotalInWords,@Total,@associationId,@EmployeeId,@ThanksLetter,@ThanksLetterId,@Credit4Digit,@PrinterId,@OriginalWasPrinted," +
-                            "@StateId,@CityName,@CountryCode,@Street,@Street2,@Zip,@fname,@lname,@Titel,@MiddleName,@Company,@Safix,@Address_Remark,@WhatForInThanksLet,@TotalInLeadCurrent,@CustomizeLine,@ReceiptNoKeva,@KeVaHistoryId,@digitalEmployeeId,@digitalfileName,@digitalPath,Convert(datetime,@digitalDate,103),Convert(datetime,@RowDate,103),@IsCredit) ";
+                            "@TotalInWords,(@Total*-1),@associationId,@EmployeeId,@ThanksLetter,@ThanksLetterId,@Credit4Digit,@PrinterId,@OriginalWasPrinted," +
+                            "@StateId,@CityName,@CountryCode,@Street,@Street2,@Zip,@fname,@lname,@Titel,@MiddleName,@Company,@Safix,@Address_Remark,@WhatForInThanksLet,(@TotalInLeadCurrent*-1),@CustomizeLine,@ReceiptNoKeva,@KeVaHistoryId,@digitalEmployeeId,@digitalfileName,@digitalPath,Convert(datetime,@digitalDate,103),Convert(datetime,@RowDate,103),@IsCredit) ";
                         else
                         {
 
@@ -255,9 +255,9 @@ namespace AmaxService.HelperClasses
                             "CameFrom,Bank,AmountInLeadCurrent,ReferenceDate,OldReceiptId,Payed,For_Invoice,IsExport,WasDeposit," +
                             "DepositeNo,DepositeDate,DepositeToAccountId,DepositeRemark,TotalDeposit,KevaInstitute,CreditCardType,RowDate,BankId) " +
 
-                            "Values(@RecieptRoWID,@RecieptType,@RecieptNo,@ProjectId,@PayTypeId,@Amount,@USDVal,Convert(datetime,@ValueDate,103)," +
+                            "Values(@RecieptRoWID,@RecieptType,@RecieptNo,@ProjectId,@PayTypeId,(@Amount*-1),@USDVal,Convert(datetime,@ValueDate,103)," +
                             "@CheckNo,@BranchNo,@AccountNo,@details,@DonationTypeId,@ImageName,@AccountId,@CameFrom,@Bank," +
-                            "@AmountInLeadCurrent,Convert(datetime,@ReferenceDate,103),@OldReceiptId,@Payed,@For_Invoice,@IsExport,@WasDeposit,@DepositeNo,Convert(datetime,@DepositeDate,103),@DepositeToAccountId,@DepositeRemark,@TotalDeposit,@KevaInstitute,@CreditCardType,Convert(datetime,@RowDate,103),@BankId) ";
+                            "(@AmountInLeadCurrent*-1),Convert(datetime,@ReferenceDate,103),@OldReceiptId,@Payed,@For_Invoice,@IsExport,@WasDeposit,@DepositeNo,Convert(datetime,@DepositeDate,103),@DepositeToAccountId,@DepositeRemark,@TotalDeposit,@KevaInstitute,@CreditCardType,Convert(datetime,@RowDate,103),@BankId) ";
                             returnObj += db.InsertData(AddressQuery, ReceiptsParameterDict, db.Transaction);
                         }
                         foreach (var RecptsProds in RectObj.ReceiptProducts)

@@ -469,6 +469,12 @@ export class AmaxReceiptCreate implements OnInit {
                 //var n = num.toFixed(2);
                 this.modelInput.TotalInLeadCurrent = parseFloat(response.Data) * ttotal;
                 this.modelInput.TotalInLeadCurrent = this.modelInput.TotalInLeadCurrent.toFixed(2);
+
+                jQuery.each(this.modelInput.ReceiptLines, function () {
+                    //ttotal += parseFloat(this.Amount);
+                    this.AmountInLeadCurrent = parseFloat(response.Data) * parseFloat(this.Amount);
+                    this.AmountInLeadCurrent = this.AmountInLeadCurrent.toFixed(2);
+                });
             }
         }, error=> {
             console.log(error);
@@ -1096,14 +1102,16 @@ export class AmaxReceiptCreate implements OnInit {
         jQuery(".lean-overlay").css({ "display": "none" });
         window.scrollTo(0, 0);
        // debugger;
-
+        var currencyid = "";
         var jdata = this._resourceService.getCookie("ReceiptCreate_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {
             jdata = jdata.substring(1, jdata.length);
             this.modelInput = jQuery.parseJSON(jdata);
             this.modelInput.CustomerId = this._routeParams.params.Id;
+            currencyid = this.modelInput.CurrencyId;
             this.GetCustomerDetail();
         }
+        
         
       //  alert("ddd");
         this.Lang = localStorage.getItem("lang");
@@ -1398,7 +1406,12 @@ export class AmaxReceiptCreate implements OnInit {
             }
             else {
                 this.modelInput.RecieptType = response.Data[0].RecieptNameEng;
-                this.modelInput.CurrencyId = response.Data[0].CurrencyId;
+                if (currencyid == "") {
+                    this.modelInput.CurrencyId = response.Data[0].CurrencyId;
+                }
+                else {
+                    this.modelInput.CurrencyId = currencyid;
+                }
                 
             }
         }, error=> {
@@ -1434,6 +1447,9 @@ export class AmaxReceiptCreate implements OnInit {
         });
         var CustId = this.modelInput.CustomerId;
         this.GetCustomerDetail();
+        //////////////////////Cache Implement//////////////////////////
+        debugger;
+        
         var isshow = this._resourceService.getCookie("ReceiptCreate_IsShowProducts");
         if (isshow != undefined && isshow != undefined && isshow != "") {
             isshow = isshow.substring(1, isshow.length);

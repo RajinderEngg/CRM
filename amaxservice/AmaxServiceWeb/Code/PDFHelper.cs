@@ -269,10 +269,10 @@ namespace AmaxServiceWeb.Code
             }
             //isSend,
             string strSqlH = " SELECT distinct top 500000  ProjectName,JI, RecieptRoWID,For_Invoice,OriginalWasPrinted,payed,ActiveStatus," +
-                  "CustomerId,FileAs,RecieptName,RecieptNo,RecieptDate,WhatFor,RecieptType,RecieptsEmployeeId,AmountInLeadCurrent as Total," +
-                  " LeadCurrency as CurrencyId,Total as Total1,CurrencyId as CurrencyId1,ValueDate,CheckNo,BranchNo,AccountNo,DonationTypeOther as DonationType," +
-                  "AccountName,PaymentTypeOther as PaymentType,HASHAVSHEVETPR,HASHAVSHEVETAC,HASHKUPA,HashHeshZchut,Amount,IsExport,Camefrom,details,creditcardtype," +
-                  "TotalInLeadCurrent,Street,Street2,Zip From ND_Receipts_View where RecieptNo ='" +
+                  "CustomerId,FileAs,RecieptName,RecieptNo,RecieptDate,WhatFor,RecieptType,RecieptsEmployeeId,round(AmountInLeadCurrent,2) as Total," +
+                  " LeadCurrency as CurrencyId,round(Total,2) as Total1,CurrencyId as CurrencyId1,ValueDate,CheckNo,BranchNo,AccountNo,DonationTypeOther as DonationType," +
+                  "AccountName,PaymentTypeOther as PaymentType,HASHAVSHEVETPR,HASHAVSHEVETAC,HASHKUPA,HashHeshZchut,round(Amount,2) as Amount,IsExport,Camefrom,details,creditcardtype," +
+                  "round(TotalInLeadCurrent,2) as TotalInLeadCurrent,Street,Street2,Zip From ND_Receipts_View where RecieptNo ='" +
                   prpRecieptCode + "'  And RecieptType = '" + prpRecieptType + "' order by  RecieptDate";
 
             dTable = db.GetDataTable(strSqlH, null);
@@ -400,7 +400,7 @@ namespace AmaxServiceWeb.Code
                 {
                     s_output = s_output + "<tr>";
                     s_output = s_output + "<td class=\"payrow_line\"  align=center > " + rseachPays["PaymentType"] + "</td>";
-                    s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToString(rseachPays["ValueDate"]) + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToDateTime(rseachPays["ValueDate"]).ToShortDateString() + "</td>";
                     s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["CheckNo"] + "</td>";
                     s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["AccountNo"] + "</td>";
                     s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["BranchNo"] + "</td>";
@@ -417,12 +417,12 @@ namespace AmaxServiceWeb.Code
                         }
                     }
                     
-                    s_output = s_output + "<td class=\"payrow_line\" align=center >" + rseachPays["total"] + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center >" +Math.Round( Convert.ToDecimal( rseachPays["total"]),2) + "</td>";
                     s_output = s_output + "</tr>";
                 }
                 else {
                     s_output = s_output + "<tr>";
-                    s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToString(rseachPays["ValueDate"]) + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToDateTime(rseachPays["ValueDate"]).ToShortDateString() + "</td>";
 
                     if (rtl_lang == 1)
                     {
@@ -455,7 +455,7 @@ namespace AmaxServiceWeb.Code
                     }
 
                     s_output = s_output + "<td class=\"payrow_line\" align=center >" + rseachPays["PaymentType"] + "</td>";
-                    s_output = s_output + "<td class=\"payrow_line\" align=center >" + rseachPays["total"] + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center >" + Math.Round(Convert.ToDecimal(rseachPays["total"]), 2) + "</td>";
                     s_output = s_output + "</tr>";
 
                 }
@@ -489,27 +489,27 @@ namespace AmaxServiceWeb.Code
                 {
                     if (checkIsAacount.Length > 4)
                     {
-                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=left>סה``כ בש``ח: " + rsPays["TotalInLeadCurrent"] + "</td></tr>";// rsPays["TotalInLeadCurrent"]
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=left>סה``כ בש``ח: " +Math.Round( Convert.ToDecimal( rsPays["TotalInLeadCurrent"] ),2)+ "</td></tr>";// rsPays["TotalInLeadCurrent"]
                     }
                     else {
                         if (ColsForSendEmail == 1)
                         {
-                            s_output = s_output + "<tr><td class=\"payrow_line_foot\" align=center>סה``כ בש``ח: " + rsPays["TotalInLeadCurrent"] + "</td><td class=\"payrow_line_foot\"   align=left></td><td></td></tr>";// rsPays["TotalInLeadCurrent"]
+                            s_output = s_output + "<tr><td class=\"payrow_line_foot\" align=center>סה``כ בש``ח: " + Math.Round(Convert.ToDecimal(rsPays["TotalInLeadCurrent"]), 2) + "</td><td class=\"payrow_line_foot\"   align=left></td><td></td></tr>";// rsPays["TotalInLeadCurrent"]
 
                         }
                         else {
-                            s_output = s_output + "<tr><td class=\"payrow_line_foot\"  colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>סה``כ בש``ח: " + rsPays["TotalInLeadCurrent"] + "</td></tr>";//rsPays["TotalInLeadCurrent"]
+                            s_output = s_output + "<tr><td class=\"payrow_line_foot\"  colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>סה``כ בש``ח: " + Math.Round(Convert.ToDecimal(rsPays["TotalInLeadCurrent"]), 2) + "</td></tr>";//rsPays["TotalInLeadCurrent"]
                         }
                     }
                 }
                 else {
                     if (checkIsAacount.Length > 4)
                     {
-                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=right>Total in Nis: " + rsPays["TotalInLeadCurrent"] + "</td></tr>";
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=right>Total in Nis: " + Math.Round(Convert.ToDecimal(rsPays["TotalInLeadCurrent"]), 2) + "</td></tr>";
                     }
                     else {
 
-                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>Total in Nis: " + rsPays["TotalInLeadCurrent"] + "</td></tr>";
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>Total in Nis: " + Math.Round(Convert.ToDecimal(rsPays["TotalInLeadCurrent"]), 2) + "</td></tr>";
                     }
                 }
             }
@@ -520,94 +520,102 @@ namespace AmaxServiceWeb.Code
 
             ///////////////////////////////Products/////////////////////////////////////////////
 
+            //s_output += "<br/>";
+            if (rtl_lang == 1)
+            {
+                s_output += "<tr><td class=\"payrow_line_foot\" colspan=5 align=right><td/></tr><tr><td class=\"payrow_line_foot\" colspan=5 align=right>פירוט המוצרים ניתן לשאוג:-</td></ tr>";
+            }
+            else
+            {
+                s_output += "<tr><td class=\"payrow_line_foot\" colspan=5 align=right><td/></tr><tr><td class=\"payrow_line_foot\" colspan=5 align=right>Products detail is given bellow :-</td></ tr>";
+            }
+            DataRow rsProd = null;
+            string strSqlProd = " SELECT distinct top 500000  ProductNo,ProductName,Price, Qty,total From ReceiptsProducts where ReceiptNo ='" +
+                 prpRecieptCode + "'  And ReceiptType = '" + prpRecieptType + "' "; //order by  RecieptDate
 
-            //DataRow rsProd = null;
-            //string strSqlProd = " SELECT distinct top 500000  ProductNo,ProductName,Price, Qty,total From ReceiptsProducts where ReceiptNo ='" +
-            //     prpRecieptCode + "'  And ReceiptType = '" + prpRecieptType + "' "; //order by  RecieptDate
+            DataTable dTableProd = db.GetDataTable(strSqlProd, null);
+            if (dTableProd.Rows.Count > 0)
+            {
+                if (rtl_lang == 1)
+                {
+                    Pth1 = "מספר חלק";
+                    Pth2 = "שם מוצר";
+                    Pth3 = "מחיר";
+                    Pth4 = "כַּמוּת";
+                    Pth5 = "סה\"כ";
 
-            //DataTable dTableProd = db.GetDataTable(strSqlProd, null);
-            //if (dTableProd.Rows.Count > 0)
-            //{
-            //    if (rtl_lang == 1)
-            //    {
-            //        Pth1 = "מספר חלק";
-            //        Pth2 = "שם מוצר";
-            //        Pth3 = "מחיר";
-            //        Pth4 = "כַּמוּת";
-            //        Pth5 = "סה\"כ";
+                }
+                else {
+                    Pth1 = "Part Number";
+                    Pth2 = "Product Name";
+                    Pth3 = "Price";
+                    Pth4 = "Quantity";
+                    Pth5 = "Total";
 
-            //    }
-            //    else {
-            //        Pth1 = "Part Number";
-            //        Pth2 = "Product Name";
-            //        Pth3 = "Price";
-            //        Pth4 = "Quantity";
-            //        Pth5 = "Total";
+                }
+                if (rtl_lang == 1)
+                {
+                    s_output += "<tr><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth1 + " </th><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth2 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth3 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth4 + " </th><th class=\"payrow_header\" style=\"width:120px;text-align:center\"> " + Pth5 + "</th></tr>";
 
-            //    }
-            //    if (rtl_lang == 1)
-            //    {
-            //        s_output += "<tr><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth1 + " </th><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth2 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth3 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth4 + " </th><th class=\"payrow_header\" style=\"width:120px;text-align:center\"> " + Pth5 + "</th></tr>";
+                }
+                else {
 
-            //    }
-            //    else {
+                    s_output += "<tr><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth1 + " </th><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth2 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth3 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth4 + " </th><th class=\"payrow_header\" style=\"width:120px;text-align:center\"> " + Pth5 + "</th></tr>";
 
-            //        s_output += "<tr><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth1 + " </th><th class=\"payrow_header\" style=\"width:180px;text-align:center\"> " + Pth2 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth3 + " </th><th class=\"payrow_header\" style=\"width:80px;text-align:center\"> " + Pth4 + " </th><th class=\"payrow_header\" style=\"width:120px;text-align:center\"> " + Pth5 + "</th></tr>";
-
-            //    }
-            //    double odprod = 0;
-            //    foreach (DataRow rseachPays in dTableProd.Rows)
-            //    {
-
-
-
-            //        s_output = s_output + "<tr>";
-            //        s_output = s_output + "<td class=\"payrow_line\"  align=center > " + rseachPays["ProductNo"] + "</td>";
-            //        s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToString(rseachPays["ProductName"]) + "</td>";
-            //        s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Price"] + "</td>";
-            //        s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Qty"] + "</td>";
-            //        s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Total"] + "</td>";
-
+                }
+                decimal odprod = 0;
+                foreach (DataRow rseachPays in dTableProd.Rows)
+                {
 
 
 
-            //        s_output = s_output + "</tr>";
+                    s_output = s_output + "<tr>";
+                    s_output = s_output + "<td class=\"payrow_line\"  align=center > " + rseachPays["ProductNo"] + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center>" + Convert.ToString(rseachPays["ProductName"]) + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Price"] + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Qty"] + "</td>";
+                    s_output = s_output + "<td class=\"payrow_line\" align=center > " + rseachPays["Total"] + "</td>";
 
 
-            //        odprod = odprod + Convert.ToDouble(rseachPays["total"]);
 
-            //    }
 
-            //    if (rtl_lang == 1)
-            //    {
-            //        if (checkIsAacount.Length > 4)
-            //        {
-            //            s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=left>סה\"כ: " + odprod + "</td></tr>";
-            //        }
-            //        else {
-            //            if (ColsForSendEmail == 1)
-            //            {
-            //                s_output = s_output + "<tr><td class=\"payrow_line_foot\" align=center>סה\"כ: " + odprod + "</td><td class=\"payrow_line_foot\"   align=left></td><td></td></tr>";
+                    s_output = s_output + "</tr>";
 
-            //            }
-            //            else {
-            //                s_output = s_output + "<tr><td class=\"payrow_line_foot\"  colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>סה\"כ: " + odprod + "</td></tr>";
-            //            }
-            //        }
-            //    }
-            //    else {
-            //        if (checkIsAacount.Length > 4)
-            //        {
-            //            s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=right>Total in Nis: " + odprod + "</td></tr>";
-            //        }
-            //        else {
 
-            //            s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>Total in Nis: " + odprod + "</td></tr>";
-            //        }
-            //    }
+                    odprod = odprod + Convert.ToDecimal(rseachPays["total"]);
 
-            //}
-//////////////////////////////////////////////////////////////////////Product PDF End///////////////////////////////////////////////////////////////////////////
+                }
+
+                if (rtl_lang == 1)
+                {
+                    if (checkIsAacount.Length > 4)
+                    {
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=left>סה\"כ: " +Math.Round(Convert.ToDecimal(odprod),2) + "</td></tr>";
+                    }
+                    else {
+                        if (ColsForSendEmail == 1)
+                        {
+                            s_output = s_output + "<tr><td class=\"payrow_line_foot\" align=center>סה\"כ: " + Math.Round(Convert.ToDecimal(odprod), 2) + "</td><td class=\"payrow_line_foot\"   align=left></td><td></td></tr>";
+
+                        }
+                        else {
+                            s_output = s_output + "<tr><td class=\"payrow_line_foot\"  colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>סה\"כ: " + Math.Round(Convert.ToDecimal(odprod), 2) + "</td></tr>";
+                        }
+                    }
+                }
+                else {
+                    if (checkIsAacount.Length > 4)
+                    {
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=5 align=left></td><td class=\"payrow_line_foot\" colspan=2 align=right>Total in Nis: " + Math.Round(Convert.ToDecimal(odprod), 2) + "</td></tr>";
+                    }
+                    else {
+
+                        s_output = s_output + "<tr><td class=\"payrow_line_foot\" colspan=" + ocolspan + " align=left></td><td class=\"payrow_line_foot\" align=center>Total in Nis: " + Math.Round(Convert.ToDecimal(odprod), 2) + "</td></tr>";
+                    }
+                }
+
+            }
+            //////////////////////////////////////////////////////////////////////Product PDF End///////////////////////////////////////////////////////////////////////////
 
 
 
