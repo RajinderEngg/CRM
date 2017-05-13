@@ -274,4 +274,12 @@ export class RecieptService {
             { headers: this.getHeader() }
         ).map(res=> res.text());
     }
+    public GetReceiptByCustomerId(CustomerId): Observable {
+        var Lang = localStorage.getItem("lang");
+
+        return this.http.get(
+            this.baseUrl + "Receipt/GetReceiptByCustomerId?CustomerId=" + CustomerId,
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
 }

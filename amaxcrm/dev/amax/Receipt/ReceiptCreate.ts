@@ -358,9 +358,11 @@ export class AmaxReceiptCreate implements OnInit {
                                 }
                             }
                         });
-                        this._resourceService.deleteCookie("ReceiptCreate_Cache");
-                        this._resourceService.deleteCookie("ReceiptCreate_IsShowProducts");
-                        this._resourceService.deleteCookie("ReceiptCreate_Product");
+                        var EmpId = localStorage.getItem("employeeid");
+                        var OrgId = localStorage.getItem(EmpId + "_OrgId");
+                        this._resourceService.deleteCookie(EmpId + "_" + OrgId + "_ReceiptCreate_Cache");
+                        this._resourceService.deleteCookie(EmpId + "_" + OrgId + "_ReceiptCreate_IsShowProducts");
+                        this._resourceService.deleteCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Product");
                         if (IsExit == true) {
                             document.location = this.baseUrl + "ReceiptSelect/" + this.modelInput.EmployeeId + " /" + this.modelInput.CustomerId;
                         }
@@ -762,11 +764,15 @@ export class AmaxReceiptCreate implements OnInit {
     OpenProducts(ProdObj) {
         localStorage.setItem("TempReceiptId", this.modelInput.ReceiptTypeId);
         this._resourceService.setCookie("TempRowNo", ProdObj.RowNo,10);
+        var EmpId = localStorage.getItem("employeeid");
+        var OrgId = localStorage.getItem(EmpId + "_OrgId");
         if (this.modelInput != undefined && this.modelInput != null) {
             var jdata = JSON.stringify(this.modelInput);
-            this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
+            
+            this._resourceService.setCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Cache", jdata, 10);
         }
-        this._resourceService.setCookie("ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
+
+        this._resourceService.setCookie(EmpId + "_" + OrgId+"_ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
         document.location = this.baseUrl + "SearchProducts/" + this.modelInput.CustomerId+"/ReceiptCreate";
     }
 
@@ -788,12 +794,14 @@ export class AmaxReceiptCreate implements OnInit {
     OpenCustSearch() {
         this.IPopUpOpen = true;
         localStorage.setItem("TempReceiptId", this.modelInput.ReceiptTypeId);
-
+        var EmpId = localStorage.getItem("employeeid");
+        var OrgId = localStorage.getItem(EmpId + "_OrgId");
         if (this.modelInput != undefined && this.modelInput != null) {
             var jdata = JSON.stringify(this.modelInput);
-            this._resourceService.setCookie("ReceiptCreate_Cache", jdata, 10);
+
+            this._resourceService.setCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Cache", jdata, 10);
         }
-        this._resourceService.setCookie("ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
+        this._resourceService.setCookie(EmpId + "_" + OrgId+"_ReceiptCreate_IsShowProducts", this.IsShowProducts, 10);
         document.location = this.baseUrl + "Customer/Search/0/ReceiptCreate/" + this.modelInput.CustomerId;
         //jQuery('#CustSearchModal  .modal-content').html('<object data="' + this.baseUrl+'Customer/Search/1/ReceiptCreate" style="width:100%;height:500px"/>');
         //jQuery('#CustSearchModal').openModal();
@@ -1103,7 +1111,9 @@ export class AmaxReceiptCreate implements OnInit {
         window.scrollTo(0, 0);
        // debugger;
         var currencyid = "";
-        var jdata = this._resourceService.getCookie("ReceiptCreate_Cache");
+        var EmpId = localStorage.getItem("employeeid");
+        var OrgId = localStorage.getItem(EmpId + "_OrgId");
+        var jdata = this._resourceService.getCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {
             jdata = jdata.substring(1, jdata.length);
             this.modelInput = jQuery.parseJSON(jdata);
@@ -1449,8 +1459,9 @@ export class AmaxReceiptCreate implements OnInit {
         this.GetCustomerDetail();
         //////////////////////Cache Implement//////////////////////////
       //  debugger;
-        
-        var isshow = this._resourceService.getCookie("ReceiptCreate_IsShowProducts");
+        var EmpId = localStorage.getItem("employeeid");
+        var OrgId = localStorage.getItem(EmpId + "_OrgId");
+        var isshow = this._resourceService.getCookie(EmpId + "_" + OrgId+"_ReceiptCreate_IsShowProducts");
         if (isshow != undefined && isshow != undefined && isshow != "") {
             isshow = isshow.substring(1, isshow.length);
             this.IsShowProducts = Boolean(isshow);
@@ -1458,7 +1469,7 @@ export class AmaxReceiptCreate implements OnInit {
         var rowno = this._resourceService.getCookie("TempRowNo");
         if (rowno != undefined && rowno != undefined && rowno != "") {
             rowno = rowno.substring(1, rowno.length);
-            var pdata = this._resourceService.getCookie("ReceiptCreate_Product");
+            var pdata = this._resourceService.getCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Product");
             if (pdata != undefined && pdata != undefined && pdata != "") {
                 pdata = pdata.substring(1, pdata.length);
                 var Product = [];
@@ -1476,7 +1487,7 @@ export class AmaxReceiptCreate implements OnInit {
                 });
                 this.BindProdTotal();
                 this._resourceService.deleteCookie("TempRowNo");
-                this._resourceService.deleteCookie("ReceiptCreate_Product");
+                this._resourceService.deleteCookie(EmpId + "_" + OrgId+"_ReceiptCreate_Product");
             }
         }
     }

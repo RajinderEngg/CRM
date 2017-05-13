@@ -70,41 +70,134 @@
         display:none
     }*/
 </style>
-<!-- Start Page Loading -->
-<!--<div id="loader-wrapper">
-    <div id="loader"></div>
-    <div class="loader-section section-left"></div>
-    <div class="loader-section section-right"></div>
-
-</div>-->
-<!-- End Page Loading -->
 <div class="container">
     <div class="content">
         <div class="row">
             <div class="col s12 m12 l12 card-panel">
                 <div>
-                    <div>
+                    <div style="position:relative;" dir="ltr">
+                        <div>
                         <h1>
                             <i class="mdi-content-select-all green-text"></i>
-                            <span class="red-text">Customer Profile</span>  <!--{{RES.CUSTOMER_MASTER.CUST_LABAL}}Customer-->
+                            <span class="red-text">{{RES.CUSTOMER_PROFILE.APP_LBL_CUST}}</span>  <!--{{RES.CUSTOMER_MASTER.CUST_LABAL}}Customer-->
                             <span class="blue-text" id="id-text2" ng-show="modelInput.CustomerId!='-1'">{{CustIdText}}</span>
 
                         </h1>
 
-
-
+                        <hr />
+                        </div>
                     </div>
                     <div class="row">
-                        <div class="col s12 m8 l8">
-                            <div class="center">
-                                <a>Here we will show \nmore customer info</a>
+                        <div class="col s12 m8 l8" style="float:left"  >
+                            
+                                <div class="col s12 l12 m12">
+                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_TXT_RECEIPTDET}}</h6>
+                                    <hr />
+                                    <table class="table"  style="min-height:20px; max-height: 20px;overflow-y: auto;">
+
+                                        <thead>
+                                            <tr>
+                                                <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_RECEIPTTYPE}}</th>
+                                                <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_RECEIPTNO}}</th>
+                                                <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_RECEIPTDATE}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            <tr *ngFor="#obj of Receipts; #order = index">
+                                                <td>
+                                                    {{obj.ReceiptTypeName}}
+                                                </td>
+                                                <td>
+                                                    {{obj.RecieptNo}}
+                                                </td>
+                                                <td>
+                                                    {{obj.RecieptDate}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col s12 m4 l4">
+                        <div class="col s12 m4 l4" style="float:right">
                             <div class="blue white-text">
-                                Profile gfffffffffffffffffffffffffffffffffffffffffffffffff
+                                <div class="row">
+                                    <div class="col s3 m3 l3">
+
+                                        <img alt="" class="circle responsive-img valign profile-image" src="../src/images/DefaultUser.jpg" style="margin:10px;">
+                                    </div>
+                                    <div class="col s9 m9 l9">
+
+                                        <h5 style="margin:20px;">{{modelInput.fname}} {{modelInput.lname}}</h5>
+                                    </div>
+                                </div>
+                                
                             </div>
+                            <br />
+                            <div class="space-6"></div>
+                            <a href="{{BaseUrl}}Customer/Add/{{modelInput.CustomerId}}">{{RES.CUSTOMER_PROFILE.A_LBL_EDITCUST}}</a>
+                            <hr />
+                            <div class="row">
+                                <div class="col s12 l12 m12">
+                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTADDRESS}}</h6>
+                                    <hr />
+                                    <table>
+                                        
+                                        
+                                            <tr *ngFor="#obj of modelInput.CustomerAddresses; #order = index">
+                                                <td>
+                                                    {{obj.Street}} {{obj.Zip}} {{obj.City}}
+                                                </td>
+                                                </tr>
+                                                                   </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l12 m12">
+                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTEMAILS}}</h6>
+                                    <hr />
+                                    <table>
+
+
+                                        <tr *ngFor="#obj of modelInput.CustomerEmails; #order = index">
+                                            <td>
+                                                {{obj.Email}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l12 m12">
+                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTPHONES}}</h6>
+                                    <hr />
+                                    <table>
+
+
+                                        <tr *ngFor="#obj of modelInput.CustomerPhones; #order = index">
+                                            <td>
+                                                {{obj.Area}}{{obj.Phone}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!--<div class="row">
+                                <div class="col s12 l12 m12">
+                                    <h6 class="blue-text">General Groups</h6>
+                                    <hr />
+                                    <table>
+
+
+                                        <tr *ngFor="#obj of modelInput.CustomerGroups; #order = index">
+                                            <td>
+                                                {{obj.Area}}{{obj.Phone}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>-->
                         </div>
+
                     </div>
                     
                     <!-- /.position-relative -->

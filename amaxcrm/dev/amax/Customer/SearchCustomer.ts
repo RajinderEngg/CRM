@@ -169,8 +169,10 @@ export class AmaxSearchCustomers implements OnInit {
                 if (this.modelInput != undefined && this.modelInput != null) {
                     var jdata = JSON.stringify(this.modelInput);
                     if (this.FromPage == "ReceiptCreate") {
-                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
-                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
+                        var EmpId = localStorage.getItem("employeeid");
+                        var OrgId = localStorage.getItem(EmpId + "_OrgId");
+                        this._resourceService.setCookie(EmpId + "_"+OrgId + "_Search_Cache", jdata, 10);
+                        this._resourceService.setCookie(EmpId + "_"+OrgId+"_Search_auto_Cache", this.asyncSelectedCar, 10);
                     }
                 }
             }
@@ -179,9 +181,10 @@ export class AmaxSearchCustomers implements OnInit {
                 
                 if (this.modelInput != undefined && this.modelInput != null) {
                     var jdata = JSON.stringify(this.modelInput);
-                    
-                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
-                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
+                    var EmpId = localStorage.getItem("employeeid");
+                    var OrgId = localStorage.getItem(EmpId + "_OrgId");
+                    this._resourceService.setCookie(EmpId + "_" + OrgId + "_Search_Cache", jdata, 10);
+                    this._resourceService.setCookie(EmpId + "_" + OrgId+"_Search_auto_Cache", this.asyncSelectedCar, 10);
                     
                 }
                 document.location=this.BaseAppUrl + "Customer/Add/" + CompData[0].trim();
@@ -241,6 +244,7 @@ export class AmaxSearchCustomers implements OnInit {
                 });
             }
             else {
+                debugger;
                 this.modelInput.custSearchData = response.Data;
                 if (this.modelInput.custSearchData.length == 0) {
                     this.modelInput.IsRowFound = false;
@@ -248,11 +252,14 @@ export class AmaxSearchCustomers implements OnInit {
                 else {
                     this.modelInput.IsRowFound = true;
                 }
+                var EmpId = localStorage.getItem("employeeid");
+                var OrgId = localStorage.getItem(EmpId + "_OrgId");
                 if (this.modelInput != undefined && this.modelInput != null) {
                     var jdata = JSON.stringify(this.modelInput);
                     //if (this.FromPage == "ReceiptCreate") {
-                        this._resourceService.setCookie("_Search_Cache", jdata, 10);
-                        this._resourceService.setCookie("_Search_auto_Cache", this.asyncSelectedCar, 10);
+                    
+                    this._resourceService.setCookie(EmpId + "_" + OrgId + "_Search_Cache", jdata, 10);
+                    this._resourceService.setCookie(EmpId + "_" + OrgId+"_Search_auto_Cache", this.asyncSelectedCar, 10);
                     //}
                 }
             }
@@ -296,14 +303,16 @@ export class AmaxSearchCustomers implements OnInit {
             this.CHANGEDIR = "ltrmodal";
             this.ChangeDialog = "input_left";
         }
-       // debugger;
-
-        var jdata = this._resourceService.getCookie("_Search_Cache");
+        debugger;
+        var EmpId = localStorage.getItem("employeeid");
+        var OrgId = localStorage.getItem(EmpId + "_OrgId");
+        var jdata = this._resourceService.getCookie(EmpId + "_" + OrgId+"_Search_Cache");
         if (jdata != undefined && jdata != undefined && jdata != "") {
             jdata = jdata.substring(1, jdata.length);
             this.modelInput = jQuery.parseJSON(jdata);
         }
-        var asyn = this._resourceService.getCookie("_Search_auto_Cache");
+
+        var asyn = this._resourceService.getCookie(EmpId + "_" + OrgId+"_Search_auto_Cache");
         if (asyn != undefined && asyn != undefined && asyn != "") {
             asyn = asyn.substring(1, asyn.length);
             this.asyncSelectedCar = asyn;

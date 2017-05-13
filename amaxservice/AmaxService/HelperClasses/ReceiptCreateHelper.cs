@@ -93,6 +93,78 @@ namespace AmaxService.HelperClasses
             }
             return ReceiptDictList;
         }
+
+
+        public List<ReseiptsModel> GetReceiptListFromDS(DataSet custobj)
+        {
+            List<ReseiptsModel> FinalDictList = new List<ReseiptsModel>();
+
+            // try
+            // {
+            for (int i = 0; i < custobj.Tables[0].Rows.Count; i++)
+            {
+                ReseiptsModel CustDictList = new ReseiptsModel();
+                CustDictList.RecieptType = Convert.ToInt32(custobj.Tables[0].Rows[i]["RecieptType"]);
+                CustDictList.RecieptNo = Convert.ToString(custobj.Tables[0].Rows[i]["RecieptNo"]);
+                CustDictList.RecieptDate =Convert.ToDateTime( Convert.ToString(custobj.Tables[0].Rows[i]["RecieptDate"])).ToString("dd-MM-yyyy");
+                CustDictList.CustomerId = Convert.ToInt32(custobj.Tables[0].Rows[i]["CustomerId"]);
+                CustDictList.AddressId = Convert.ToInt32(custobj.Tables[0].Rows[i]["AddressId"]);
+                CustDictList.RecievedCustId = Convert.ToInt32(custobj.Tables[0].Rows[i]["RecievedCustId"]);
+                CustDictList.WhatFor = Convert.ToString(custobj.Tables[0].Rows[i]["WhatFor"]);
+                CustDictList.CurrencyId = Convert.ToString(custobj.Tables[0].Rows[i]["CurrencyId"]);
+
+                CustDictList.TotalInWords = Convert.ToString(custobj.Tables[0].Rows[i]["TotalInWords"]);
+                CustDictList.Total = Convert.ToDecimal(custobj.Tables[0].Rows[i]["Total"]);
+                CustDictList.associationId = Convert.ToInt32(custobj.Tables[0].Rows[i]["associationId"]);
+                CustDictList.EmployeeId = Convert.ToInt32(custobj.Tables[0].Rows[i]["EmployeeId"]);
+                CustDictList.ThanksLetter = Convert.ToBoolean(custobj.Tables[0].Rows[i]["ThanksLetter"]);
+                CustDictList.ThanksLetterId = Convert.ToInt32(custobj.Tables[0].Rows[i]["ThanksLetterId"]);
+                CustDictList.Credit4Digit = Convert.ToString(custobj.Tables[0].Rows[i]["Credit4Digit"]);
+                CustDictList.PrinterId = Convert.ToInt32(custobj.Tables[0].Rows[i]["PrinterId"]);
+
+                
+                CustDictList.OriginalWasPrinted = Convert.ToBoolean(custobj.Tables[0].Rows[i]["OriginalWasPrinted"]);
+                CustDictList.StateId = Convert.ToString(custobj.Tables[0].Rows[i]["StateId"]);
+                CustDictList.CityName = Convert.ToString(custobj.Tables[0].Rows[i]["CityName"]);
+                CustDictList.CountryCode = Convert.ToString(custobj.Tables[0].Rows[i]["CountryCode"]);
+
+
+
+                CustDictList.Street = Convert.ToString(custobj.Tables[0].Rows[i]["Street"]);
+                CustDictList.Street2 = Convert.ToString(custobj.Tables[0].Rows[i]["Street2"]);
+                CustDictList.Zip = Convert.ToString(custobj.Tables[0].Rows[i]["Zip"]);
+                CustDictList.fname = Convert.ToString(custobj.Tables[0].Rows[i]["fname"]);
+                CustDictList.lname = Convert.ToString(custobj.Tables[0].Rows[i]["lname"]);
+                CustDictList.Titel = Convert.ToString(custobj.Tables[0].Rows[i]["Titel"]);
+                CustDictList.MiddleName = Convert.ToString(custobj.Tables[0].Rows[i]["MiddleName"]);
+                CustDictList.Company = Convert.ToString(custobj.Tables[0].Rows[i]["Company"]);
+
+                CustDictList.Safix = Convert.ToString(custobj.Tables[0].Rows[i]["Safix"]);
+                CustDictList.Address_Remark = Convert.ToString(custobj.Tables[0].Rows[i]["Address_Remark"]);
+                CustDictList.WhatForInThanksLet = Convert.ToString(custobj.Tables[0].Rows[i]["WhatForInThanksLet"]);
+                CustDictList.TotalInLeadCurrent = Convert.ToDecimal(custobj.Tables[0].Rows[i]["TotalInLeadCurrent"]);
+                CustDictList.CustomizeLine = Convert.ToString(custobj.Tables[0].Rows[i]["CustomizeLine"]);
+                CustDictList.ReceiptNoKeva = Convert.ToString(custobj.Tables[0].Rows[i]["ReceiptNoKeva"]);
+                CustDictList.ReceiptTypeKeva = Convert.ToInt32(custobj.Tables[0].Rows[i]["ReceiptTypeKeva"]);
+                CustDictList.KeVaHistoryId = Convert.ToInt32(custobj.Tables[0].Rows[i]["KeVaHistoryId"]);
+
+
+                CustDictList.digitalEmployeeId = Convert.ToInt32(custobj.Tables[0].Rows[i]["digitalEmployeeId"]);
+                CustDictList.digitalfileName = Convert.ToString(custobj.Tables[0].Rows[i]["digitalfileName"]);
+                CustDictList.digitalPath = Convert.ToString(custobj.Tables[0].Rows[i]["digitalPath"]);
+                CustDictList.digitalDate = Convert.ToString(custobj.Tables[0].Rows[i]["digitalDate"]);
+                CustDictList.RowDate = Convert.ToString(custobj.Tables[0].Rows[i]["RowDate"]);
+                CustDictList.isCredit = Convert.ToInt32(custobj.Tables[0].Rows[i]["isCredit"]);
+                FinalDictList.Add(CustDictList);
+            }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+            return FinalDictList;
+        }
+
+
         public Dictionary<string, object> GetReceiptLinesDict(ReceiptLineModel custobj)
         {
 
@@ -469,6 +541,46 @@ namespace AmaxService.HelperClasses
                 return LeadRAte;
             }
             return LeadRAte;
+        }
+
+        public List<ReseiptsModel> GetReceiptsByCustId(int CustomerId)
+        {
+
+
+            List<ReseiptsModel> returnObj = new List<ReseiptsModel>(); 
+            
+            string strSql = "";
+            
+            strSql = "Select * from Reciepts Where CustomerId=" + CustomerId+
+                " order by Recieptdate desc";
+
+            using (DbAccess db = new DbAccess(SecurityconString))   //ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            {
+                DataSet ds = db.GetDataSet(strSql, null, false);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    returnObj = GetReceiptListFromDS(ds);
+                    foreach (var returnobj in returnObj)
+                    {
+                        strSql = "Select RecieptTypeId,RecieptName,RecieptNameEng from RecieptTypes Where RecieptTypeId=" + returnobj.RecieptType ;
+                        DataSet ds1= db.GetDataSet(strSql, null, false);
+                        if (ds1.Tables[0].Rows.Count > 0)
+                        {
+                            if (lang == "en") { 
+                                returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptNameEng"]);
+                            }
+                            else
+                            {
+                                returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptName"]);
+                            }
+                        }
+                        
+                    }
+                }
+
+            }
+           
+            return returnObj;
         }
     }
 }

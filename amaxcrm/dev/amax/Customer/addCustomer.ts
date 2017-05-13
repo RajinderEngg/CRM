@@ -344,6 +344,14 @@ export class AmaxCustomers implements OnInit {
             });
         }
     }
+    OpenProfile() {
+        if (this.modelInput != undefined && this.modelInput.CustomerId != undefined && this.modelInput.CustomerId >= 0) {
+            var custId = this.modelInput.CustomerId;
+            if (custId != -1) {
+                document.location = this.BaseAppUrl + "Customer/Profile/" + custId;
+            }
+        }
+    }
     OpenNewReceipt() {
         if (this.modelInput != undefined && this.modelInput.CustomerId != undefined && this.modelInput.CustomerId >= 0) {
             var custId = this.modelInput.CustomerId;
@@ -545,7 +553,12 @@ export class AmaxCustomers implements OnInit {
                     jQuery("#groupTree").kendoTreeView({
                         loadOnDemand: true,
                         checkboxes: {
-                            checkChildren: true
+                          //  checkChildren: true
+                        },
+                        check: function (e) {
+                            this.expandRoot = e.node;
+
+                            this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
                         },
                         //check: this.onGroupSelect,
                         dataSource: res
@@ -557,9 +570,13 @@ export class AmaxCustomers implements OnInit {
                     jQuery("#groupTree1").kendoTreeView({
                         loadOnDemand: true,
                         checkboxes: {
-                            checkChildren: true
+                      //      checkChildren: true
                         },
-                        //check: this.onGroupSelect,
+                        check: function (e) {
+                            this.expandRoot = e.node;
+
+                            this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
+                        },
                         dataSource: res
                     });
                 }
@@ -1671,7 +1688,12 @@ export class AmaxCustomers implements OnInit {
                     jQuery("#groupTree").kendoTreeView({
                         loadOnDemand: true,
                         checkboxes: {
-                            checkChildren: true
+                          //  checkChildren: true
+                        },
+                        check: function (e) {
+                            this.expandRoot = e.node;
+
+                            this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
                         },
                         //check: this.onGroupSelect,
                         dataSource: res
@@ -1691,7 +1713,12 @@ export class AmaxCustomers implements OnInit {
                     jQuery("#groupTree1").kendoTreeView({
                         loadOnDemand: true,
                         checkboxes: {
-                            checkChildren: true
+                            //checkChildren: true
+                        },
+                        check: function (e) {
+                            this.expandRoot = e.node;
+
+                            this.expand(jQuery(this.expandRoot).find(".k-item").addBack());
                         },
                         //check: this.onGroupSelect,
                         dataSource: res

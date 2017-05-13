@@ -182,10 +182,10 @@ validateLogin() {
                     sessionStorage.setItem('userInformation', atob(dta["token"].split('.')[1]));
 
                     //Featching Userinformation
-                
+                    debugger;
                     this.LoginData = JSON.parse(atob(dta["token"].split('.')[1]));
                     localStorage.setItem("employeeid", this.LoginData.employeeid);
-                    //localStorage.setItem("OrgId", this._userModel["orgName"]);
+                    localStorage.setItem(this.LoginData.employeeid + "_OrgId", this.LoginData.OrgId);
                     if (localStorage.getItem("lang") == "" || localStorage.getItem("lang") == undefined || localStorage.getItem("lang") == null) {
                         localStorage.setItem("lang", "en");
                     }
@@ -590,6 +590,7 @@ _LoggeduserModel = {};
                 
                             this.LoginData = JSON.parse(atob(dta["token"].split('.')[1]));
                             localStorage.setItem("employeeid", this.LoginData.employeeid);
+                            localStorage.setItem(this.LoginData.employeeid + "_OrgId", this.LoginData.OrgId);
                             //localStorage.setItem("OrgId", this._LoggeduserModel["orgName"]);
                             if (localStorage.getItem("lang") == "" || localStorage.getItem("lang") == undefined || localStorage.getItem("lang") == null) {
                                 localStorage.setItem("lang", "en");

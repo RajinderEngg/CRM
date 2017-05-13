@@ -156,7 +156,25 @@ namespace AmaxServiceWeb.Controllers
         public ResponseData Save(CustomersModel CustObj,string lang)
         {
             //Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            
             ResponseData returnObj = new ResponseData();
+            //foreach (var grpObj in CustObj.CustomerGroups)
+            //{
+            //    if (grpObj.CustomerGeneralGroupId == 0 && CustObj.CustomerGroups.Count > 1)
+            //    {
+            //        returnObj.Data = null;
+            //        returnObj.IsError = true;
+            //        if (lang == "en")
+            //        {
+            //            returnObj.ErrMsg = "You can not select the Primary group together with another group";
+            //        }
+            //        else if(lang=="he")
+            //        {
+            //            returnObj.ErrMsg = "לא ניתן לבחור את הקבוצה הראשית יחד עם קבוצה אחרת";
+            //        }
+            //        return returnObj;
+            //    }
+            //}
             CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
             try
             {

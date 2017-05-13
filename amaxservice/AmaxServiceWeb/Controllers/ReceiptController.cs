@@ -473,7 +473,50 @@ namespace AmaxServiceWeb.Controllers
                 LogHistObj.Error = ex.Message;
                 LogHistObj.ExcLine = frame.GetFileLineNumber();
                 LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "IsValidCustomerReceipt";
+                LogHistObj.Action = "GetProductsForSearch";
+                LogHistObj.FullDescription = ex.ToString();
+                LogHistObj.ExeptionType = "ERROR";
+                LogHistObj.APIVersion = AppConfig.APIVersion;
+                LogHistObj.FromPage = "RecieptType Controller";
+                LogHistObj.OnDate = System.DateTime.Now;
+                LogHistObj.ex = ex;
+                SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return ReturnObj;
+        }
+        [HttpGet]
+        [Security]
+        public ResponseData GetReceiptByCustomerId(int CustomerId)
+        {
+            ResponseData ReturnObj = new ResponseData();
+            try
+            {
+
+                RcptCreateHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                RcptCreateHP.lang= ControllerContext.RouteData.Values["Language"].ToString();
+
+
+
+                ReturnObj.Data = RcptCreateHP.GetReceiptsByCustId(CustomerId);
+                ReturnObj.IsError = false;
+                ReturnObj.ErrMsg = "";
+            }
+            catch (Exception ex)
+            {
+                ReturnObj.Data = null;
+                ReturnObj.IsError = true;
+                ReturnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                LogHistObj.Error = ex.Message;
+                LogHistObj.ExcLine = frame.GetFileLineNumber();
+                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                LogHistObj.Action = "GetReceiptByCustomerId";
                 LogHistObj.FullDescription = ex.ToString();
                 LogHistObj.ExeptionType = "ERROR";
                 LogHistObj.APIVersion = AppConfig.APIVersion;

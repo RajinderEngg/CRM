@@ -95,8 +95,9 @@ export class AmaxGeneralGroups implements OnInit {
         if (this.GroupIds.length > 0) {
             this.GroupIds = this.GroupIds.substring(0, this.GroupIds.length - 1);
             /////////////////Creating Cache///////////////////
-
-            this._resourceService.setCookie("GeneralGroup_Cache", this.GroupIds, 10);
+            var EmpId = localStorage.getItem("employeeid");
+            var OrgId = localStorage.getItem(EmpId + "_OrgId");
+            this._resourceService.setCookie(EmpId + "_" + OrgId+"_GeneralGroup_Cache", this.GroupIds, 10);
         }
         this._GeneralGroupsService.GetCompleteCustDet(this.GroupIds).subscribe(response=> {
             //debugger;
@@ -247,7 +248,9 @@ export class AmaxGeneralGroups implements OnInit {
                });
 
               // debugger;
-               var jdata = this._resourceService.getCookie("GeneralGroup_Cache");
+               var EmpId = localStorage.getItem("employeeid");
+               var OrgId = localStorage.getItem(EmpId + "_OrgId");
+               var jdata = this._resourceService.getCookie(EmpId + "_" + OrgId+"_GeneralGroup_Cache");
                if (jdata != undefined && jdata != undefined && jdata != "") {
                    jdata = jdata.substring(1, jdata.length);
                    this.GroupIds = jdata;
