@@ -6,6 +6,7 @@ let crmConfig = {
 };
 let serviceConfig = {
     serviceBaseUrl: "http://localhost/amaxweb/Api.svc/",
+    ImageUrl: "http://localhost:57998/AmutotFiles/",
     serviceApiUrl: "http://localhost:57998/API/",
     AppUrl: "http://localhost:3000/#/",
     accesTokenStoreName:"XToken",

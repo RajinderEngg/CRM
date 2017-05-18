@@ -14,11 +14,13 @@ export class ResourceService {
     headers: Headers;
     AppUrl: string;
     baseUrl: string;
+    ImageUrl: string;
     constructor(private _http: Http) {
         this.headers=new Headers();
         this.headers.append("Content-Type", "application/json");
         this.baseUrl = serviceConfig.serviceApiUrl;
         this.AppUrl = serviceConfig.AppUrl;
+        this.ImageUrl = serviceConfig.ImageUrl;
     }
 
 

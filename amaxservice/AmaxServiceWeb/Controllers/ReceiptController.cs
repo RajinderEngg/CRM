@@ -495,7 +495,7 @@ namespace AmaxServiceWeb.Controllers
                 RcptCreateHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
                 RcptCreateHP.lang= ControllerContext.RouteData.Values["Language"].ToString();
 
-
+                //int ab = Convert.ToInt32("k");
 
                 ReturnObj.Data = RcptCreateHP.GetReceiptsByCustId(CustomerId);
                 ReturnObj.IsError = false;
@@ -510,9 +510,12 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                {
+                    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                }
+                LogHistObj.OrgId =Convert.ToString( ControllerContext.RouteData.Values["OrgId"]);
+                LogHistObj.fname =Convert.ToString( ControllerContext.RouteData.Values["fname"]);
                 LogHistObj.Error = ex.Message;
                 LogHistObj.ExcLine = frame.GetFileLineNumber();
                 LogHistObj.ExcPlace = frame.GetFileColumnNumber();

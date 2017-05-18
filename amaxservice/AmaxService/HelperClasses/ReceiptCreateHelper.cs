@@ -153,7 +153,7 @@ namespace AmaxService.HelperClasses
                 CustDictList.digitalfileName = Convert.ToString(custobj.Tables[0].Rows[i]["digitalfileName"]);
                 CustDictList.digitalPath = Convert.ToString(custobj.Tables[0].Rows[i]["digitalPath"]);
                 CustDictList.digitalDate = Convert.ToString(custobj.Tables[0].Rows[i]["digitalDate"]);
-                CustDictList.RowDate = Convert.ToString(custobj.Tables[0].Rows[i]["RowDate"]);
+                CustDictList.RowDate =Convert.ToDateTime( Convert.ToString(custobj.Tables[0].Rows[i]["RowDate"])).ToString("dd-MM-yyyy");
                 CustDictList.isCredit = Convert.ToInt32(custobj.Tables[0].Rows[i]["isCredit"]);
                 FinalDictList.Add(CustDictList);
             }
@@ -562,18 +562,22 @@ namespace AmaxService.HelperClasses
                     returnObj = GetReceiptListFromDS(ds);
                     foreach (var returnobj in returnObj)
                     {
-                        strSql = "Select RecieptTypeId,RecieptName,RecieptNameEng from RecieptTypes Where RecieptTypeId=" + returnobj.RecieptType ;
-                        DataSet ds1= db.GetDataSet(strSql, null, false);
-                        if (ds1.Tables[0].Rows.Count > 0)
-                        {
-                            if (lang == "en") { 
-                                returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptNameEng"]);
-                            }
-                            else
+                        //if (returnobj.RecieptType != null)
+                        //{
+                            strSql = "Select RecieptTypeId,RecieptName,RecieptNameEng from RecieptTypes Where RecieptTypeId=" + returnobj.RecieptType;
+                            DataSet ds1 = db.GetDataSet(strSql, null, false);
+                            if (ds1.Tables[0].Rows.Count > 0)
                             {
-                                returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptName"]);
+                                if (lang == "en")
+                                {
+                                    returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptNameEng"]);
+                                }
+                                else
+                                {
+                                    returnobj.ReceiptTypeName = Convert.ToString(ds1.Tables[0].Rows[0]["RecieptName"]);
+                                }
                             }
-                        }
+                        //}
                         
                     }
                 }

@@ -1,3 +1,4 @@
+
 import {NgSwitch, NgSwitchWhen, NgSwitchDefault, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common'
 import {ResourceService} from "../../services/ResourceService";
 import {RouteParams} from "angular2/router";
@@ -22,6 +23,8 @@ declare var moment;
 })
 
 export class AmaxCustomers implements OnInit {
+    baseUrl: string = "";
+    ImageUrl: string = "";
     modelInput = {};
     TempmodelInput = {};
     custSearchData: Object = [];
@@ -34,7 +37,7 @@ export class AmaxCustomers implements OnInit {
     ShowMore: boolean = false;
     IsRecordEditMode: boolean = false;
     ShowMoreText: string = "More";
-
+    CustFileImage: string = "DefaultUser.jpg";
     ShowLoader: boolean = false;
     ShowMsg: boolean = false;
     ShowGroups: boolean = true;
@@ -119,6 +122,7 @@ export class AmaxCustomers implements OnInit {
         this.modelInput.CustomerType = "";
         this.modelInput.CameFromCustomer = "";
         this.modelInput.Safixid = "";
+        //this.modelInput.ImageFileName = "DefaultUser.jpg";
         this.modelInput.Gender = "0";
         this.PhoneModel.PhoneTypeId = "";
         this.RES.CUSTOMER_MASTER = {};
@@ -169,6 +173,8 @@ export class AmaxCustomers implements OnInit {
         clearTimeout(this.StopTimeOut);
         this.modelInput.CustomerId = _routeParams.params.Id;
         this.BaseAppUrl = _resourceService.AppUrl;
+        this.baseUrl = _resourceService.baseUrl;
+        this.ImageUrl = _resourceService.ImageUrl;
         this.TempmodelInput = this.modelInput;
         
         //alert(this._resourceService.getCookie(empid + "cust"));
@@ -472,6 +478,7 @@ export class AmaxCustomers implements OnInit {
         this.asyncSelectedCar = "";
         
         this.modelInput = {};
+        this.CustFileImage = "DefaultUser.jpg";
         this.modelInput.BirthDate = "";
         this.modelInput.CustomerId = -1;
         this.CustIdText = "";
@@ -777,7 +784,7 @@ export class AmaxCustomers implements OnInit {
         }
 
         this.bindGroupTree(isshow);
-    }
+    }di
     saveCustomerData(): void {
         //debugger;
         this.Isbtndisable = "disabled";
@@ -785,6 +792,7 @@ export class AmaxCustomers implements OnInit {
         this.getSelectedGroups();
        
         var count = 0;
+        
         if (this.modelInput.CustomerAddresses != undefined && this.modelInput.CustomerAddresses != null) {
             jQuery.each(this.modelInput.CustomerAddresses, function () {
                 if (this.MainAddress == true) {
@@ -870,6 +878,7 @@ export class AmaxCustomers implements OnInit {
             }
             var jdata = JSON.stringify(this.modelInput);
             console.log(jdata)
+            this._resourceService.deleteCookie("TempImageName");
             this._customerService.AddCustomer(jdata).subscribe(response=> {
                 console.log(response);
                 response = jQuery.parseJSON(response);
@@ -896,6 +905,7 @@ export class AmaxCustomers implements OnInit {
                     this.TempmodelInput = response.Data;
                     this.modelInput = response.Data;
                     this.editCustDet(this.modelInput);
+                    
                     //this.IsPopUp = true;
                     //this.SetdefaultPage();
                     // Reset form values
@@ -926,6 +936,8 @@ export class AmaxCustomers implements OnInit {
     }
 
     CheckCustWithfnamelnamecompphsemails(): observable {
+        
+            //this.modelInput.ImageFileName = this._resourceService.getCookie("TempImageName");
         if (this.IsPopUp == true) {
             var jdata = JSON.stringify(this.modelInput);
             //debugger;
@@ -1464,7 +1476,20 @@ export class AmaxCustomers implements OnInit {
                 this.CustIdText = "( " + this.modelInput.CustomerId + " )";
                 this.IsFileAstxtShow = false;
                 this.HideShowFileAstxt();
-
+                //this.modelInput.ImageFileName = "DefaultUser.jpg";
+                if (this.modelInput.ImageFileName != undefined && this.modelInput.ImageFileName != null && this.modelInput.ImageFileName != "") {
+                    var OrgId = "";
+                    var empid = localStorage.getItem("employeeid");
+                    if (empid != null && empid != undefined) {
+                        OrgId = localStorage.getItem(empid + "_OrgId");
+                    }
+                    this.CustFileImage = OrgId+"//"+this.modelInput.ImageFileName;
+                }
+                else {
+                    this.CustFileImage = "DefaultUser.jpg";
+                }
+                
+                
                 //alert(this.RES);
             }
         }, error=> {
@@ -1812,7 +1837,7 @@ export class AmaxCustomers implements OnInit {
                     //minLength: 1,
                 });
 
-
+                
             }
         }, error=> {
             console.log(error);
@@ -1820,7 +1845,102 @@ export class AmaxCustomers implements OnInit {
             console.log("CallCompleted")
         });
     }
+    FindImageFile(input) {
+        //debugger;
+        this.modelInput.CustomerImageFile = input.target.files;
+        var data = new FormData();
+        var file = this.modelInput.CustomerImageFile[0];
+        
+        data.append('file', file);
+      //  var uploaddata = {};
+        //  uploaddata.CustomerUploadedFile = data;
+        debugger;
+        var OrgId = "";
+        var empid = localStorage.getItem("employeeid");
+        if (empid != null && empid != undefined) {
+            OrgId=localStorage.getItem(empid + "_OrgId");
+        }
+        var xhr = this._customerService.UploadCustomerImage(data, OrgId);
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    debugger;
+                    var response = xhr.responseText;
+                    if (response != undefined && response != "" && response != null) {
+                        response = jQuery.parseJSON(response);
+                        if (response.IsError == true) {
+                            bootbox.alert({
+                                message: response.ErrMsg, className: this.ChangeDialog,
+                                buttons: {
+                                    ok: {
+                                        //label: 'Ok',
+                                        className: this.CHANGEDIR
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            //this.setCookie("TempImageName", response.Data, 10);
+                            
+                            this.CustFileImage = response.Data;
+                            this.modelInput.ImageFileName = response.Data;
+                            //this.modelInput.ImageFileName = response.Data;
+
+                        }
+                    }
+
+                } else {
+
+                }
+            }
+        };
+
+        
+        //    .(response=> {
+        //    //debugger;
+        //    response = jQuery.parseJSON(response);
+        //    if (response.IsError == true) {
+        //        bootbox.alert({
+        //            message: response.ErrMsg, className: this.ChangeDialog,
+        //            buttons: {
+        //                ok: {
+        //                    //label: 'Ok',
+        //                    className: this.CHANGEDIR
+        //                }
+        //            }
+        //        });
+        //    }
+        //    else {
+        //        debugger;
+        //        var res = jQuery.parseJSON(response);
+        //        //this.modelInput.ImageFileName = response.Data;
+                
+        //    }
+        //}, error=> {
+        //    console.log(error);
+        //}, () => {
+        //    console.log("CallCompleted")
+        //});
+        //input.srcElement.form.submit();
+        //var imagepath = jQuery("#CustImage").val().split('\\');
+        //if (imagepath.length > 0) {
+        //    this.CustFileImage = imagepath[2];
+        //    var iname = this.modelInput.CustomerId.toString() + ".jpg";
+        //    this.modelInput.ImageFileName = iname;
+        //}
+        //alert(jQuery("#CustImage").val());
+    }
+    ClearImage() {
+        jQuery("#CustImage").val('');
+        this.modelInput.ImageFileName = "";
+        
+        this.CustFileImage = "DefaultUser.jpg";
+        //alert(jQuery("#CustImage").val());
+    }
     ngOnInit() {
+        //
+        this._resourceService.deleteCookie("TempImageName");
         jQuery(".lean-overlay").css({ "display": "none" });
         this.BindCustTitles();
        // debugger;
@@ -1841,7 +1961,7 @@ export class AmaxCustomers implements OnInit {
         if (this.modelInput.CustomerId >= 0) {
             //this.IsFileAstxtShow = false;
             this.editCustDet(this.modelInput);
-            
+
             this.SAVE_BTN_TEXT = this.RES.CUSTOMER_MASTER.APP_BTN_UPDATE;
             //this.ADD_NEW_CUST_TEXT = this.RES.CUSTOMER_MASTER.APP_LBL_UPDATE_CUST;
             //this.CSSTEXT = "mdi-content-add";
@@ -1870,6 +1990,9 @@ export class AmaxCustomers implements OnInit {
             this.CustIdText = "( " + this.modelInput.CustomerId + " )"
             this.IsFileAstxtShow = false;
             //this.HideShowFileAstxt();
+        }
+        else {
+            this.CustFileImage = "DefaultUser.jpg";
         }
         this.Lang = this._resourceService.getCookie("lang");
         if (this.Lang.length > 0) {

@@ -56,10 +56,11 @@ namespace AmaxService.HelperClasses
                 LangResDict.Add("APP_DIR", "ltr");
             else
                 LangResDict.Add("APP_DIR", "rtl");
+            LangResDict.Add("APP_LANG", Lang);
             List<KeyPair> LangResList = GetLangResByFormtypeLang(FormType, Lang);
             if (LangResList.Count > 0)
             {
-                LangResDict.Add("APP_LANG", Lang);
+                
                 Dictionary<string, object> LangResInnerDict = new Dictionary<string, object>();
                 foreach (var LangRes in LangResList)
                 {

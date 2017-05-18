@@ -12,6 +12,7 @@ namespace AmaxDataService.DataModel
         public int CustomerId { get; set; }
         
         public string StateId { get; set; }
+        public string State { get; set; }
         public string CityName { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }

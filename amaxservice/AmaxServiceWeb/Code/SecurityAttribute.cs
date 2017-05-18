@@ -38,8 +38,8 @@ namespace AmaxServiceWeb.Code
                 //ICrmService crm
                 string keyValue = AppConfig.ServiceAuthValue;
                 KeyValuePair<string,IEnumerable<string>> currentUsers = (from h in actionContext.Request.Headers where h.Key == "X-Token" select h).FirstOrDefault();
-                //if (currentUsers)
-                //{
+                if (currentUsers.Value!=null)
+                {
                     var currentUser = XTokenizer.ValidateToken(currentUsers.Value.First().ToString(), true);
                 //currentUser["SecurityContext"] = StringCipher.Decrypt(currentUser["SecurityContext"].ToString());
                 
@@ -51,9 +51,10 @@ namespace AmaxServiceWeb.Code
                 actionContext.ControllerContext.RouteData.Values.Add("OrgId", currentUser["OrgId"].ToString());
                 actionContext.ControllerContext.RouteData.Values.Add("employeeid", currentUser["employeeid"].ToString());
                 actionContext.ControllerContext.RouteData.Values.Add("fname", currentUser["fname"].ToString());
-                return true;
-                //}
+                
+                }
                 //else return false;
+                return true;
 
             }
             catch (Exception ex)

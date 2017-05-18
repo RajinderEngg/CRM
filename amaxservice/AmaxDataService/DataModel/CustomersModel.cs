@@ -118,7 +118,7 @@ namespace AmaxDataService.DataModel
         //public string xx { get; set; }
 
         //public int xxlen { get; set; }
-        //public string ImageFileName { get; set; }
+        public string ImageFileName { get; set; }
         //public int IsNewsLetter { get; set; }
         //public string n1 { get; set; }
         //public string n2 { get; set; }
@@ -141,6 +141,7 @@ namespace AmaxDataService.DataModel
         //public string n19 { get; set; }
         //public string n20 { get; set; }
 
-        
+        //public CustomerImage CustomerUploadedFile { get; set; }
     }
+    
 }

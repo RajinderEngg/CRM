@@ -24,17 +24,17 @@
         margin-right: 40px;
     }
 
-    .table tbody tr .green-text {
+    /*.table tbody tr .green-text {
         display: none;
-    }
+    }*/
 
-    .table tbody tr:last-child .green-text {
-        display: block;
-    }
+    /*.table tr:last-child {
+        display: none;
+    }*/
 
-    .table tbody tr .red-text {
+    /*.table tbody tr .red-text {
         display: block;
-    }
+    }*/
 
     input {
         color: Black !important;
@@ -123,7 +123,7 @@
                                 <div class="row">
                                     <div class="col s3 m3 l3">
 
-                                        <img alt="" class="circle responsive-img valign profile-image" src="../src/images/DefaultUser.jpg" style="margin:10px;">
+                                        <img alt="" class="circle responsive-img valign profile-image" src="{{ImageUrl}}{{CustFileName}}" style="margin:10px;">
                                     </div>
                                     <div class="col s9 m9 l9">
 
@@ -138,14 +138,14 @@
                             <hr />
                             <div class="row">
                                 <div class="col s12 l12 m12">
-                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTADDRESS}}</h6>
+                                    <a (click)="ShowHideaddressesRows()"><h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTADDRESS}}</h6></a>
                                     <hr />
-                                    <table>
+                                    <table >
                                         
                                         
                                             <tr *ngFor="#obj of modelInput.CustomerAddresses; #order = index">
-                                                <td>
-                                                    {{obj.Street}} {{obj.Zip}} {{obj.City}}
+                                                <td style="{{obj.CSSStlye}}">
+                                                    {{obj.Street}} {{obj.Street2}} {{obj.Zip}} {{obj.CityName}} {{obj.State}} {{obj.CountryName}}
                                                 </td>
                                                 </tr>
                                                                    </table>
@@ -153,14 +153,14 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 l12 m12">
-                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTEMAILS}}</h6>
+                                    <a (click)="ShowHideEmailRows()"><h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTEMAILS}}</h6></a>
                                     <hr />
-                                    <table>
+                                    <table id="EmailTable">
 
 
-                                        <tr *ngFor="#obj of modelInput.CustomerEmails; #order = index">
-                                            <td>
-                                                {{obj.Email}}
+                                        <tr *ngFor="#obj of modelInput.CustomerEmails; #order = index" >
+                                            <td style="{{obj.CSSStlye}}">
+                                                {{obj.Email}} - {{obj.EmailName}}
                                             </td>
                                         </tr>
                                     </table>
@@ -168,34 +168,40 @@
                             </div>
                             <div class="row">
                                 <div class="col s12 l12 m12">
-                                    <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTPHONES}}</h6>
+                                    <a (click)="ShowHidePhonesRows()"><h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_CUSTPHONES}}</h6></a>
                                     <hr />
                                     <table>
 
 
                                         <tr *ngFor="#obj of modelInput.CustomerPhones; #order = index">
-                                            <td>
-                                                {{obj.Area}}{{obj.Phone}}
+                                            <td style="{{obj.CSSStlye}}">
+                                                {{obj.Area}}{{obj.Phone}} ({{obj.PhoneType}} - {{obj.Comments}})
                                             </td>
+                                            <!--<td>
+                                                {{obj.Area}}{{obj.PhoneType}}
+                                            </td>
+                                            <td>
+                                                {{obj.Area}}{{obj.Comments}}
+                                            </td>-->
                                         </tr>
                                     </table>
                                 </div>
                             </div>
-                            <!--<div class="row">
+                            <div class="row">
                                 <div class="col s12 l12 m12">
-                                    <h6 class="blue-text">General Groups</h6>
+                                    <a (click)="ShowHideGroupsRows()"><h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_GROUPS}}</h6></a>
                                     <hr />
                                     <table>
 
 
                                         <tr *ngFor="#obj of modelInput.CustomerGroups; #order = index">
-                                            <td>
-                                                {{obj.Area}}{{obj.Phone}}
+                                            <td style="{{obj.CSSStlye}}">
+                                                {{obj.GroupText}}
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
 
                     </div>

@@ -12,6 +12,7 @@ namespace AmaxService.HelperClasses
     public class CustomerGroupsHelper
     {
         public string SecurityconString { get; set; }
+        public string LangValue { get; set; }
         public Dictionary<string, object> GetCustomerGroupsDict(CustomerGroupsGeneralSetModel custGroupsobj)
         {
          Dictionary<string,object> CustDictList=new Dictionary<string,object>();
@@ -79,7 +80,7 @@ namespace AmaxService.HelperClasses
          //}
             return CustDictList;
         }
-        public List<CustomerGroupsGeneralSetModel> GetCustomerGrpsListFromDS(DataSet custobj)
+        public List<CustomerGroupsGeneralSetModel> GetCustomerGrpsListFromDS(DataSet custobj,string Lang)
         {
             List<CustomerGroupsGeneralSetModel> FinalDictList = new List<CustomerGroupsGeneralSetModel>();
 
@@ -90,7 +91,14 @@ namespace AmaxService.HelperClasses
                     CustomerGroupsGeneralSetModel CustAddressDictList = new CustomerGroupsGeneralSetModel();
                     CustAddressDictList.CustomerId = Convert.ToInt32(custobj.Tables[0].Rows[i]["CustomerId"]);
                     CustAddressDictList.CustomerGeneralGroupId= Convert.ToInt32(custobj.Tables[0].Rows[i]["CustomerGeneralGroupId"]);
+                if (Lang == "he")
+                {
                     CustAddressDictList.GroupText = Convert.ToString(custobj.Tables[0].Rows[i]["GroupName"]);
+                }
+                else
+                {
+                    CustAddressDictList.GroupText = Convert.ToString(custobj.Tables[0].Rows[i]["GroupNameEng"]);
+                }
                     CustAddressDictList.ParentGroupId = Convert.ToInt32(custobj.Tables[0].Rows[i]["GroupParenCategory"]);
 
                     FinalDictList.Add(CustAddressDictList);
@@ -104,19 +112,22 @@ namespace AmaxService.HelperClasses
         public List<CustomerGroupsGeneralSetModel> GetCustomerGrpsByCustId(int CustomerId)
         {
             List<CustomerGroupsGeneralSetModel> returnObj = new List<CustomerGroupsGeneralSetModel>();
-           // try
+            // try
             //{
-                using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
-                {
-                    string Query = "select CustomerId,CustomerGroupsGeneralSet.CustomerGeneralGroupId," +
+            using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            {
+                string Query = "select CustomerId,CustomerGroupsGeneralSet.CustomerGeneralGroupId," +
 " GroupName,GroupNameEng, GroupParenCategory from CustomerGroupsGeneralSet,CustomerGroupsGeneral" +
 " where CustomerGroupsGeneral.GroupId = CustomerGroupsGeneralSet.CustomerGeneralGroupId " +
 " and CustomerId =" + CustomerId;
 
-                    DataSet ds = db.GetDataSet(Query, null, false);
-                    if (ds.Tables[0].Rows.Count > 0)
-                        returnObj = GetCustomerGrpsListFromDS(ds);
+                DataSet ds = db.GetDataSet(Query, null, false);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    returnObj = GetCustomerGrpsListFromDS(ds,LangValue);
+                    
                 }
+            }
             //}
             //catch (Exception ex)
             //{
@@ -133,7 +144,7 @@ namespace AmaxService.HelperClasses
                     string Query = "select * from CustomerGroupsGeneralSet where CustomerId=" + CustomerId+ " and CustomerGeneralGroupId="+GroupId;
                     DataSet ds = db.GetDataSet(Query, null, false);
                     if (ds.Tables[0].Rows.Count > 0)
-                        returnObj = GetCustomerGrpsListFromDS(ds).FirstOrDefault();
+                        returnObj = GetCustomerGrpsListFromDS(ds,LangValue).FirstOrDefault();
                 }
             //}
             //catch (Exception ex)

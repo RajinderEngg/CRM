@@ -31,6 +31,7 @@ export class AmaxCrmSidebarComponent implements OnInit{
         this._resourceService.deleteCookie(empid + "ccode");
         this._resourceService.deleteCookie(empid + "SMSDet");
         this._resourceService.deleteCookie(empid + "SMSMessage");
+        this._resourceService.deleteCookie("TempImageName");
         window.location.href = "/";
     }
     ngOnInit() {

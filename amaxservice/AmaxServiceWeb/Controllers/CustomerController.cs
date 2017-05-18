@@ -3,12 +3,15 @@ using AmaxService.HelperClasses;
 using AmaxServiceWeb.Code;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Web;
 using System.Web.Http;
 
 namespace AmaxServiceWeb.Controllers
@@ -175,9 +178,13 @@ namespace AmaxServiceWeb.Controllers
             //        return returnObj;
             //    }
             //}
-            CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+            
+            
+
             try
             {
+                CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                CustHP.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
                 int tempcustid = CustObj.CustomerId;
                 if (string.IsNullOrEmpty(CustObj.MiddleName) == true)
                     CustObj.MiddleName = "";
@@ -596,13 +603,16 @@ namespace AmaxServiceWeb.Controllers
             ResponseData returnObj = new ResponseData();
             try
             {
+                //int i = Convert.ToInt32("s");
                 CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                CustHP.lang= ControllerContext.RouteData.Values["Language"].ToString();
                 returnObj.Data = CustHP.GetCompleteCustomerDet(CustomerId);
                 returnObj.IsError = false;
                 returnObj.ErrMsg = "";
             }
             catch (Exception ex)
             {
+
                 returnObj.Data = null;
                 returnObj.IsError = true;
                 returnObj.ErrMsg = ex.Message;
@@ -610,9 +620,12 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                {
+                    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                }
+                LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
                 LogHistObj.Error = ex.Message;
                 LogHistObj.ExcLine = frame.GetFileLineNumber();
                 LogHistObj.ExcPlace = frame.GetFileColumnNumber();
@@ -623,6 +636,7 @@ namespace AmaxServiceWeb.Controllers
                 LogHistObj.FromPage = "Customer Controller";
                 LogHistObj.OnDate = System.DateTime.Now;
                 LogHistObj.ex = ex;
+                
                 SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return returnObj;
@@ -770,6 +784,7 @@ namespace AmaxServiceWeb.Controllers
             try
             {
                 CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                CustHP.lang = ControllerContext.RouteData.Values["Language"].ToString();
                 returnObj.Data = CustGrpsHP.GetCustomerGrpsByCustIdGrps(CustomerId,GroupId);
                 returnObj.IsError = false;
                 returnObj.ErrMsg = "";
@@ -929,6 +944,66 @@ namespace AmaxServiceWeb.Controllers
                 LogHistObj.ExcLine = frame.GetFileLineNumber();
                 LogHistObj.ExcPlace = frame.GetFileColumnNumber();
                 LogHistObj.Action = "GetCustomerCreditCardDet";
+                LogHistObj.FullDescription = ex.ToString();
+                LogHistObj.ExeptionType = "ERROR";
+                LogHistObj.APIVersion = AppConfig.APIVersion;
+                LogHistObj.FromPage = "Customer Controller";
+                LogHistObj.OnDate = System.DateTime.Now;
+                LogHistObj.ex = ex;
+                SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return returnObj;
+        }
+        [HttpPost]
+        //[Security]
+        public ResponseData UploadCustImage(HttpPostedFileBase CustomerFile,string OrgId)
+        {
+            ResponseData returnObj = new ResponseData();
+            try
+            {
+                var httpRequest = HttpContext.Current.Request.Files[0];
+                string custImage = HttpContext.Current.Server.MapPath(ConfigurationManager.AppSettings["CustImagePath"]);
+                string Fname= System.DateTime.Now.ToString("yyyyMMddhhmmss") + ".jpg";
+                string Path = custImage  + Fname;
+                if (!Directory.Exists(custImage))
+                {
+                    Directory.CreateDirectory(custImage);
+                   
+
+                }
+                if (!Directory.Exists(custImage + "//" + OrgId))
+                {
+                    Directory.CreateDirectory(custImage + "//" + OrgId);
+                }
+                Path= custImage + "//" + OrgId +"//"+ Fname;
+                if (File.Exists(Path))
+                {
+                    File.Delete(Path);
+                }
+                else
+                {
+                    httpRequest.SaveAs(Path);
+                    returnObj.IsError = false;
+                    returnObj.ErrMsg = "";
+                    returnObj.Data = OrgId + "//" + Fname;
+                }
+            }
+            catch (Exception ex)
+            {
+                returnObj.Data = null;
+                returnObj.IsError = true;
+                returnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString.ToString();
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                LogHistObj.Error = ex.Message;
+                LogHistObj.ExcLine = frame.GetFileLineNumber();
+                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                LogHistObj.Action = "UploadCustImage";
                 LogHistObj.FullDescription = ex.ToString();
                 LogHistObj.ExeptionType = "ERROR";
                 LogHistObj.APIVersion = AppConfig.APIVersion;

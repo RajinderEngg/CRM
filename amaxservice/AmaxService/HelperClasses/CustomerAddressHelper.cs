@@ -12,6 +12,7 @@ namespace AmaxService.HelperClasses
     public class CustomerAddressHelper
     {
         public string SecurityconString { get; set; }
+        public string LangValue { get; set; }
         public Dictionary<string, object> GetCustomerAddressDict(CustomerAddressModel custAddressobj)
         {
             Dictionary<string, object> CustAddressDictList = new Dictionary<string, object>();
@@ -91,13 +92,31 @@ namespace AmaxService.HelperClasses
             List<CustomerAddressModel> returnObj = new List<CustomerAddressModel>();
             //try
             //{
-                using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            {
+                string Query = "select * from CustomerAddress where CustomerId=" + CustomerId;
+                DataSet ds = db.GetDataSet(Query, null, false);
+                DataBind DbClass = new DataBind();
+                DbClass.SecurityConString = SecurityconString;
+                DbClass.LangValue = LangValue;
+                List<KeyPair> CountryList = DbClass.GetCountries();
+                List<KeyPair> StateList = DbClass.GetStates();
+                if (ds.Tables[0].Rows.Count > 0)
                 {
-                    string Query = "select * from CustomerAddress where CustomerId=" + CustomerId;
-                    DataSet ds = db.GetDataSet(Query, null, false);
-                    if (ds.Tables[0].Rows.Count > 0)
-                        returnObj = GetCustomerAddressListFromDS(ds);
+                    returnObj = GetCustomerAddressListFromDS(ds);
+                    foreach (var retobj in returnObj)
+                    {
+                        if (CountryList.Count > 0)
+                        {
+                            retobj.CountryName = CountryList.Where(r => r.Value == retobj.CountryCode).Select(sel => sel.Text).FirstOrDefault();
+                        }
+                        if (StateList.Count > 0)
+                        {
+                            retobj.State = StateList.Where(r => r.Value == retobj.StateId).Select(sel => sel.Text).FirstOrDefault();
+                        }
+                    }
                 }
+            }
           //  }
             //catch (Exception ex)
             //{

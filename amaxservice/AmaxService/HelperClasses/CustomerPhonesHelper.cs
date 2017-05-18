@@ -12,6 +12,7 @@ namespace AmaxService.HelperClasses
     public class CustomerPhonesHelper
     {
         public string SecurityconString { get; set; }
+        public string LangValue { get; set; }
         public Dictionary<string, object> GetCustomerPhonesDict(CustomerPhonesModel custPhonesobj)
         {
             Dictionary<string, object> CustAddressDictList = new Dictionary<string, object>();
@@ -58,15 +59,26 @@ namespace AmaxService.HelperClasses
         public List<CustomerPhonesModel> GetCustomerPhoneByCustId(int CustomerId)
         {
             List<CustomerPhonesModel> returnObj = new List<CustomerPhonesModel>();
-           // try
+            // try
             //{
-                using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            {
+                string Query = "select * from CustomerPhones where CustomerId=" + CustomerId;
+                DataSet ds = db.GetDataSet(Query, null, false);
+                if (ds.Tables[0].Rows.Count > 0)
                 {
-                    string Query = "select * from CustomerPhones where CustomerId=" + CustomerId;
-                    DataSet ds = db.GetDataSet(Query, null, false);
-                    if (ds.Tables[0].Rows.Count > 0)
-                        returnObj = GetCustomerPhoneListFromDS(ds);
+                    returnObj = GetCustomerPhoneListFromDS(ds);
+                    DataBind DbClass = new DataBind();
+                    DbClass.SecurityConString = SecurityconString;
+                    DbClass.LangValue = LangValue;
+                    List<KeyPair> Phonetypes = DbClass.GetPhoneTypes();
+                    foreach (var robj in returnObj)
+                    {
+                        string phtid = robj.PhoneTypeId.ToString();
+                        robj.PhoneType = Phonetypes.Where(r => r.Value == phtid).Select(sel => sel.Text).FirstOrDefault();
+                    }
                 }
+            }
             //}
             //catch (Exception ex)
            // {

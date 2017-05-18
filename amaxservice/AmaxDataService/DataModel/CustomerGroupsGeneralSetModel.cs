@@ -68,5 +68,6 @@ namespace AmaxDataService.DataModel
         //public string n18 { get; set; }
         //public string n19 { get; set; }
         //public string n20 { get; set; }
+        //public string GroupName { get; set; }
     }
 }

@@ -3,14 +3,37 @@ import { Http, Headers  } from 'angular2/http';
 import 'rxjs/add/operator/map';
 import {Observable} from "rxjs/Observable";
 import {serviceConfig} from '../crmconfig';
-
+declare var jQuery;
 @Injectable()
+
+
 export class CustomerService {
     baseUrl: string;
+    CHANGEDIR: string = "";
+    ChangeDialog: string = "";
+
     constructor(private http: Http) {
         this.baseUrl = serviceConfig.serviceApiUrl;
-    }
+        var lang = localStorage.getItem("lang");
+        if (lang == "he") {
 
+            this.CHANGEDIR = "rtlmodal";
+            this.ChangeDialog = "input_right";
+        }
+        else {
+            this.CHANGEDIR = "ltrmodal";
+            this.ChangeDialog = "input_left";
+        } 
+    }
+    public setCookie(name: string, value: Object, expireDays: number, path: string = "") {       /*expireDays: number,*/
+        //debugger;
+        let d: Date = new Date();
+        d.setTime(d.getTime() + expireDays * 24 * 60 * 60 * 1000);
+        let expires: string = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + "; " + expires + (path.length > 0 ? "; path=" + path : "");
+
+        //document.cookie = name + "=" + value + "; path=" + path;
+    }
     private getHeader():Headers{
         var header = new Headers();
         header.append("Content-Type", "application/json");
@@ -239,5 +262,33 @@ export class CustomerService {
             this.baseUrl + "Dropdown/GetCustTitles",
             { headers: this.getHeader() }
         ).map(res=> res.text());
+    }
+
+
+    public UploadCustomerImage(File,OrgId) {                //SaveObject: string
+        // debugger;
+        var response = "";
+        var xhr = new XMLHttpRequest();
+
+        
+
+
+        xhr.open('POST', this.baseUrl + "Customer/UploadCustImage?OrgId=" + OrgId, true);
+        xhr.send(File);
+
+        return xhr;
+        //return response;
+       // var header = new Headers();
+       //// angular.identity
+       // //"application/x-www-form-urlencoded"
+       // header.append("Content-Type", 'application/x-www-form-urlencoded');
+       // header.append("enctype", 'multipart/form-data');
+        
+       // return this.http.post(
+       //     this.baseUrl + "Customer/UploadCustImage",                   //URL for the request
+       //     File,
+       //     { headers: header }                                //{ headers: header }
+       //     //HEADERS for the request
+       // ).map(res => res.text());
     }
 }
