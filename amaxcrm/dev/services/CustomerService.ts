@@ -208,6 +208,14 @@ export class CustomerService {
             { headers: this.getHeader() }
         ).map(res=> res.text());
     }
+    public GetCompleteCustDetForProfile(CustomerId): Observable {
+        //var Lang = localStorage.getItem("lang");
+
+        return this.http.get(
+            this.baseUrl + "Customer/GetCompleteCustomerDetForProfile?CustomerId=" + CustomerId,
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
     public GetCustomersSearchData(fname,lname,company,phones,emails): Observable {
         //var Lang = localStorage.getItem("lang");
 

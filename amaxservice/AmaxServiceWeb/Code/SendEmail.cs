@@ -14,9 +14,10 @@ namespace AmaxServiceWeb.Code
     public class SendEmail
     {
         
-        public static void SendEmailErr(LogHistoryModel LogHistObj,string conString)
+        public static string SendEmailErr(LogHistoryModel LogHistObj,string conString)
         {
 
+            string returnObj = "";
             string FromMail = AppConfig.FromEmail;//"info@amax.co.il";
             //string strSub = AppConfig.strSub; //"charge zehut credit";
             string strSub = "";
@@ -28,7 +29,7 @@ namespace AmaxServiceWeb.Code
             string ReplytoName = AppConfig.ReplytoName; //"Amax support";
             int Port = Convert.ToInt32(AppConfig.Port);
             string SMT, strErrorMsg;
-            string ToMail = AppConfig.ToEmail;
+            string ToMail = AppConfig.ToEmail; //AppConfig.ToEmail;//"vivek@telsoftsystems.com";
             //string mypath = HttpContext.Current.Request.PhysicalApplicationPath;
             SMT = AppConfig.SMT; //"mail.amax.co.il";
 
@@ -54,17 +55,19 @@ namespace AmaxServiceWeb.Code
                 MyMailMessage.IsBodyHtml = true;
                 MyMailMessage.From = new MailAddress(FromMail, ReplytoName);
                 //MyMailMessage.To.Add(new MailAddress("vivek@telsoftsystems.com"));
-                //MyMailMessage.Bcc.Add(new MailAddress("info@amax.co.il"));
+                //MyMailMessage.CC.Add(new MailAddress("vsikka275@gmail.com"));
                 //MyMailMessage.ReplyTo = new MailAddress(ReplytoMail);
                 MyMailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 MyMailMessage.Sender = new MailAddress(AppConfig.SenderEmail);
                 mailClient.Send(MyMailMessage);
                 MyMailMessage.Dispose();
+                returnObj = "Email send successfully";
                 //////////Saving in Db
                 StackTrace st = new StackTrace(LogHistObj.ex, true);
                 StackFrame frame = st.GetFrame(0);
                 LogHistHP.conString = conString;
                 bool SaveObj = LogHistHP.AddErrorinLogHistory(LogHistObj);
+                
             }
             catch (Exception ex)
             {
@@ -73,8 +76,10 @@ namespace AmaxServiceWeb.Code
                 LogHistObj.Error = strErrorMsg;
                 LogHistHP.conString = conString;
                 bool SaveObj = LogHistHP.AddErrorinLogHistory(LogHistObj);
-                
+                returnObj =ex.Message+ ". Email sending fail";
+
             }
+            return returnObj;
         }
         
     }

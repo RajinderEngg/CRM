@@ -70,7 +70,9 @@
     <Compile Include="HelperClasses\CustomerGroupsHelper.cs" />
     <Compile Include="CustomerHelper.cs" />
     <Compile Include="HelperClasses\CustomerPhonesHelper.cs" />
+    <Compile Include="HelperClasses\CustomerServiceHelper.cs" />
     <Compile Include="HelperClasses\CustomersNoteHelper.cs" />
+    <Compile Include="HelperClasses\CustomerWebsiteHelper.cs" />
     <Compile Include="HelperClasses\DataBind.cs" />
     <Compile Include="HelperClasses\GeneralGroupsHelper.cs" />
     <Compile Include="HelperClasses\LangResourceHelperClass.cs" />

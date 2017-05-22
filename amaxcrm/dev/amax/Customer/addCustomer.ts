@@ -1854,7 +1854,7 @@ export class AmaxCustomers implements OnInit {
         data.append('file', file);
       //  var uploaddata = {};
         //  uploaddata.CustomerUploadedFile = data;
-        debugger;
+       // debugger;
         var OrgId = "";
         var empid = localStorage.getItem("employeeid");
         if (empid != null && empid != undefined) {
@@ -1865,7 +1865,7 @@ export class AmaxCustomers implements OnInit {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    debugger;
+                   // debugger;
                     var response = xhr.responseText;
                     if (response != undefined && response != "" && response != null) {
                         response = jQuery.parseJSON(response);

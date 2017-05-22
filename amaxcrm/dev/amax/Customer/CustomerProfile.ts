@@ -36,6 +36,7 @@ export class AmaxCustomerProfiles implements OnInit {
     IsPhonesRowsShow: boolean =false;
     IsAddressRowsShow: boolean = false;
     IsGroupRowsShow: boolean = false;
+    IsWebsiteRowsShow: boolean = false;
     constructor(private _resourceService: ResourceService, private _customerService: CustomerService, private _routeParams: RouteParams, private _RecieptService: RecieptService) {
     
         this.modelInput = {};
@@ -44,6 +45,8 @@ export class AmaxCustomerProfiles implements OnInit {
         this.modelInput.CustomerPhones = [];
         this.modelInput.CustomerEmails = [];
         this.modelInput.CustomerGroups = [];
+        this.modelInput.CustomersService = [];
+        this.modelInput.CustomerWebsites = [];
         this.modelInput.Receipts = [];
         this.modelInput.CustomerId = _routeParams.params.Id;
         this.BaseUrl = _resourceService.AppUrl;
@@ -150,9 +153,32 @@ export class AmaxCustomerProfiles implements OnInit {
             this.IsGroupRowsShow = false;
         }
     }
+    ShowHideWebsiteRows() {
+        if (this.IsWebsiteRowsShow == false) {
+            var count = 0;
+            jQuery.each(this.modelInput.CustomerWebsites, function () {
+                if (count == 0) {
+
+                    this.CSSStlye = "display:block";
+
+                }
+                else {
+                    this.CSSStlye = "display:none";
+                }
+                count++;
+            });
+            this.IsWebsiteRowsShow = true;
+        }
+        else {
+            jQuery.each(this.modelInput.CustomerWebsites, function () {
+                this.CSSStlye = "display:block";
+            });
+            this.IsWebsiteRowsShow = false;
+        }
+    }
     CustomerDetail(CustomerId) {
        // debugger;
-        this._customerService.GetCompleteCustDet(CustomerId).subscribe(response=> {
+        this._customerService.GetCompleteCustDetForProfile(CustomerId).subscribe(response=> {
              //debugger;
             response = jQuery.parseJSON(response);
             if (response.IsError == true) {
@@ -167,8 +193,9 @@ export class AmaxCustomerProfiles implements OnInit {
                 });
             }
             else {
+                //debugger;
                 this.modelInput = response.Data;
-                this.modelInput.Receipts = [];
+                //this.modelInput.Receipts = [];
                 if (this.modelInput.ImageFileName != null && this.modelInput.ImageFileName != "") {
                     var OrgId = "";
                     var empid = localStorage.getItem("employeeid");
@@ -177,7 +204,7 @@ export class AmaxCustomerProfiles implements OnInit {
                     }
                     this.CustFileName = OrgId+"//"+this.modelInput.ImageFileName;
                 }
-                debugger;
+               // debugger;
 
                 this.IsEmailRowsShow = false;
                 this.ShowHideEmailRows();
@@ -187,6 +214,8 @@ export class AmaxCustomerProfiles implements OnInit {
                 this.ShowHideaddressesRows();
                 this.IsGroupRowsShow = false;
                 this.ShowHideGroupsRows();
+                this.IsWebsiteRowsShow = false;
+                this.ShowHideWebsiteRows();
                 //jQuery("#EmailTable").children('tbody').hide();
                 //jQuery("#EmailTable").children('tbody').children('tr:first-child').hide();
             }
@@ -256,30 +285,30 @@ export class AmaxCustomerProfiles implements OnInit {
            this.CustomerDetail(this.modelInput.CustomerId);
 
 
-           this._RecieptService.GetReceiptByCustomerId(this.modelInput.CustomerId).subscribe(response=> {
-               // debugger;
-               response = jQuery.parseJSON(response);
-               if (response.IsError == true) {
-                   bootbox.alert({
-                       message: response.ErrMsg, className: this.ChangeDialog,
-                       buttons: {
-                           ok: {
-                               //label: 'Ok',
-                               className: this.CHANGEDIR
-                           }
-                       }
-                   });
-               }
-               else {
-                   this.Receipts = response.Data;
+           //this._RecieptService.GetReceiptByCustomerId(this.modelInput.CustomerId).subscribe(response=> {
+           //    // debugger;
+           //    response = jQuery.parseJSON(response);
+           //    if (response.IsError == true) {
+           //        bootbox.alert({
+           //            message: response.ErrMsg, className: this.ChangeDialog,
+           //            buttons: {
+           //                ok: {
+           //                    //label: 'Ok',
+           //                    className: this.CHANGEDIR
+           //                }
+           //            }
+           //        });
+           //    }
+           //    else {
+           //        this.Receipts = response.Data;
 
 
-               }
-           }, error=> {
-               console.log(error);
-           }, () => {
-               console.log("CallCompleted")
-           });
+           //    }
+           //}, error=> {
+           //    console.log(error);
+           //}, () => {
+           //    console.log("CallCompleted")
+           //});
        }
        else {
            bootbox.alert({

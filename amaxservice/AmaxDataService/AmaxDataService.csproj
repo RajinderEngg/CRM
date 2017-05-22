@@ -55,8 +55,10 @@
     <Compile Include="DataModel\CustomerNotesModel.cs" />
     <Compile Include="DataModel\CustomerPhonesModel.cs" />
     <Compile Include="DataModel\CustomerSafixModel.cs" />
+    <Compile Include="DataModel\CustomerServiceModel.cs" />
     <Compile Include="DataModel\CustomersModel.cs" />
     <Compile Include="DataModel\CustomerTypeModel.cs" />
+    <Compile Include="DataModel\CustomerWebsitesModel.cs" />
     <Compile Include="DataModel\DevQueryModel.cs" />
     <Compile Include="DataModel\EmployeeModel.cs" />
     <Compile Include="DataModel\KeyPair.cs" />

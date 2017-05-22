@@ -35,17 +35,19 @@ namespace AmaxDataService.DataModel
         public List<CustomerEmailsModel> CustomerEmails { get; set; }
         public List<CustomerPhonesModel> CustomerPhones { get; set; }
         public List<CustomerGroupsGeneralSetModel> CustomerGroups { get; set; }
-
+        public List<CustomerWebsitesModel> CustomerWebsites { get; set; }
+        public List<CustomerServiceModel> CustomersService { get; set; }
+        public List<ReseiptsModel> CustomersReceipts { get; set; }
         //public int CardType { get; set; }
         //public string RowDate { get; set; }
-        
-        
+
+
         //public bool Potentianl { get; set; }
-        
+
         //public int RelatedCustomer { get; set; }
         //public int RelationType { get; set; }
         //public int ActiveStatus { get; set; }
-        
+
         public string Remark { get; set; }
         //public string CustPosition { get; set; }
 

@@ -16,10 +16,12 @@ namespace AmaxServiceWeb.Controllers
         // GET api/<controller>
         TemplateHelper TempHP;
         public LangResourceHelperClass LangResHP;
+        public LogHistoryHelper LogHistHP;
         public TemplateController()
         {
             TempHP = new TemplateHelper();
             LangResHP = new LangResourceHelperClass();
+            LogHistHP = new LogHistoryHelper();
         }
         public IEnumerable<string> Get()
         {
@@ -99,20 +101,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "AmaxReportingService";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "Service Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetTemplate", ex.ToString(), AppConfig.APIVersion, "Template Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "AmaxReportingService";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "Service Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return ReturnObj;
         }
@@ -185,20 +188,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "AmaxReportingService";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "Service Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "SaveTemplate", ex.ToString(), AppConfig.APIVersion, "Template Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "AmaxReportingService";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "Service Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return ReturnObj;
         }

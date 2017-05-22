@@ -22,12 +22,18 @@ namespace AmaxService.HelperClasses
         public CustomerEmailHelper CustEmailHP;
         public CustomerPhonesHelper CustPhoneHP;
         public CustomerGroupsHelper CustGrpsHP;
+        public CustomerWebsiteHelper CustWebsiteHP;
+        public CustomerServiceHelper CustServiceHP;
+        public ReceiptCreateHelper RcptCreateHP;
         public CustomerHelper()
         {
             CustAddHP = new CustomerAddressHelper();
             CustEmailHP = new CustomerEmailHelper();
             CustPhoneHP = new CustomerPhonesHelper();
             CustGrpsHP = new CustomerGroupsHelper();
+            CustWebsiteHP = new CustomerWebsiteHelper();
+            CustServiceHP = new CustomerServiceHelper();
+            RcptCreateHP = new ReceiptCreateHelper();
         }
 
         public Dictionary<string, object> GetCustomerDict(CustomersModel custobj)
@@ -904,9 +910,47 @@ namespace AmaxService.HelperClasses
                 CustGrpsHP.SecurityconString = SecurityconString;
                 CustGrpsHP.LangValue = lang;
                 CustObj.CustomerGroups = CustGrpsHP.GetCustomerGrpsByCustId(CustomerId);
+                //CustWebsiteHP.SecurityconString = SecurityconString;
+                //CustObj.CustomerWebsites = CustWebsiteHP.GetCustomerWebsitebyCustId(CustomerId);
+                //CustServiceHP.SecurityconString = SecurityconString;
+                //CustServiceHP.LangValue = lang;
+                //CustObj.CustomersService = CustServiceHP.GetCustomerServicebyCustId(CustomerId, 0, 1);
+
             }
             return CustObj;
         }
+        public CustomersModel GetCompleteCustomerDetForProfile(int CustomerId)
+        {
+            CustomersModel CustObj = new CustomersModel();
+            List<CustomersModel> tempCustObj = new List<CustomersModel>();
+            tempCustObj = GetCustomerByCustId(CustomerId);
+            if (tempCustObj.Count > 0)
+            {
+                CustObj = tempCustObj[0];
+                CustObj.BirthDate = Convert.ToDateTime(CustObj.BirthDate).ToString("dd-MM-yyyy");
+                CustAddHP.SecurityconString = SecurityconString;
+                CustAddHP.LangValue = lang;
+                CustObj.CustomerAddresses = CustAddHP.GetCustomerAddressByCustId(CustomerId).OrderByDescending(or => or.MainAddress).ToList();
+                CustEmailHP.SecurityconString = SecurityconString;
+                CustObj.CustomerEmails = CustEmailHP.GetCustomerEmailByCustId(CustomerId);
+                CustPhoneHP.SecurityconString = SecurityconString;
+                CustPhoneHP.LangValue = lang;
+                CustObj.CustomerPhones = CustPhoneHP.GetCustomerPhoneByCustId(CustomerId);
+                CustGrpsHP.SecurityconString = SecurityconString;
+                CustGrpsHP.LangValue = lang;
+                CustObj.CustomerGroups = CustGrpsHP.GetCustomerGrpsByCustId(CustomerId);
+                CustWebsiteHP.SecurityconString = SecurityconString;
+                CustObj.CustomerWebsites = CustWebsiteHP.GetCustomerWebsitebyCustId(CustomerId);
+                CustServiceHP.SecurityconString = SecurityconString;
+                CustServiceHP.LangValue = lang;
+                CustObj.CustomersService = CustServiceHP.GetCustomerServicebyCustId(CustomerId, 0, 1);
+                RcptCreateHP.SecurityconString = SecurityconString;
+                RcptCreateHP.lang = lang;
+                CustObj.CustomersReceipts = RcptCreateHP.GetReceiptsByCustId(CustomerId);
+            }
+            return CustObj;
+        }
+
         public List<CustomerCreditCardModel> GetCustomerCreditCardDet(int CustomerId, int customercreditCardid)
         {
             List<CustomerCreditCardModel> returnObj = new List<CustomerCreditCardModel>();

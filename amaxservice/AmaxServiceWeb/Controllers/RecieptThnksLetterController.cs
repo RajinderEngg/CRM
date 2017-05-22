@@ -15,9 +15,11 @@ namespace AmaxServiceWeb.Controllers
     {
         // GET api/<controller>
         RecieptThnksLetterHelper RcptTnksLtrsHP;
+        LogHistoryHelper LogHistHP;
         public RecieptThnksLetterController()
         {
             RcptTnksLtrsHP = new RecieptThnksLetterHelper();
+            LogHistHP = new LogHistoryHelper();
         }
         public IEnumerable<string> Get()
         {
@@ -67,20 +69,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "GetRecieptThnksLetters";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "RecieptThnksLetter Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetRecieptThnksLetters", ex.ToString(), AppConfig.APIVersion, "RecieptThnksLetter Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "GetRecieptThnksLetters";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "RecieptThnksLetter Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return ReturnObj;
         }
@@ -107,20 +110,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "GetRecieptThnksLetter";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "RecieptThnksLetter Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetRecieptThnksLetter", ex.ToString(), AppConfig.APIVersion, "RecieptThnksLetter Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "GetRecieptThnksLetter";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "RecieptThnksLetter Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return ReturnObj;
         }
@@ -148,20 +152,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "GetRecieptTnksLtrsByRcptId";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "RecieptThnksLetter Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetRecieptTnksLtrsByRcptId", ex.ToString(), AppConfig.APIVersion, "RecieptThnksLetter Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "GetRecieptTnksLtrsByRcptId";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "RecieptThnksLetter Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return ReturnObj;
         }
@@ -211,20 +216,21 @@ namespace AmaxServiceWeb.Controllers
                     StackFrame frame = st.GetFrame(0);
                     LogHistoryModel LogHistObj = new LogHistoryModel();
                     string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                    LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                    LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                    LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                    LogHistObj.Error = ex.Message;
-                    LogHistObj.ExcLine = frame.GetFileLineNumber();
-                    LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                    LogHistObj.Action = "Save";
-                    LogHistObj.FullDescription = ex.ToString();
-                    LogHistObj.ExeptionType = "ERROR";
-                    LogHistObj.APIVersion = AppConfig.APIVersion;
-                    LogHistObj.FromPage = "RecieptThnksLetter Controller";
-                    LogHistObj.OnDate = System.DateTime.Now;
-                    LogHistObj.ex = ex;
-                    SendEmail.SendEmailErr(LogHistObj,conString);
+                    LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "Save", ex.ToString(), AppConfig.APIVersion, "RecieptThnksLetter Controller", ex);
+                    //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                    //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                    //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                    //LogHistObj.Error = ex.Message;
+                    //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                    //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                    //LogHistObj.Action = "Save";
+                    //LogHistObj.FullDescription = ex.ToString();
+                    //LogHistObj.ExeptionType = "ERROR";
+                    //LogHistObj.APIVersion = AppConfig.APIVersion;
+                    //LogHistObj.FromPage = "RecieptThnksLetter Controller";
+                    //LogHistObj.OnDate = System.DateTime.Now;
+                    //LogHistObj.ex = ex;
+                    string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
                 }
             }
             else
@@ -265,20 +271,21 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "DeleteReceiptThnksLetter";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "RecieptThnksLetter Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj,conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "DeleteReceiptThnksLetter", ex.ToString(), AppConfig.APIVersion, "RecieptThnksLetter Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "DeleteReceiptThnksLetter";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "RecieptThnksLetter Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj,conString);
             }
             return returnObj;
         }

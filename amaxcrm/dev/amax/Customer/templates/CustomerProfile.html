@@ -69,6 +69,28 @@
     /*#EmailTable a {
         display:none
     }*/
+
+  .table-status-sheet  tbody {
+display:block;
+max-height:300px;
+min-height:initial;
+overflow:auto;
+}
+.table-status-sheet thead, tbody tr {
+display:table;
+width:100%;
+table-layout:fixed;
+}
+.table-status-sheet thead {
+width: calc( 100% - 1em )
+}
+.table-status-sheet table {
+width:100%;
+}
+/*.table-status-sheet tbody{
+  min-height: 300px;
+  overflow-y: auto;
+}*/
 </style>
 <div class="container">
     <div class="content">
@@ -90,10 +112,53 @@
                     <div class="row">
                         <div class="col s12 m8 l8" style="float:left"  >
                             
+
+                            <div class="col s12 l12 m12">
+                                <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_TXT_SERVICEDET}}</h6>
+                                <hr />
+
+
+
+                                <table class="table striped table-status-sheet" style="min-height:20px; max-height: 20px;overflow-y: auto;">
+
+                                    <thead>
+                                        <tr>
+                                            <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_DETAIL}}</th>
+                                            <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_DONOTJUMP}}</th>
+                                            <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_MEMODATE}}</th>
+                                            <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_ROWDATE}}</th>
+                                            <th>{{RES.CUSTOMER_PROFILE.GRID_LBL_SERVICETYPE}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="#obj of modelInput.CustomersService; #order = index">
+                                            <td>
+                                                {{obj.Details}}
+                                            </td>
+                                            <td>
+                                                {{obj.DonotJump}}
+                                            </td>
+                                            <td>
+                                                {{obj.MemoDate}}
+                                            </td>
+                                            <td>
+                                                {{obj.RowDate}}
+                                            </td>
+                                            <td>
+                                                {{obj.ServiceType}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                                 <div class="col s12 l12 m12">
                                     <h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_TXT_RECEIPTDET}}</h6>
                                     <hr />
-                                    <table class="table"  style="min-height:20px; max-height: 20px;overflow-y: auto;">
+
+                                    
+
+                                    <table class="table striped table-status-sheet"  style="min-height:20px; max-height: 20px;overflow-y: auto;">
 
                                         <thead>
                                             <tr>
@@ -103,7 +168,7 @@
                                             </tr>
                                         </thead>
                                         <tbody >
-                                            <tr *ngFor="#obj of Receipts; #order = index">
+                                            <tr *ngFor="#obj of modelInput.CustomersReceipts; #order = index">
                                                 <td>
                                                     {{obj.ReceiptTypeName}}
                                                 </td>
@@ -197,6 +262,21 @@
                                         <tr *ngFor="#obj of modelInput.CustomerGroups; #order = index">
                                             <td style="{{obj.CSSStlye}}">
                                                 {{obj.GroupText}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 l12 m12">
+                                    <a (click)="ShowHideWebsiteRows()"><h6 class="blue-text">{{RES.CUSTOMER_PROFILE.HEADER_LBL_WEBSITES}}</h6></a>
+                                    <hr />
+                                    <table>
+
+
+                                        <tr *ngFor="#obj of modelInput.CustomerWebsites; #order = index">
+                                            <td style="{{obj.CSSStlye}}">
+                                                {{obj.WebSite}}
                                             </td>
                                         </tr>
                                     </table>

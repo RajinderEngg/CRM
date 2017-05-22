@@ -17,11 +17,12 @@ namespace AmaxServiceWeb.Controllers
         // GET api/<controller>
         public CustomerHelper CustHP;
         public TerminalHelper TermHP;
-
+        public LogHistoryHelper LogHistHP;
         public CheargeCreditController()
         {
             CustHP = new CustomerHelper();
             TermHP = new TerminalHelper();
+            LogHistHP = new LogHistoryHelper();
         }
         public IEnumerable<string> Get()
         {
@@ -69,20 +70,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "CheckCustOfSameNameComp";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetTerminalDetByTermNo", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "CheckCustOfSameNameComp";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }
@@ -107,20 +119,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "IsInsertTotblLastUpdate";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "IsInsertTotblLastUpdate", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "IsInsertTotblLastUpdate";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }
@@ -145,20 +168,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "UpdateOwnerId";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "UpdateOwnerId", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "UpdateOwnerId";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }
@@ -184,20 +218,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "InsertTotblLastUpdate";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "InsertTotblLastUpdate", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "InsertTotblLastUpdate";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }
@@ -515,20 +560,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "GetChargeAshrait";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetChargeAshrait", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "GetChargeAshrait";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }
@@ -554,20 +610,31 @@ namespace AmaxServiceWeb.Controllers
                 StackFrame frame = st.GetFrame(0);
                 LogHistoryModel LogHistObj = new LogHistoryModel();
                 string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
-                LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
-                LogHistObj.OrgId = ControllerContext.RouteData.Values["OrgId"].ToString();
-                LogHistObj.fname = ControllerContext.RouteData.Values["fname"].ToString();
-                LogHistObj.Error = ex.Message;
-                LogHistObj.ExcLine = frame.GetFileLineNumber();
-                LogHistObj.ExcPlace = frame.GetFileColumnNumber();
-                LogHistObj.Action = "UpdateOwnerId";
-                LogHistObj.FullDescription = ex.ToString();
-                LogHistObj.ExeptionType = "ERROR";
-                LogHistObj.APIVersion = AppConfig.APIVersion;
-                LogHistObj.FromPage = "CheargeCredit Controller";
-                LogHistObj.OnDate = System.DateTime.Now;
-                LogHistObj.ex = ex;
-                SendEmail.SendEmailErr(LogHistObj, conString);
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "getPrint", ex.ToString(), AppConfig.APIVersion, "CheargeCredit Controller", ex);
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["employeeid"])))
+                //{
+                //    LogHistObj.EmployeeId = Convert.ToInt32(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]));
+                //}
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["OrgId"])))
+                //{
+                //    LogHistObj.OrgId = Convert.ToString(ControllerContext.RouteData.Values["OrgId"]);
+                //}
+
+                //if (string.IsNullOrEmpty(Convert.ToString(ControllerContext.RouteData.Values["fname"])))
+                //{
+                //    LogHistObj.fname = Convert.ToString(ControllerContext.RouteData.Values["fname"]);
+                //}
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "UpdateOwnerId";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "CheargeCredit Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
             }
             return returnObj;
         }

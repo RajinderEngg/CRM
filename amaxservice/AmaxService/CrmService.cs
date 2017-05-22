@@ -118,6 +118,13 @@ namespace AmaxService
 
                                 //Version Managements
                                 responce.DBVERSION_NET = da.ExecuteScalar("SELECT TOP 1 DBVERSION_NET FROM ApplicationInfo", null);
+                                int WebDBVersion = 0;
+                                if (string.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]) == false)
+                                {
+                                    WebDBVersion = Convert.ToInt32(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]);
+                                }
+                                bool IsDBUpdate = UpDateDbStructure(responce.DBVERSION_NET, WebDBVersion, connection_str);
+                                
                                 responce.ServiceVersion = getServiceVersion();
                                 responce.DatAccessVersion = da.getLibVersion();
                                 
@@ -945,6 +952,337 @@ namespace AmaxService
             }
             return responce;//responceDispatcher(data);
         }
+
+        public int GetDbVersion()
+        {
+            int db_version = 0;
+            //try
+            //{
+
+                string searchSQL = "SELECT  DBVERSION_NET  FROM ApplicationInfo ";
+
+                using (DbAccess da = getDbAccess())
+                {
+
+                    DataTable dataTable = da.GetDataTable(searchSQL.Trim(),null);
+                    if (dataTable != null && dataTable.Rows.Count > 0)
+                    {
+                        db_version = Convert.ToInt32(dataTable.Rows[0]["DBVERSION_NET"]);
+
+                    }
+                }
+            //}
+            //catch (Exception)
+            //{
+            //    SetDbVersionColumn();
+            //    //throw;
+            //}
+            return db_version;
+        }
+
+
+        #region Make Changes to Old Db
+        public bool UpDateDbStructure(int Old_DB_Version, int New_Web_DB_Version,string Constring)
+        {
+            bool done = false;
+            int counter = Old_DB_Version;
+            string strSql = "";
+            int ret = 0;
+            try
+            {
+                for (int i = Old_DB_Version + 1; i <= New_Web_DB_Version; i++)
+                {
+                    //try
+                    //{
+                        switch (i)
+                        {
+                            case 1:
+
+                                strSql = @" DECLARE @intErrorCode INT
+                                                BEGIN TRAN
+
+                                                   ALTER TABLE dbo.Employees 
+                                                  ADD DepartmentId int CONSTRAINT 
+                                                  DF_Employees_DepartmentId DEFAULT(0)NOT NULL
+
+
+                                                    alter table dbo.Employees drop constraint DF_Employees_DepartmentId
+                                                    
+                                                    SELECT @intErrorCode = @@ERROR
+                                                    IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                                    alter table dbo.Employees
+                                                    add constraint DF_Employees_DepartmentId
+                                                    default (1) for [DepartmentId]
+                                                   
+                                                    SELECT @intErrorCode = @@ERROR
+                                                    IF (@intErrorCode <> 0) GOTO PROBLEM
+                                                
+                                                COMMIT TRAN
+
+                                                PROBLEM:
+                                                IF (@intErrorCode <> 0) BEGIN
+                                                PRINT 'Unexpected error occurred!'
+                                                    ROLLBACK TRAN
+                                                END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(),null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 2:
+
+                                strSql = @" DECLARE @intErrorCode INT
+                                                BEGIN TRAN
+
+                                                   
+                                                    ALTER TABLE dbo.Employees ADD TimeZone 
+                                                    nvarchar(50) NOT NULL DEFAULT('00:00') 
+                                                
+                                                    SELECT @intErrorCode = @@ERROR
+                                                    IF (@intErrorCode <> 0) GOTO PROBLEM
+                                                COMMIT TRAN
+
+                                                PROBLEM:
+                                                IF (@intErrorCode <> 0) BEGIN
+                                                PRINT 'Unexpected error occurred!'
+                                                    ROLLBACK TRAN
+                                                END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(),null);
+
+                                }
+                                counter = i;
+                                break;
+                            case 3:
+
+                                strSql = @"DECLARE @intErrorCode INT
+                                        BEGIN TRAN
+                                            alter table dbo.Customers
+                                            add constraint DF_Customers_CustPosition
+                                            default ('') for [CustPosition]
+   
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+                                        COMMIT TRAN
+
+                                        PROBLEM:
+                                        IF (@intErrorCode <> 0) BEGIN
+                                        PRINT 'Unexpected error occurred!'
+                                            ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 4:
+                                strSql = @"DECLARE @intErrorCode INT
+                                         BEGIN TRAN
+                                            ALTER TABLE dbo.CustomerService ADD ParentServiceID INT NOT NULL DEFAULT(0)
+
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                            ALTER TABLE dbo.CustomerService ADD FileName2 nvarchar(300) NOT NULL DEFAULT('')
+
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                            ALTER TABLE dbo.CustomerService ADD FileName3 nvarchar(300) NOT NULL DEFAULT('')
+
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                            ALTER TABLE dbo.CustomerService ADD IsDeleted bit NOT NULL DEFAULT(0)
+
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+                                        COMMIT TRAN
+
+                                            PROBLEM:
+                                            IF (@intErrorCode <> 0) BEGIN
+                                            PRINT 'Unexpected error occurred!'
+                                        ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 5:
+                                strSql = @"DECLARE @intErrorCode INT
+                                        BEGIN TRAN
+                                           CREATE TABLE [dbo].[Letters](
+	                                            [id] [int] NOT NULL,
+	                                            [LetterName] [nvarchar](50) COLLATE Hebrew_CI_AS NOT NULL,
+	                                            [BodyContent] [ntext] COLLATE Hebrew_CI_AS NOT NULL CONSTRAINT [DF_Letters_BodyContent]  DEFAULT (''),
+                                             CONSTRAINT [PK_Letters] PRIMARY KEY CLUSTERED 
+                                            (
+	                                            [id] ASC
+                                            )WITH (PAD_INDEX  = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+                                            ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+                                        COMMIT TRAN
+
+                                        PROBLEM:
+                                        IF (@intErrorCode <> 0) BEGIN
+                                        PRINT 'Unexpected error occurred!'
+                                            ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 6:
+                                strSql = @"DECLARE @intErrorCode INT
+                                        BEGIN TRAN
+                                        ALTER TABLE dbo.Employees ADD CRMPassword nvarchar(255)  NULL ;
+
+
+                                            EXEC sp_executesql
+                                                N'UPDATE Employees SET CRMPassword = password'
+
+                                        SELECT @intErrorCode = @@ERROR
+                                        IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                        COMMIT TRAN
+
+                                        PROBLEM:
+                                        IF (@intErrorCode <> 0) BEGIN
+                                        PRINT 'Unexpected error occurred!'
+                                        ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 7:
+                                strSql = @"DECLARE @intErrorCode INT
+                                         BEGIN TRAN
+                                            ALTER TABLE dbo.Customers ADD ImageFileName nvarchar(100) NULL 
+
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+
+                                           
+                                        COMMIT TRAN
+
+                                            PROBLEM:
+                                            IF (@intErrorCode <> 0) BEGIN
+                                            PRINT 'Unexpected error occurred!'
+                                        ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 8:
+                                strSql = @"DECLARE @intErrorCode INT
+                                         BEGIN TRAN
+                                           
+                                            ALTER TABLE dbo.RecieptThanksLetters ADD langNum INT NOT NULL DEFAULT(0)
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+                                        COMMIT TRAN
+
+                                            PROBLEM:
+                                            IF (@intErrorCode <> 0) BEGIN
+                                            PRINT 'Unexpected error occurred!'
+                                        ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                                counter = i;
+                                break;
+                            case 9:
+                            strSql = @"DECLARE @intErrorCode INT
+                                         BEGIN TRAN
+                                           
+                                            CREATE TABLE [dbo].[tblLogHistory](
+	                                        [Id] [int] IDENTITY(1,1) Primary Key,
+	                                        [EmployeeId] [int] NULL,
+	                                        [ExeptionType] [nvarchar](50) NULL,
+	                                        [Error] [nvarchar](1000) NULL,
+	                                        [ExcLine] [int] NULL,
+	                                        [ExcPlace] [int] NULL,
+	                                        [OnDate] [datetime] NULL,
+	                                        [Action] [nvarchar](50) NULL,
+	                                        [XmlData] [nvarchar](max) NULL,
+	                                        [FromPage] [nvarchar](150) NULL,
+	                                        [FullDescription] [nvarchar](max) NULL,
+	                                        [APIVersion] [nvarchar](50) NULL
+	                                        )
+                                            SELECT @intErrorCode = @@ERROR
+                                            IF (@intErrorCode <> 0) GOTO PROBLEM
+                                        COMMIT TRAN
+
+                                            PROBLEM:
+                                            IF (@intErrorCode <> 0) BEGIN
+                                            PRINT 'Unexpected error occurred!'
+                                        ROLLBACK TRAN
+                                        END";
+                            using (DbAccess da = new DbAccess(Constring))
+                            {
+                                ret = da.InsertData(strSql.Trim(), null);
+
+                            }
+                            counter = i;
+                            break;
+                        case 10:
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    counter = i;
+                    //    continue;
+
+                    //}
+
+                }
+
+                #region update db version
+                strSql = @" UPDATE dbo.ApplicationInfo set DBVERSION_NET=" + counter;
+                using (DbAccess da = new DbAccess(Constring))
+                {
+                    ret = da.InsertData(strSql.Trim(), null);
+
+                }
+                done = true;
+                #endregion
+            }
+            catch (Exception)
+            {
+                done = false;
+                throw;
+            }
+            return done;
+        }
+        #endregion
+
         #endregion
 
         #region Dev methods Works only on debug library

@@ -91,5 +91,12 @@ namespace AmaxServiceWeb.Code
                 return System.Web.Configuration.WebConfigurationManager.AppSettings["CreditPrintUrl"];
             }
         }
+        public static string DBVersion
+        {
+            get
+            {
+                return System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"];
+            }
+        }
     }
 }
