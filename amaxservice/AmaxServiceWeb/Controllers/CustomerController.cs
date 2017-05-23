@@ -657,7 +657,7 @@ namespace AmaxServiceWeb.Controllers
             ResponseData returnObj = new ResponseData();
             try
             {
-                //int i = Convert.ToInt32("s");
+                int i = Convert.ToInt32("s");
                 CustHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
                 CustHP.lang = ControllerContext.RouteData.Values["Language"].ToString();
                 returnObj.Data = CustHP.GetCompleteCustomerDetForProfile(CustomerId);
@@ -702,7 +702,7 @@ namespace AmaxServiceWeb.Controllers
                string IsMailSend= SendEmail.SendEmailErr(LogHistObj, conString);
                 //if (string.IsNullOrEmpty(IsMailSend))
                 //{
-                    returnObj.ErrMsg = IsMailSend;
+                //    returnObj.ErrMsg = IsMailSend;
                 //}
             }
             return returnObj;

@@ -54,8 +54,8 @@ namespace AmaxServiceWeb.Code
 
                 MyMailMessage.IsBodyHtml = true;
                 MyMailMessage.From = new MailAddress(FromMail, ReplytoName);
-                //MyMailMessage.To.Add(new MailAddress("vivek@telsoftsystems.com"));
-                //MyMailMessage.CC.Add(new MailAddress("vsikka275@gmail.com"));
+                //MyMailMessage.To.Add(new MailAddress("info@telsoftsystems.com"));
+                //MyMailMessage.CC.Add(new MailAddress("info@telsoftsystems.com"));
                 //MyMailMessage.ReplyTo = new MailAddress(ReplytoMail);
                 MyMailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 MyMailMessage.Sender = new MailAddress(AppConfig.SenderEmail);

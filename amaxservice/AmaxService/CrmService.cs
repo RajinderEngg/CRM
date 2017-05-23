@@ -117,14 +117,17 @@ namespace AmaxService
                                 IsValid = true;
 
                                 //Version Managements
+                                //Db Version Management
                                 responce.DBVERSION_NET = da.ExecuteScalar("SELECT TOP 1 DBVERSION_NET FROM ApplicationInfo", null);
                                 int WebDBVersion = 0;
                                 if (string.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]) == false)
                                 {
                                     WebDBVersion = Convert.ToInt32(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]);
                                 }
-                                bool IsDBUpdate = UpDateDbStructure(responce.DBVERSION_NET, WebDBVersion, connection_str);
-                                
+                                //if (responce.DBVERSION_NET < WebDBVersion)
+                                //{
+                                    bool IsDBUpdate = UpDateDbStructure(responce.DBVERSION_NET, WebDBVersion, connection_str);
+                                //}
                                 responce.ServiceVersion = getServiceVersion();
                                 responce.DatAccessVersion = da.getLibVersion();
                                 
@@ -1214,6 +1217,8 @@ namespace AmaxService
                                 counter = i;
                                 break;
                             case 9:
+                            
+                        case 10:
                             strSql = @"DECLARE @intErrorCode INT
                                          BEGIN TRAN
                                            
@@ -1247,10 +1252,9 @@ namespace AmaxService
                             }
                             counter = i;
                             break;
-                        case 10:
-                                break;
-
-                            default:
+                        case 11:
+                            break;
+                        default:
                                 break;
                         }
 
