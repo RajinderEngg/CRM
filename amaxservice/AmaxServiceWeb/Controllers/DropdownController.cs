@@ -1694,5 +1694,64 @@ namespace AmaxServiceWeb.Controllers
 
         }
 
+        [HttpGet]
+        [Security]
+        public ResponseData GetServiceTypes()
+        {
+            ResponseData ReturnObj = new ResponseData();
+            try
+            {
+                db.SecurityConString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                db.LangValue = ControllerContext.RouteData.Values["Language"].ToString();
+                ReturnObj.Data = db.GetServiceTypes();
+                ReturnObj.IsError = false;
+                ReturnObj.ErrMsg = "";
+            }
+            catch (Exception ex)
+            {
+                ReturnObj.Data = null;
+                ReturnObj.IsError = true;
+                ReturnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetMinutes", ex.ToString(), AppConfig.APIVersion, "Dropdown Controller", ex);
+
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return ReturnObj;
+
+        }
+
+        [HttpGet]
+        [Security]
+        public ResponseData GetMinutes()
+        {
+            ResponseData ReturnObj = new ResponseData();
+            try
+            {
+                db.SecurityConString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                
+                ReturnObj.Data = db.GetMinutes();
+                ReturnObj.IsError = false;
+                ReturnObj.ErrMsg = "";
+            }
+            catch (Exception ex)
+            {
+                ReturnObj.Data = null;
+                ReturnObj.IsError = true;
+                ReturnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "GetMinutes", ex.ToString(), AppConfig.APIVersion, "Dropdown Controller", ex);
+               
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return ReturnObj;
+
+        }
     }
 }

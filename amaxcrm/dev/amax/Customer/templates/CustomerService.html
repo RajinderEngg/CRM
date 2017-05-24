@@ -1,0 +1,291 @@
+<style>
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    [type="checkbox"] + label:before, [type="checkbox"] + label:after {
+        left: 0;
+        right: -25px;
+    }
+
+    input[type="checkbox"] + label {
+        margin-right: 40px;
+    }
+
+    [type="text"] + label:before, [type="text"] + label:after {
+        left: 0;
+        right: -25px;
+        
+    }
+
+    input[type="text"] + label {
+        margin-right: 40px;
+    }
+
+    .table tbody tr .green-text {
+        display: none;
+    }
+
+    .table tbody tr:last-child .green-text {
+        display: block;
+    }
+
+    .table tbody tr .red-text {
+        display: block;
+    }
+
+    input {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    select {
+        color: Black !important;
+        font-weight: bold;
+    }
+
+    .LeftText {
+        text-align: left !important;
+    }
+
+    .modal-content {
+        /*margin-left: 20px !important;
+        margin-right: 20px !important;*/
+        /*width: 500px !important;*/
+    }
+
+    .modal-dialog {
+        width: 650px !important;
+    }
+
+    /*button {
+        float: left !important;
+    }*/
+    /*.card-panel {
+        width:500px!important;
+    }*/
+    /*#EmailTable a {
+        display:none
+    }*/
+</style>
+<!-- Start Page Loading -->
+<!--<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>-->
+<!-- End Page Loading -->
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col s12 m12 l12 card-panel">
+                <div>
+                    <div>
+                        <h1>
+                            <i class="mdi-content-select-all green-text"></i>
+                            <span class="red-text">Customer Service</span>  <!--{{RES.CUSTOMER_MASTER.CUST_LABAL}}Customer-->
+                            <span class="blue-text" id="id-text2" ng-show="modelInput.CustomerId!='-1'">{{CustIdText}}</span>
+
+                        </h1>
+
+                        
+                        
+                    </div>
+                    <div class="position-relative">
+                        <div class="visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--<div class="col-sm-7">-->
+                                    <div class="row">
+                                      
+                                    </div>
+                                    
+                                    <div class="space-6"></div>
+                                    <!--<div>{{RES.CUSTOMER_MASTER.APP_TXT_REQD}}</div>-->
+                                    <hr />
+                                    <form (ngSubmit)="saveCustomerServiceData()">
+                                        <!--<fieldset>-->
+                                        <div class="row">
+                                            <div class="col s12 m12 l12">
+                                                <label class="block clearfix">
+                                                    Service Type
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Service Type" [(ngModel)]="modelInput.ServiceType">
+
+                                                    <option selected="selected" value="">Select Service Type</option>
+                                                    <option *ngFor="#DropObject of _ServiceTypes" value="{{DropObject.Value}}">
+                                                        {{DropObject.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                            </div>
+                                        <div class="row">
+
+                                            <div class="input-field col s12 l12 m12">
+                                                <mx-date (ondata)="dateVSelectionChange($event,modelInput)" cssclass="col s4 browser-default" [setdate]="modelInput.Date"></mx-date>
+
+                                                <label for="VDate" class="active">Date</label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col s12 m12 l12">
+                                                <label for="time" class="active">Time</label>
+                                                <input type="text" id="time" class="form-control" [(ngModel)]="modelInput.Time" required maxlength="50" />
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col s12 m12 l12">
+                                                <label class="block clearfix">
+                                                    Memo Before
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Memo Before" [(ngModel)]="modelInput.ServiceType">
+
+                                                    <option selected="selected" value="">Select Memo Before</option>
+                                                    <option *ngFor="#DropObject of _Minutes" value="{{DropObject.Value}}">
+                                                        {{DropObject.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+
+                                                <label for="Details" class="active">Details</label>
+                                                <textarea id="Details" rows="2" cols="50" [(ngModel)]="modelInput.Details" style="max-height:20px;overflow-y:auto"
+                                                          tabindex="44" class="materialize-textarea"></textarea>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m12 l12">
+                                                <label class="block clearfix">
+                                                    Passed To Employee
+                                                </label>
+                                                <select style="width:100%" class="browser-default" label="Service Type" [(ngModel)]="modelInput.employeeid">
+
+                                                    <option selected="selected" value="">Select Passed To Employee</option>
+                                                    <option *ngFor="#DropObject of _Employees" value="{{DropObject.Value}}">
+                                                        {{DropObject.Text}}
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12 m2 l2">
+                                                <div class="switch">
+                                                    <label>
+                                                        No
+                                                        <input type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Done It
+                                                    </label>
+                                                    </div>
+                                                </div>
+                                            <div class="col s12 m2 l2 offset-l8">
+                                                <div class="switch">
+                                                    <label>
+                                                        No
+                                                        <input type="checkbox">
+                                                        <span class="lever"></span>
+                                                        Reminder
+                                                    </label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        
+
+                                      
+
+                                      
+                                       
+                                        <div class="space-6"></div>
+                                           
+                                         
+                                            
+                                            <div class="row">
+                                                <div class="col s12">
+
+                                                    <button type="submit" class="btn waves-effect waves-light green accent-4" disabled="{{Isbtndisable}}" tabindex="45">
+
+                                                        <span class="bigger-110">{{SAVE_BTN_TEXT}}</span>
+                                                    </button>
+                                                    <button type="button" class="btn waves-effect waves-light blue accent-4" disabled="{{Isbtndisable}}" tabindex="45">
+                                                        
+                                                        <span class="bigger-110">Copy To Google Calendar</span>
+                                                    </button>
+                                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" disabled="{{Isbtndisable}}" (click)="SetdefaultPage()" tabindex="46">
+
+                                                        <span class="bigger-110">Cancel</span>
+                                                    </button>&nbsp;
+                                                </div>
+                                                <div class="col s12 m4 l2">
+
+                                                    <div *ngIf="ShowMsg==true" class="{{MsgClass}}">
+                                                        <strong>{{Msg}}</strong>
+                                                    </div>
+                                                    <img src="http://localhost:57998/Images/Loader2.gif" style="float:left" *ngIf="ShowLoader==true" />
+                                                </div>
+                                            </div>
+                                           
+
+
+
+
+</form>
+                                </div>
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </div>
+                    <!-- /.position-relative -->
+                </div>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.main-content -->
+</div>
+<style type="text/css">
+    input.ng-invalid.ng-touched, select.ng-invalid.ng-touched {
+        background-color: #fcf2f2;
+        border-color: red;
+    }
+
+    input.ng-valid.ng-touched, select.ng-valid.ng-touched {
+        background-color: none;
+        border-color: none;
+    }
+    @media screen and (min-width: 500px){
+        .autocomplete {
+            width:520px;height:30px;
+        }
+    }
+    @media screen and (max-width: 450px){
+        .autocomplete {
+            width:auto;height:30px;
+        }
+    }
+    /*form .row {
+        padding:2px;
+    }*/
+ 
+    
+</style>
+ 
+<!-- /.main-container -->

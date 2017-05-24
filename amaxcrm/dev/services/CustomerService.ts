@@ -299,4 +299,17 @@ export class CustomerService {
        //     //HEADERS for the request
        // ).map(res => res.text());
     }
+
+    public GetServiceTypes(): Observable {
+        return this.http.get(
+            this.baseUrl + "Dropdown/GetServiceTypes",
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
+    public GetMinutes(): Observable {
+        return this.http.get(
+            this.baseUrl + "Dropdown/GetMinutes",
+            { headers: this.getHeader() }
+        ).map(res=> res.text());
+    }
 }

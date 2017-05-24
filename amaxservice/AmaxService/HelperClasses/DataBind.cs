@@ -119,7 +119,7 @@ namespace AmaxService.HelperClasses
                         EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["TitleId"]), Convert.ToString(ds.Tables[0].Rows[i]["TitleEng"])));
                     if (LangValue == "he")
                         EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["TitleId"]), Convert.ToString(ds.Tables[0].Rows[i]["TitleHeb"])));
-                    
+
                 }
             }
             return EmployeeList;
@@ -129,14 +129,14 @@ namespace AmaxService.HelperClasses
         public List<KeyPair> GetThnksLetters(int ReceiptId)
         {
             List<KeyPair> EmployeeList = new List<KeyPair>();
-            string Query = "select * from RecieptThanksLetters where ReceiptId="+ReceiptId;
+            string Query = "select * from RecieptThanksLetters where ReceiptId=" + ReceiptId;
             using (DbAccess db = new DbAccess(SecurityConString)) //ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
             {
                 DataSet ds = db.GetDataSet(Query, null, false);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    if(LangValue=="en")
-                    EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterId"]), Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterNameEng"])));
+                    if (LangValue == "en")
+                        EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterId"]), Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterNameEng"])));
                     if (LangValue == "he")
                         EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterId"]), Convert.ToString(ds.Tables[0].Rows[i]["ThanksLetterName"])));
                 }
@@ -150,7 +150,7 @@ namespace AmaxService.HelperClasses
             using (DbAccess db = new DbAccess(SecurityConString)) //ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
             {
                 DataSet ds = db.GetDataSet(Query, null, false);
-                if(ds.Tables[0].Rows.Count>0)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
                     if (LangValue == "en")
                         EmployeeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[0]["associationId"]), Convert.ToString(ds.Tables[0].Rows[0]["associationNameEng"])));
@@ -346,7 +346,7 @@ namespace AmaxService.HelperClasses
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     //if (LangValue == "en")
-                        GroupsList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["CountryShortCode"]), Convert.ToString(ds.Tables[0].Rows[i]["CountryName"])));
+                    GroupsList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["CountryShortCode"]), Convert.ToString(ds.Tables[0].Rows[i]["CountryName"])));
                     //else if (LangValue == "he")
                     //    GroupsList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["CountryShortCode"]), Convert.ToString(ds.Tables[0].Rows[i]["CountryNameHeb"])));
                 }
@@ -424,7 +424,7 @@ namespace AmaxService.HelperClasses
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     //if (LangValue == "en")
-                        CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["CurrencyId"]), Convert.ToString(ds.Tables[0].Rows[i]["CurrencyDetailEng"])));
+                    CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["CurrencyId"]), Convert.ToString(ds.Tables[0].Rows[i]["CurrencyDetailEng"])));
                     //else if (LangValue == "he")
                     //    CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["PayTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["PaymentTypeOther"])));
                 }
@@ -442,7 +442,7 @@ namespace AmaxService.HelperClasses
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     if (LangValue == "en")
-                    CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["BankNameEng"]), Convert.ToString(ds.Tables[0].Rows[i]["BankNameEng"])));
+                        CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["BankNameEng"]), Convert.ToString(ds.Tables[0].Rows[i]["BankNameEng"])));
                     else if (LangValue == "he")
                         CurrencyList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["BankName"]), Convert.ToString(ds.Tables[0].Rows[i]["BankName"])));
                 }
@@ -473,7 +473,7 @@ namespace AmaxService.HelperClasses
             List<KeyPair> YrList = new List<KeyPair>();
             for (int i = 0; i < 10; i++)
             {
-                YrList.Add(new KeyPair((CurrYear+i).ToString(), (CurrYear + i).ToString()));
+                YrList.Add(new KeyPair((CurrYear + i).ToString(), (CurrYear + i).ToString()));
             }
             return YrList;
         }
@@ -483,7 +483,7 @@ namespace AmaxService.HelperClasses
             MnthList.Add(new KeyPair("1", "Jan"));
             MnthList.Add(new KeyPair("2", "Feb"));
             MnthList.Add(new KeyPair("3", "Mar"));
-            
+
 
             MnthList.Add(new KeyPair("4", "April"));
             MnthList.Add(new KeyPair("5", "May"));
@@ -499,26 +499,26 @@ namespace AmaxService.HelperClasses
         }
         public KeyPair GetPhoneTypeDet(int PhoneTypeId)
         {
-            KeyPair PhoneTypeObj = new KeyPair("","");
+            KeyPair PhoneTypeObj = new KeyPair("", "");
             string Query = "SELECT     Id,CellPhone FROM PhoneTypes " +
-                            " where Id="+PhoneTypeId;
+                            " where Id=" + PhoneTypeId;
 
             using (DbAccess db = new DbAccess(SecurityConString))
             {
                 DataSet ds = db.GetDataSet(Query, null, false);
-                if ( ds.Tables[0].Rows.Count>0)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
 
                     PhoneTypeObj.Value = Convert.ToString(ds.Tables[0].Rows[0]["Id"]);
-                    PhoneTypeObj.Text= Convert.ToString(ds.Tables[0].Rows[0]["CellPhone"]);
+                    PhoneTypeObj.Text = Convert.ToString(ds.Tables[0].Rows[0]["CellPhone"]);
                 }
             }
             return PhoneTypeObj;
         }
         public List<KeyPair> GetReceiptModes()
         {
-            
-           List<KeyPair> ReceiptModesList = new List<KeyPair>();
+
+            List<KeyPair> ReceiptModesList = new List<KeyPair>();
             if (LangValue == "he")
             {
                 ReceiptModesList.Add(new KeyPair("1", "קבלה של תרומה"));
@@ -547,7 +547,7 @@ namespace AmaxService.HelperClasses
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     if (LangValue == "en")
-                        PayTypeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["PayTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["PaymentTypeEng"]) ));
+                        PayTypeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["PayTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["PaymentTypeEng"])));
                     else if (LangValue == "he")
                         PayTypeList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["PayTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["PaymentTypeOther"])));
                 }
@@ -583,9 +583,9 @@ namespace AmaxService.HelperClasses
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     if (LangValue == "en")
-                        GoalList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeId"]),  Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeEng"])));
+                        GoalList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeEng"])));
                     else if (LangValue == "he")
-                        GoalList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeId"]),  Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeOther"])));
+                        GoalList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["DonationTypeOther"])));
                 }
             }
             return GoalList;
@@ -613,7 +613,7 @@ namespace AmaxService.HelperClasses
             List<KeyPair> ProjectList = new List<KeyPair>();
             string Query = "SELECT     ProjectId,ProjectName,ProjectNameEng FROM Projects ";
             if (CategoryId != -1) { Query += " where ProjectCategoryId=" + CategoryId; }
-                
+
 
             using (DbAccess db = new DbAccess(SecurityConString))
             {
@@ -630,13 +630,13 @@ namespace AmaxService.HelperClasses
         }
         public KeyPair GetReceiptDetail()
         {
-            KeyPair RectDet = new KeyPair("","");
+            KeyPair RectDet = new KeyPair("", "");
             string Query = "SELECT max(Convert(int,RecieptNo)) as ReceiptNo FROM reciepts ";
 
             using (DbAccess db = new DbAccess(SecurityConString))
             {
                 DataSet ds = db.GetDataSet(Query, null, false);
-                if ( ds.Tables[0].Rows.Count>0)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
 
                     RectDet.Text = System.DateTime.Now.ToString("dd-MM-yyyy");
@@ -675,6 +675,63 @@ namespace AmaxService.HelperClasses
                 }
             }
             return ProjectList;
+        }
+
+        public List<KeyPair> GetServiceTypes()
+        {
+            List<KeyPair> ProjectList = new List<KeyPair>();
+            string Query = "select Distinct (ServiceName),ServiceTypeId,ServiceNameEng,Iron from dbo.CustomerServiceTypes ";
+
+
+
+            using (DbAccess db = new DbAccess(SecurityConString))
+            {
+                DataSet ds = db.GetDataSet(Query, null, false);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    if (LangValue == "en")
+                        ProjectList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ServiceTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["ServiceNameEng"])));
+                    else if (LangValue == "he")
+                        ProjectList.Add(new KeyPair(Convert.ToString(ds.Tables[0].Rows[i]["ServiceTypeId"]), Convert.ToString(ds.Tables[0].Rows[i]["ServiceName"])));
+                }
+            }
+            return ProjectList;
+        }
+
+        public List<KeyPair> GetMinutes()
+        {
+            List<KeyPair> returnObj = new List<KeyPair>();
+            returnObj.Add(new KeyPair("0", "0 Minutes"));
+            returnObj.Add(new KeyPair("5", "5 Minutes"));
+            returnObj.Add(new KeyPair("10", "10 Minutes"));
+            returnObj.Add(new KeyPair("15", "15 Minutes"));
+            returnObj.Add(new KeyPair("20", "20 Minutes"));
+            returnObj.Add(new KeyPair("30", "30 Minutes"));
+            returnObj.Add(new KeyPair("45", "45 Minutes"));
+            returnObj.Add(new KeyPair((60*1).ToString(), "1 Hour"));
+            returnObj.Add(new KeyPair((60*2).ToString(), "2 Hours"));
+            returnObj.Add(new KeyPair((60 * 3).ToString(), "3 Hours"));
+            returnObj.Add(new KeyPair((60 * 4).ToString(), "4 Hours"));
+            returnObj.Add(new KeyPair((60 * 5).ToString(), "5 Hours"));
+            returnObj.Add(new KeyPair((60 * 6).ToString(), "6 Hours"));
+            returnObj.Add(new KeyPair((60 * 7).ToString(), "7 Hours"));
+            returnObj.Add(new KeyPair((60 * 8).ToString(), "8 Hours"));
+            returnObj.Add(new KeyPair((60 * 9).ToString(), "9 Hours"));
+            returnObj.Add(new KeyPair((60 * 10).ToString(), "10 Hours"));
+            returnObj.Add(new KeyPair((60 * 11).ToString(), "11 Hours"));
+            returnObj.Add(new KeyPair((60 * 12).ToString(), "12 Hours"));
+            returnObj.Add(new KeyPair((60 * 24*1).ToString(), "1 Day"));
+            returnObj.Add(new KeyPair((60 * 24 * 2).ToString(), "2 Days"));
+            returnObj.Add(new KeyPair((60 * 24 * 3).ToString(), "3 Days"));
+            returnObj.Add(new KeyPair((60 * 24 * 4).ToString(), "4 Days"));
+            returnObj.Add(new KeyPair((60 * 24 * 5).ToString(), "5 Days"));
+            returnObj.Add(new KeyPair((60 * 24 * 6).ToString(), "6 Days"));
+            returnObj.Add(new KeyPair((60 * 24 * 7*1).ToString(), "1 Week"));
+            returnObj.Add(new KeyPair((60 * 24 * 7 * 2).ToString(), "2 Weeks"));
+            returnObj.Add(new KeyPair((60 * 24 * 7 * 3).ToString(), "3 Weeks"));
+            returnObj.Add(new KeyPair((60 * 24 * 7 * 4).ToString(), "4 Weeks"));
+            return returnObj;
+
         }
     }
 }

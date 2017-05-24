@@ -17,6 +17,7 @@ import {AmaxSmsComponent} from "./amax/sms";
 import {AmaxCustomers} from "./amax/Customer/addCustomer";
 
 import {AmaxSearchCustomers} from "./amax/Customer/SearchCustomer";
+import {AmaxCustomerServices} from "./amax/Customer/CustomerService";
 
 import {AmaxReciept} from "./amax/RecieptType/Reciept";
 import {AmaxRecieptTemplate} from "./amax/RecieptType/RecieptTemplate";
@@ -73,6 +74,9 @@ import {AmaxCustomerProfiles} from "./amax/Customer/CustomerProfile";
 	
 	//Customer Routing
     { path: "/Customer/Add/:Id", name: "AddCustomer", component: AmaxCustomers },
+    //Customer Service Routing
+    { path: "/Customer/Service/:Id/:CustId", name: "CustomerService", component: AmaxCustomerServices },
+
 
     //Customer Routing
     { path: "/Customer/Search/:ForPopup/:FromPage/:ForBack", name: "SearchCustomer", component: AmaxSearchCustomers },
