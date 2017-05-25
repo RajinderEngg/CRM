@@ -19,7 +19,8 @@ namespace AmaxDataService.DataModel
         public string StartHour { get; set; }
         public string StartMinute { get; set; }
         public string Details { get; set; }
-        public string MemoDate { get; set; }
+        public DateTime MemoDate { get; set; }
+        public string StrMemodate { get; set; }
         public string MemoHour { get; set; }
         public string MemoMinutes { get; set; }
         public string FileName { get; set; }
@@ -59,6 +60,10 @@ namespace AmaxDataService.DataModel
         public string FileName3 { get; set; }
         public bool IsDeleted { get; set; }
 
-        public String ServiceType { get; set; }
+        public string ServiceType { get; set; }
+        public string GetTime { get; set; }
+        public string GetDate { get; set; }
+        public string MemoBefore { get; set; }
+        public object TimeZone { get; set; }
     }
 }

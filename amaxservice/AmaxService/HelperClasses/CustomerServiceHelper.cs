@@ -2,6 +2,7 @@
 using AmaxExtentions.DbAccess;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -87,7 +88,8 @@ namespace AmaxService.HelperClasses
                 CustServiceDictList.StartHour = Convert.ToString(custobj.Tables[0].Rows[i]["StartHour"]);
                 CustServiceDictList.StartMinute = Convert.ToString(custobj.Tables[0].Rows[i]["StartMinute"]);
                 CustServiceDictList.Details = Convert.ToString(custobj.Tables[0].Rows[i]["Details"]);
-                CustServiceDictList.MemoDate = Convert.ToDateTime(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"])).ToString("dd-MM-yyyy") ;
+                CustServiceDictList.MemoDate = Convert.ToDateTime(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"]));
+                CustServiceDictList.StrMemodate = Convert.ToDateTime(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"])).ToString("dd-MM-yyyy") ;
                 CustServiceDictList.MemoHour = Convert.ToString(custobj.Tables[0].Rows[i]["MemoHour"]);
                 CustServiceDictList.MemoMinutes = Convert.ToString(custobj.Tables[0].Rows[i]["MemoMinutes"]);
                 CustServiceDictList.FileName = Convert.ToString(custobj.Tables[0].Rows[i]["FileName"]);
@@ -192,7 +194,7 @@ namespace AmaxService.HelperClasses
                         CustServiceDictList.StartMinute = Convert.ToString(custobj.Tables[0].Rows[i]["StartMinute"]);
                         CustServiceDictList.Details = Convert.ToString(custobj.Tables[0].Rows[i]["Details"]);
                         if (string.IsNullOrEmpty(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"])) == false)
-                            CustServiceDictList.MemoDate = Convert.ToDateTime(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"])).ToString("dd-MM-yyyy");
+                            CustServiceDictList.StrMemodate = Convert.ToDateTime(Convert.ToString(custobj.Tables[0].Rows[i]["MemoDate"])).ToString("dd-MM-yyyy");
                         //CustServiceDictList.MemoHour = Convert.ToString(custobj.Tables[0].Rows[i]["MemoHour"]);
                         CustServiceDictList.MemoMinutes = Convert.ToString(custobj.Tables[0].Rows[i]["MemoMinutes"]);
                         CustServiceDictList.FileName = Convert.ToString(custobj.Tables[0].Rows[i]["FileName"]);
@@ -218,6 +220,150 @@ namespace AmaxService.HelperClasses
             }
             return returnObj;
         }
+        public DateTime getClientTime(DateTime date, object O, bool tolocal)
+        {
+            if (O != null)
+            {
+                string Temp = O.ToString().Trim();
+                if (!Temp.Contains("+") && !Temp.Contains("-"))
+                {
+                    Temp = Temp.Insert(0, "+");
+                }
+                ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
+                DateTime startTime, _now;
+                //startTime = DateTime.Parse(date);
+                //_now = DateTime.Parse(date);
+                startTime = Convert.ToDateTime(date);
+                _now = Convert.ToDateTime(date);
+                //6/26/2015 4:00:00 PM
+
+                //try
+                //{
+                //    startTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
+                //    _now = DateTime.ParseExact(date, "dd/MM/yyyy", null);
+                //}
+                //catch (Exception)
+                //{
+                //    startTime = DateTime.ParseExact(date, "MM/dd/yyyy", null);
+                //    _now = DateTime.ParseExact(date, "MM/dd/yyyy", null);
+
+                //}
+
+
+                foreach (TimeZoneInfo timeZoneInfo in timeZones)
+                {
+                    if (timeZoneInfo.ToString().Contains(Temp))
+                    {
+                        //Response.Write(timeZoneInfo.ToString());
+                        //string _timeZoneId = "Pacific Standard Time";
+
+                        TimeZoneInfo tst = TimeZoneInfo.FindSystemTimeZoneById(timeZoneInfo.Id);
+                        if (tolocal)
+                            _now = TimeZoneInfo.ConvertTime(startTime, TimeZoneInfo.Utc, tst);
+                        else
+                            _now = TimeZoneInfo.ConvertTime(startTime, tst, TimeZoneInfo.Utc);
+                        break;
+                    }
+                }
+                return _now;
+            }
+            else
+                return date;
+        }
+
+        public int AddEditCustomerService(CustomerServiceModel saveObj)
+        {
+            int donotjmp = 1;
+            if (saveObj.DonotJump)
+                donotjmp = 0;
+            int ret = 0;
+            DataSet ds = new DataSet();
+            string strSql = string.Empty;
+            //try
+            //{
+            if (saveObj.CustomerServiceID == 0)
+            {
+                strSql = "INSERT INTO " +
+                   "CustomerService (" + "RowDate," + "EmployId," + "ServiceTypeId ," +
+                   "StartTime," + "StartHour," + "StartMinute," + "Details ," +
+                   "MemoDate," + "MemoMinutes," + "FileName," +
+                   "customerid ," + "DoneiT," + "Employeehandle," + "ParentServiceID," + "DoneDate," + " DonotJump)" +
+                   " VALUES (" + "convert(datetime,getutcdate(),103)," + saveObj.EmployId + "," + saveObj.ServiceTypeId + "," +
+                   "convert(datetime,'" + saveObj.StartTime + "',103),'" + saveObj.StartHour + "','" + saveObj.StartMinute + "','" + saveObj.Details + "'," +//for server
+                   "convert(datetime,'" + saveObj.MemoDate + "',103),'" + saveObj.MemoMinutes + "','" + saveObj.FileName + "'," +//for server
+                                                                                                                                 //"convert(datetime,'" + StartTime + "',103),'" + StartHour + "','" + StartMinute + "','" + Details + "'," +
+                                                                                                                                 //"convert(datetime,'" + MemoDate + "',103),'" + MemoMinutes + "','" + filename + "'," +
+                   saveObj.customerid + ",";
+                if (saveObj.DoneiT)
+                    strSql = strSql + "1,";
+                else
+                    strSql = strSql + "0,";
+
+                strSql = strSql + saveObj.Employeehandle + ",";
+                if (saveObj.ParentServiceID > 0)
+                    strSql = strSql + saveObj.ParentServiceID + ",";
+                else
+                    strSql = strSql + "0,";
+
+                if (saveObj.DoneiT)
+                    strSql = strSql + "convert(datetime, '" + System.DateTime.UtcNow.Day + "/" + System.DateTime.UtcNow.Month + "/" + System.DateTime.UtcNow.Year + "', 103) , '" + saveObj.DonotJump + "')";
+                else
+                    strSql = strSql + "NULL, '" + donotjmp + "')";
+
+            }
+            else
+            {
+                strSql = "Update " +
+                  "CustomerService  Set " +
+                  "ServiceTypeId=" + saveObj.ServiceTypeId + " ," +
+                  "StartTime=convert(datetime,'" + saveObj.StartTime + "',103)," +//for server
+                                                                                  //"StartTime=convert(datetime,'" + StartTime + "',103)," +
+                  "StartHour='" + saveObj.StartHour + "'," +
+                  "StartMinute='" + saveObj.StartMinute + "'," +
+                  "Details='" + saveObj.Details + "' ," +
+                  "MemoDate = convert(datetime,'" + saveObj.MemoDate + "',103)," +//for server
+                                                                                  //"MemoDate = convert(datetime,'" + MemoDate + "',103)," +
+                  "MemoMinutes='" + saveObj.MemoMinutes + "'," +
+                  "FileName = '" + saveObj.FileName + "'," +
+                  "customerid=" + saveObj.customerid + " ," +
+                  "DonotJump='" + donotjmp + "',";
+
+                if (saveObj.DoneiT)
+                    strSql = strSql + "DoneiT=1,";
+                else
+                    strSql = strSql + "DoneiT=0,";
+
+                strSql = strSql + "Employeehandle=" + saveObj.Employeehandle + ",";
+                if (saveObj.ParentServiceID > 0)
+                    strSql = strSql + "ParentServiceID=" + saveObj.ParentServiceID + ",";
+                else
+                    strSql = strSql + "ParentServiceID = 0,";
+
+                if (saveObj.DoneiT)
+                    strSql = strSql + "DoneDate = " + "convert(datetime, '" + System.DateTime.UtcNow.Day + "/" + System.DateTime.UtcNow.Month + "/" + System.DateTime.UtcNow.Year
+                        + "', 103)";
+                else
+                    strSql = strSql + "DoneDate = NULL";
+
+                if (saveObj.CustomerServiceID > 0)
+                    strSql = strSql + " Where CustomerServiceID=" + saveObj.CustomerServiceID;
+                strSql = strSql + " Update Customers set UpdateEmp=" + saveObj.EmployId + ",LastUpdate =convert(datetime,getdate(),103) Where CustomerId=" + saveObj.customerid;
+            }
+            using (DbAccess db = new DbAccess(SecurityconString))//ConfigurationManager.ConnectionStrings["ControllDb"].ConnectionString
+            {
+                // ds = objCustCard.GetDataSet(strSql);
+                ret = db.InsertData(strSql, null) ;
+            } 
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+            return ret;//ds;
+
+        }
+
 
     }
 }

@@ -312,4 +312,28 @@ export class CustomerService {
             { headers: this.getHeader() }
         ).map(res=> res.text());
     }
+    public AddCustomerService(SaveObject: string) {                //SaveObject: string
+        // debugger;
+        var header = new Headers();
+        header.append("Content-Type", "application/x-www-form-urlencoded");
+        //var lang = localStorage.getItem("lang");
+        //var CustomerGroupsGeneralSetModel = {};
+        //CustomerGroupsGeneralSetModel.CustomerId = 2;
+        //CustomerGroupsGeneralSetModel.CustomerGeneralGroupId = 3;
+        
+        // var data = { "CustomerId": 2, "CustomerGeneralGroupId": 4 };//JSON.stringify(CustomerGroupsGeneralSetModel);
+        //,                   //Data for the request
+        //{ headers: header }
+        //this.http.post("Customer/SaveTest", data, { headers: header }).
+        //    map(res => res.json()).subscribe(response=> {
+        //        alert(response);
+        //    });'CustomerId=2&CustomerGeneralGroupId=4';//
+        //var jdata = JSON.stringify(SaveObject);
+        return this.http.post(
+            this.baseUrl + "Customer/SaveCustomerServices",                   //URL for the request
+            SaveObject,
+            { headers: this.getHeader() }                                //{ headers: header }
+            //HEADERS for the request
+        ).map(res => res.text());
+    }
 }

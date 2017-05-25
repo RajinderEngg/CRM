@@ -120,6 +120,7 @@ namespace AmaxService
                                 //Db Version Management
                                 responce.DBVERSION_NET = da.ExecuteScalar("SELECT TOP 1 DBVERSION_NET FROM ApplicationInfo", null);
                                 int WebDBVersion = 0;
+
                                 if (string.IsNullOrEmpty(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]) == false)
                                 {
                                     WebDBVersion = Convert.ToInt32(System.Web.Configuration.WebConfigurationManager.AppSettings["DBVersion"]);

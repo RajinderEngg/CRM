@@ -114,7 +114,7 @@
                                                 <label class="block clearfix">
                                                     Service Type
                                                 </label>
-                                                <select style="width:100%" class="browser-default" label="Service Type" [(ngModel)]="modelInput.ServiceType">
+                                                <select style="width:100%" class="browser-default" label="Service Type" required [(ngModel)]="modelInput.ServiceTypeId">
 
                                                     <option selected="selected" value="">Select Service Type</option>
                                                     <option *ngFor="#DropObject of _ServiceTypes" value="{{DropObject.Value}}">
@@ -127,7 +127,7 @@
                                         <div class="row">
 
                                             <div class="input-field col s12 l12 m12">
-                                                <mx-date (ondata)="dateVSelectionChange($event,modelInput)" cssclass="col s4 browser-default" [setdate]="modelInput.Date"></mx-date>
+                                                <mx-date (ondata)="dateSelectionChange($event)" cssclass="col s4 browser-default" required [setdate]="modelInput.GetDate"></mx-date>
 
                                                 <label for="VDate" class="active">Date</label>
 
@@ -137,7 +137,7 @@
 
                                             <div class="col s12 m12 l12">
                                                 <label for="time" class="active">Time</label>
-                                                <input type="text" id="time" class="form-control" [(ngModel)]="modelInput.Time" required maxlength="50" />
+                                                <input type="text" id="time" class="form-control" [(ngModel)]="modelInput.GetTime" required maxlength="50" />
 
 
 
@@ -149,7 +149,7 @@
                                                 <label class="block clearfix">
                                                     Memo Before
                                                 </label>
-                                                <select style="width:100%" class="browser-default" label="Memo Before" [(ngModel)]="modelInput.ServiceType">
+                                                <select style="width:100%" class="browser-default" label="Memo Before" required [(ngModel)]="modelInput.MemoMinutes">
 
                                                     <option selected="selected" value="">Select Memo Before</option>
                                                     <option *ngFor="#DropObject of _Minutes" value="{{DropObject.Value}}">
@@ -163,7 +163,7 @@
                                             <div class="col s12">
 
                                                 <label for="Details" class="active">Details</label>
-                                                <textarea id="Details" rows="2" cols="50" [(ngModel)]="modelInput.Details" style="max-height:20px;overflow-y:auto"
+                                                <textarea id="Details" rows="2" cols="50" [(ngModel)]="modelInput.Details" required style="max-height:20px;overflow-y:auto"
                                                           tabindex="44" class="materialize-textarea"></textarea>
 
 
@@ -174,7 +174,7 @@
                                                 <label class="block clearfix">
                                                     Passed To Employee
                                                 </label>
-                                                <select style="width:100%" class="browser-default" label="Service Type" [(ngModel)]="modelInput.employeeid">
+                                                <select style="width:100%" class="browser-default" label="Passed To Employee" required [(ngModel)]="modelInput.EmployId">
 
                                                     <option selected="selected" value="">Select Passed To Employee</option>
                                                     <option *ngFor="#DropObject of _Employees" value="{{DropObject.Value}}">
@@ -189,7 +189,7 @@
                                                 <div class="switch">
                                                     <label>
                                                         No
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" [(ngModel)]="modelInput.DoneiT">
                                                         <span class="lever"></span>
                                                         Done It
                                                     </label>
@@ -219,15 +219,15 @@
                                             <div class="row">
                                                 <div class="col s12">
 
-                                                    <button type="submit" class="btn waves-effect waves-light green accent-4" disabled="{{Isbtndisable}}" tabindex="45">
+                                                    <button type="submit" class="btn waves-effect waves-light green accent-4" disabled="{{Isbtndisable}}">
 
                                                         <span class="bigger-110">{{SAVE_BTN_TEXT}}</span>
                                                     </button>
-                                                    <button type="button" class="btn waves-effect waves-light blue accent-4" disabled="{{Isbtndisable}}" tabindex="45">
+                                                    <button type="button" class="btn waves-effect waves-light blue accent-4" disabled="{{Isbtndisable}}">
                                                         
                                                         <span class="bigger-110">Copy To Google Calendar</span>
                                                     </button>
-                                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" disabled="{{Isbtndisable}}" (click)="SetdefaultPage()" tabindex="46">
+                                                    <button type="button" class="btn waves-effect waves-light  grey lighten-2" disabled="{{Isbtndisable}}" (click)="SetdefaultPage()">
 
                                                         <span class="bigger-110">Cancel</span>
                                                     </button>&nbsp;

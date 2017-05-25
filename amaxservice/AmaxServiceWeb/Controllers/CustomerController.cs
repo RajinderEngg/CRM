@@ -25,7 +25,8 @@ namespace AmaxServiceWeb.Controllers
         public CustomerPhonesHelper CustPhoneHP;
         public CustomerGroupsHelper CustGrpsHP;
         public LangResourceHelperClass LangResHP;
-        LogHistoryHelper LogHistHP;
+        public LogHistoryHelper LogHistHP;
+        public CustomerServiceHelper CustSerHP;
         public CustomerController()
         {
             CustHP = new CustomerHelper();
@@ -35,7 +36,7 @@ namespace AmaxServiceWeb.Controllers
             CustGrpsHP = new CustomerGroupsHelper();
             LangResHP = new LangResourceHelperClass();
             LogHistHP = new LogHistoryHelper();
-            
+            CustSerHP = new CustomerServiceHelper();
         }
 
         [HttpGet]
@@ -72,6 +73,72 @@ namespace AmaxServiceWeb.Controllers
             return returnObj;
         }
         //[ActionName("Save")]
+
+        [HttpPost]
+        [Security]
+        public ResponseData SaveCustomerServices(CustomerServiceModel CustObj)
+        {
+            ResponseData returnObj = new ResponseData();
+            CustSerHP.SecurityconString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+            try
+            {
+                string[] Times = new string[4];
+                if (!(string.IsNullOrEmpty(CustObj.StartTime)))
+                {
+                    Times = CustObj.StartTime.Trim().Split('-');
+                }
+                int StartHour = Convert.ToInt32(CustObj.StartHour);
+                int StartMinute = Convert.ToInt32(CustObj.StartMinute);
+                DateTime Memodate = new DateTime(Convert.ToInt32(Times[2]), Convert.ToInt32(Times[1]), Convert.ToInt32(Times[0]), StartHour, StartMinute, 00);// DateTime.ParseExact(txtDate.Text.Trim(), "MM/dd/yyyy", null);
+                                                                                                                                                     //startTime = Memodate;
+                DateTime startTime = CustSerHP.getClientTime(Memodate, CustObj.TimeZone, false);
+                StartHour = startTime.Hour;
+                StartMinute = startTime.Minute;
+                startTime = new DateTime(startTime.Year, startTime.Month, startTime.Day, 00, 00, 00);
+                Memodate = CustSerHP.getClientTime(Memodate, CustObj.TimeZone, false);
+                CustObj.MemoDate = Memodate.AddMinutes(-Convert.ToInt32(CustObj.MemoMinutes));
+                int g = CustSerHP.AddEditCustomerService(CustObj);
+                if (g > 0)
+                {
+                    returnObj.Data = CustObj;
+                    returnObj.IsError = false;
+                    returnObj.ErrMsg = "Data saved successfully";
+                }
+                else
+                {
+                    returnObj.Data = null;
+                    returnObj.IsError = true;
+                    returnObj.ErrMsg = "There is some problem in saving data";
+                }
+            }
+            catch (Exception ex)
+            {
+                returnObj.Data = null;
+                returnObj.IsError = true;
+                returnObj.ErrMsg = ex.Message;
+                StackTrace st = new StackTrace(ex, true);
+                StackFrame frame = st.GetFrame(0);
+                LogHistoryModel LogHistObj = new LogHistoryModel();
+                string conString = ControllerContext.RouteData.Values["SecurityContext"].ToString();
+                LogHistObj = LogHistHP.GetLogHistoryDet(Convert.ToString(ControllerContext.RouteData.Values["employeeid"]), Convert.ToString(ControllerContext.RouteData.Values["OrgId"]), Convert.ToString(ControllerContext.RouteData.Values["fname"]), ex.Message, frame.GetFileLineNumber(), frame.GetFileColumnNumber(), "SaveCustServices", ex.ToString(), AppConfig.APIVersion, "Customer Controller", ex);
+                //LogHistObj.EmployeeId = Convert.ToInt32(ControllerContext.RouteData.Values["employeeid"].ToString());
+                //LogHistObj.OrgId= ControllerContext.RouteData.Values["OrgId"].ToString();
+                //LogHistObj.fname= ControllerContext.RouteData.Values["fname"].ToString();
+                //LogHistObj.Error = ex.Message;
+                //LogHistObj.ExcLine = frame.GetFileLineNumber();
+                //LogHistObj.ExcPlace = frame.GetFileColumnNumber();
+                //LogHistObj.Action = "SaveFileAs";
+                //LogHistObj.FullDescription = ex.ToString();
+                //LogHistObj.ExeptionType = "ERROR";
+                //LogHistObj.APIVersion = AppConfig.APIVersion;
+                //LogHistObj.FromPage = "Customer Controller";
+                //LogHistObj.OnDate = System.DateTime.Now;
+                //LogHistObj.ex = ex;
+                string IsMailSend = SendEmail.SendEmailErr(LogHistObj, conString);
+            }
+            return returnObj;
+        }
+
         [HttpPost]
         [Security]
         public ResponseData SaveFileAs(int CustomerId, string FileAs,string lang)
